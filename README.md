@@ -1,7 +1,7 @@
 # octon
 
 <p align="center">
-![logo](logo.png)
+  <img src="logo.png" alt="Octon logo">
 </p>
 
 Notify you when a new release has been made on repositories you starred on Github.
