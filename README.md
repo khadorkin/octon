@@ -17,9 +17,9 @@ I also wanted to learn how to build a real app from scratch with a graphql back 
 
 ### Stack
 
-- Nodejs
-- React
-- Apollo
-- Mongo
+- [Nodejs](https://nodejs.org)
+- [React](https://facebook.github.io/react)
+- [Apollo](http://www.apollostack.com)
+- [MongoDb](https://www.mongodb.com/)
 
 Special thanks to [Quentin Saubadu](https://www.facebook.com/quentinsaubadu) for the logo and design!
