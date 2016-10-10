@@ -12,7 +12,7 @@ Email you when a new release has been made
 
 ### Why
 
-Create an app fully functioning with latest javascript (es6).
+Create an app fully functioning with latest javascript (es6, linting, coverage ...).
 I also wanted to learn how to build a real app from scratch with a graphql back and frontend.
 
 ### Stack
