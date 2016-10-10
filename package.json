@@ -4,8 +4,13 @@
   "scripts": {
     "start": "babel-watch server/app.js",
     "test": "npm run lint && npm run test:server",
+    "test-travis": "npm run lint && npm run test:server -- --coverage",
     "test:server": "jest server",
     "lint": "eslint server client"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testRegex": "(/.*.(test|spec)).(js|jsx)$"
   },
   "repository": {
     "type": "git",

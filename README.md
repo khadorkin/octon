@@ -4,6 +4,9 @@
   <img src="logo.png" alt="Octon logo">
 </p>
 
+[![Build Status](https://travis-ci.org/pradel/octon.svg?branch=master)](https://travis-ci.org/pradel/octon)
+[![Coverage Status](https://coveralls.io/repos/github/pradel/octon/badge.svg?branch=master)](https://coveralls.io/github/pradel/octon?branch=master)
+
 Notify you when a new release has been made on repositories you starred on Github.
 
 ### Features
