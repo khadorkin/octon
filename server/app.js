@@ -1,8 +1,17 @@
 import dotenv from 'dotenv';
 import express from 'express';
+import session from 'express-session';
+import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import connectMongo from 'connect-mongo';
+import passport from 'passport';
 import path from 'path';
 import logger from './logger';
+import { serializeUser, deserializeUser } from './passport/passport';
+import gitHubStrategy from './passport/github';
+
+// TODO 404 page
+// TODO 500 page
 
 // Configure env variables
 dotenv.config();
@@ -12,13 +21,46 @@ mongoose.connect(process.env.MONGO_URL);
 mongoose.Promise = Promise;
 
 const app = express();
+const MongoStore = connectMongo(session);
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  resave: false,
+  saveUninitialized: false,
+}));
 
 app.use(express.static('public'));
+passport.serializeUser(serializeUser);
+passport.deserializeUser(deserializeUser);
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(gitHubStrategy());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
-  res.sendFile(path.resolve('public/index.html'));
+  if (!req.isAuthenticated()) {
+    res.sendFile(path.resolve('server/templates/index.html'));
+  } else {
+    res.sendFile(path.resolve('server/templates/app.html'));
+  }
 });
 
+app.get('/auth/github', passport.authenticate('github'));
+
+app.get('/auth/github/callback',
+  passport.authenticate('github', { failureRedirect: '/' }),
+  (req, res) => {
+    res.redirect('/');
+  });
+
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
+
+// Log mongodb
 const db = mongoose.connection;
 db.once('open', () => {
   logger.info('connected to mongodb');
