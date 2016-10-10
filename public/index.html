@@ -4,8 +4,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Octon</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossOrigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.6/jquery.fullPage.min.css" />
+    <style>
+      .section-1 {
+        background-color: rgb(0, 160, 219);
+        color: white;
+        text-align: center;
+      }
+      .btn-flat {
+        color: white;
+        background-color: transparent;
+        border: 1px solid white;
+      }
+      .btn-flat:hover {
+        color: rgb(0, 160, 219);
+        background-color: white;
+        border: 1px solid rgb(0, 160, 219);
+      }
+      .navbar-brand {
+        height: 70px;
+      }
+      .navbar-brand img {
+        height: 44px;
+      }
+    </style>
   </head>
   <body>
-    Octon
+    <div id="fullpage">
+      <div class="section section-1">
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="#">
+                <img alt="Brand" src="/img/logo.svg">
+              </a>
+            </div>
+          </div>
+        </nav>
+        <p>Notify you when a new release has been made on repositories you starred on Github.</p>
+        <a href="#" class="btn btn-flat">
+          <i class="fa fa-github" aria-hidden="true"></i>
+          Login with Github
+        </a>
+      </div>
+    </div>
+
+    <script src="http://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.6/jquery.fullPage.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('#fullpage').fullpage();
+      });
+    </script>
   </body>
 </html>
