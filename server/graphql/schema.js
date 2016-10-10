@@ -9,9 +9,28 @@ type User {
   lastSync: String
 }
 
+type Release {
+  tagName: String!
+  htmlUrl: String!
+  publishedAt: String!
+}
+
+type Repository {
+  id: String!
+  name: String!
+  fullName: String!
+  photo: String!
+  htmlUrl: String!
+  starred: Boolean!
+  githubId: String!
+  latestRelease: Release
+}
+
 type Query {
   # Get current user
   currentUser: User
+  # Get user starred repositories
+  userRepositories(page: Int): [Repository]
 }
 
 type Mutation {

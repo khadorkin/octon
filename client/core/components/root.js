@@ -3,6 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import CircularProgress from 'material-ui/CircularProgress';
 import Header from './header';
 import FirstLogin from './first-login';
+import RepositoriesList from '../../repositories/containers/repositories-list';
 
 class Root extends Component {
   constructor(props) {
@@ -17,8 +18,7 @@ class Root extends Component {
   syncUserStars() {
     const { syncUserStars } = this.props;
     this.setState({ loading: true, error: '' });
-    syncUserStars().then((data) => {
-      console.log(data);
+    syncUserStars().then(() => {
       this.setState({ loading: false });
     }).catch((err) => {
       this.setState({ loading: false, error: err.message });
@@ -39,7 +39,7 @@ class Root extends Component {
               {loadingState ? <div className="center"><CircularProgress /></div> : null}
               {!user.lastSync ?
                 <FirstLogin syncUserStars={this.syncUserStars} />
-                : null}
+                : <RepositoriesList user={user} />}
             </div>}
         </div>
       </MuiThemeProvider>

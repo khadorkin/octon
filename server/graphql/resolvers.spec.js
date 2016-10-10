@@ -23,6 +23,24 @@ describe('server.graphql.resolvers', () => {
         expect(user).toEqual(ret);
       });
     });
+
+    describe('#userRepositories', () => {
+      it('should throw if no user provided in context', () => {
+        try {
+          query.userRepositories(null, {}, {});
+        } catch (err) {
+          expect(err.message).toMatch(/logged/);
+        }
+      });
+
+      it('should call Users.getRepositories', () => {
+        const user = 'toto';
+        const Users = { getRepositories: jest.fn() };
+        query.userRepositories(null, { page: 'page' }, { user, Users });
+        expect(Users.getRepositories.mock.calls.length).toEqual(1);
+        expect(Users.getRepositories).toBeCalledWith(user, 'page');
+      });
+    });
   });
 
   describe('#Mutation', () => {
@@ -43,6 +61,52 @@ describe('server.graphql.resolvers', () => {
         mutation.syncUserStars(null, null, { user, Users });
         expect(Users.syncStars.mock.calls.length).toEqual(1);
         expect(Users.syncStars).toBeCalledWith(user);
+      });
+    });
+  });
+
+  describe('#Repository', () => {
+    const repository = resolvers.Repository;
+
+    describe('#latestRelease', () => {
+      it('should return repository.latestRelease', () => {
+        const arg = { latestRelease: { name: 'toto' } };
+        const ret = repository.latestRelease(arg);
+        expect(arg.latestRelease).toEqual(ret);
+      });
+    });
+
+    describe('#githubId', () => {
+      it('should return repository.github.id', () => {
+        const arg = { github: { id: 'id' } };
+        const ret = repository.githubId(arg);
+        expect(arg.github.id).toEqual(ret);
+      });
+    });
+
+    describe('#starred', () => {
+      it('should call context.Users.get', async () => {
+        const arg = { github: { id: 'id' } };
+        const context = {
+          user: { id: 'id', starred: [{ githubId: 'id2', active: false }] },
+        };
+        context.Users = { get: jest.fn() };
+        context.Users.get.mockReturnValue(Promise.resolve(context.user));
+        const ret = await repository.starred(arg, null, context);
+        expect(context.Users.get.mock.calls.length).toEqual(1);
+        expect(ret).toEqual(false);
+      });
+
+      it('should return true', async () => {
+        const arg = { github: { id: 'id' } };
+        const context = {
+          user: { id: 'id', starred: [{ githubId: 'id', active: true }] },
+        };
+        context.Users = { get: jest.fn() };
+        context.Users.get.mockReturnValue(Promise.resolve(context.user));
+        const ret = await repository.starred(arg, null, context);
+        expect(context.Users.get.mock.calls.length).toEqual(1);
+        expect(ret).toEqual(true);
       });
     });
   });

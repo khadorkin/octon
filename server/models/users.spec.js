@@ -15,4 +15,32 @@ describe('server.models.users', () => {
     const user = new User();
     expect(user.created).toBeTruthy();
   });
+
+  describe('#setStars', () => {
+    const user = new User();
+
+    it('should be a function', () => {
+      expect(typeof user.setStars).toBe('function');
+    });
+
+    it('should convert string array to object array', () => {
+      const array = ['1', '2'];
+      const response = user.setStars([], array);
+      expect(response).toEqual([{
+        githubId: '1', active: true,
+      }, {
+        githubId: '2', active: true,
+      }]);
+    });
+
+    it('should return false for old star', () => {
+      const array = ['1', '2'];
+      const response = user.setStars([{ githubId: '2', active: false }], array);
+      expect(response).toEqual([{
+        githubId: '1', active: true,
+      }, {
+        githubId: '2', active: false,
+      }]);
+    });
+  });
 });

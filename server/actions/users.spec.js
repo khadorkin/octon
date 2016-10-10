@@ -36,6 +36,23 @@ describe('server.actions.users', () => {
     });
   });
 
+  describe('#getRepositories', () => {
+    const users = new Users();
+
+    it('should throw with not found user', async () => {
+      try {
+        await users.getRepositories({ id: '507f1f77bcf86cd799439011' });
+      } catch (err) {
+        expect(err.message).toEqual('No user found');
+      }
+    });
+
+    it('should return repositories', async () => {
+      const ret = await users.getRepositories({ id: user.id });
+      expect(ret).toEqual([]);
+    });
+  });
+
   describe('#syncStars', () => {
     it('should throw with not found user', async () => {
       const users = new Users();

@@ -2,7 +2,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import Root from '../components/root';
 
-const repositoryQuery = gql`
+const currentUserQuery = gql`
   query currentUser {
     currentUser {
       photo
@@ -11,7 +11,7 @@ const repositoryQuery = gql`
   }
 `;
 
-const RootWithData = graphql(repositoryQuery, {
+const RootWithData = graphql(currentUserQuery, {
   props: ({ data: { loading, currentUser, error } }) => ({
     loading,
     user: currentUser,

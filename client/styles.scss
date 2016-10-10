@@ -20,9 +20,10 @@ body {
 
 .main-container {
   margin-top: 66px;
+  margin-bottom: 16px;
   background-color: white;
   max-width: 850px;
-  padding: 16px 0;
+  padding: 16px;
 }
 
 .bg-danger {
@@ -31,4 +32,74 @@ body {
 
 .center {
   text-align: center;
+}
+
+.repositories-list {
+  margin: 0px 0 30px 120px;
+  padding-left: 30px;
+  border-left: 4px solid rgb(0, 160, 219);
+
+  .repositories-list-content {
+    margin: 30px 0;
+    position: relative;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    .release {
+      margin-top: -20px;
+      top: 50%;
+      left: -154px;
+      position: absolute;
+      color: rgb(0, 160, 219);
+    }
+
+    .date {
+      margin-top: 0px;
+      top: 50%;
+      left: -154px;
+      position: absolute;
+    }
+
+    .circle {
+      margin-top: -10px;
+      top: 50%;
+      left: -42px;
+      width: 10px;
+      height: 10px;
+      background: #48b379;
+      border: 10px solid rgb(0, 160, 219);
+      border-radius: 50%;
+      display: block;
+      position: absolute;
+    }
+  }
+}
+
+.media {
+  margin-top: 25px;
+
+  .media-left {
+    padding-right: 15px;
+  }
+
+  .media-object {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+  }
+
+  .media-body {
+    vertical-align: middle;
+  }
+
+  .media-heading a {
+    color: #5B5E6E;
+    text-decoration: none;
+  }
+
+  .pull-right {
+    margin-top: -28px;
+  }
 }

@@ -14,6 +14,20 @@ class Users {
     return this.userLoader.load(id);
   }
 
+  getRepositories(userContext, page = 1) {
+    const limit = 100;
+    return this.get(userContext.id).then((user) => {
+      if (!user) {
+        throw new Error('No user found');
+      }
+      const starredIds = user.starred.map(data => data.githubId);
+      return Repository.find({ 'github.id': { $in: starredIds } })
+        .sort({ 'latestRelease.publishedAt': -1, name: 1 })
+        .skip(limit * (page - 1)).limit(limit)
+        .exec();
+    });
+  }
+
   syncStars(userContext) {
     return this.get(userContext.id).then((user) => {
       if (!user) {

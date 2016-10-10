@@ -6,10 +6,7 @@ export function connectDb() {
   mongoose.Promise = Promise;
   mongoose.connect(MONGO_TEST_URL);
   const db = mongoose.connection;
-  return new Promise((resolve, reject) => {
-    db.on('error', (err) => {
-      reject(err);
-    });
+  return new Promise((resolve) => {
     db.once('open', () => {
       resolve();
     });

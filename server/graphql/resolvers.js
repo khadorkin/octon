@@ -6,6 +6,13 @@ const resolvers = {
       }
       return user;
     },
+
+    userRepositories(_, { page }, { user, Users }) {
+      if (!user) {
+        throw new Error('Must be logged in.');
+      }
+      return Users.getRepositories(user, page);
+    },
   },
 
   Mutation: {
@@ -15,6 +22,21 @@ const resolvers = {
       }
       return Users.syncStars(user);
     },
+  },
+
+  Repository: {
+    latestRelease: repo => repo.latestRelease,
+    githubId: repo => repo.github.id,
+    starred: (repository, __, context) =>
+      context.Users.get(context.user.id).then((user) => {
+        for (let i = 0; i < user.starred.length; i += 1) {
+          const starred = user.starred[i];
+          if (repository.github.id === starred.githubId) {
+            return starred.active;
+          }
+        }
+        return false;
+      }),
   },
 };
 

@@ -1,5 +1,17 @@
 import mongoose from 'mongoose';
 
+const starred = new mongoose.Schema({
+  githubId: {
+    type: String,
+    required: true,
+  },
+  active: {
+    type: Boolean,
+    required: true,
+    default: true,
+  },
+});
+
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -8,6 +20,10 @@ const userSchema = new mongoose.Schema({
   photo: {
     type: String,
     required: true,
+  },
+  starred: {
+    type: [starred],
+    default: [],
   },
   lastSync: {
     type: Date,
@@ -32,6 +48,26 @@ const userSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
+
+function getActiveStarred(userStarred, id) {
+  for (let i = 0; i < userStarred.length; i += 1) {
+    if (userStarred[i].githubId === id.toString()) {
+      return userStarred[i].active;
+    }
+  }
+  return true;
+}
+
+userSchema.methods.setStars = (userStarred, githubStars) => {
+  const stars = [];
+  githubStars.forEach((star) => {
+    stars.push({
+      githubId: star,
+      active: getActiveStarred(userStarred, star),
+    });
+  });
+  return stars;
+};
 
 const User = mongoose.model('User', userSchema);
 
