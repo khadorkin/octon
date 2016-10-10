@@ -51,11 +51,22 @@ app.use('/graphql', apolloExpress((req) => {
   };
 }));
 
-// Start graphiql server only in development
 if (process.env.NODE_ENV !== 'production') {
+  // Start graphiql server
   app.use('/graphiql', graphiqlExpress({
     endpointURL: '/graphql',
   }));
+
+  // Start webpack dev server
+  const webpack = require('webpack'); // eslint-disable-line
+  const WebpackDevServer = require('webpack-dev-server'); // eslint-disable-line
+  const config = require('./webpack.config.js'); // eslint-disable-line
+  const compiler = webpack(config);
+  const server = new WebpackDevServer(compiler, {
+    hot: true,
+    inline: true,
+  });
+  server.listen(3020);
 }
 
 app.get('/', (req, res) => {

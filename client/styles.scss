@@ -1,0 +1,19 @@
+body {
+  background: rgb(0, 160, 219);
+  background: linear-gradient(45deg, rgb(220, 129, 170) 0%, rgb(56, 150, 150) 100%);
+}
+
+.navbar {
+  .navbar-brand img {
+    height: 25px;
+  }
+
+  .navbar-avatar {
+    height: 40px;
+    width: 40px;
+    background-size: cover;
+    display: block;
+    border-radius: 50%;
+    margin-top: 5px;
+  }
+}
