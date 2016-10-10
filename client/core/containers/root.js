@@ -6,15 +6,29 @@ const repositoryQuery = gql`
   query currentUser {
     currentUser {
       photo
+      lastSync
     }
   }
 `;
 
 const RootWithData = graphql(repositoryQuery, {
-  props: ({ data: { loading, currentUser } }) => ({
+  props: ({ data: { loading, currentUser, error } }) => ({
     loading,
     user: currentUser,
+    error,
   }),
 })(Root);
 
-export default RootWithData;
+const syncUserStarsMutation = gql`
+  mutation syncUserStars {
+    syncUserStars
+  }
+`;
+
+const RootWithDataAndMutation = graphql(syncUserStarsMutation, {
+  props: ({ mutate }) => ({
+    syncUserStars: () => mutate({}),
+  }),
+})(RootWithData);
+
+export default RootWithDataAndMutation;

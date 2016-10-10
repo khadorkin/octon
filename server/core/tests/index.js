@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import User from '../../models/users';
+import Repository from '../../models/repositories';
 
 export function connectDb() {
   mongoose.Promise = Promise;
@@ -15,12 +16,26 @@ export function connectDb() {
   });
 }
 
-export function disconnectDb(done) {
-  // TODO drop database
+export async function dropDb() {
+  await User.remove({}).exec();
+  await Repository.remove({}).exec();
+}
+
+export async function disconnectDb(done) {
+  await dropDb();
   mongoose.disconnect();
   done();
 }
 
-export function dropDb() {
-  return User.remove({}).exec();
+export function createUser() {
+  const user = new User({
+    username: 'username',
+    photo: 'photo',
+    github: {
+      id: 'id',
+      email: 'email',
+      accessToken: 'accessToken',
+    },
+  });
+  return user.save();
 }

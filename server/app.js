@@ -11,6 +11,7 @@ import logger from './logger';
 import { serializeUser, deserializeUser } from './passport/passport';
 import gitHubStrategy from './passport/github';
 import schema from './graphql/schema'; // eslint-disable-line import/no-named-as-default
+import Users from './actions/users';
 
 // TODO 404 page
 // TODO 500 page
@@ -47,6 +48,7 @@ app.use('/graphql', apolloExpress((req) => {
     schema,
     context: {
       user,
+      Users: new Users(),
     },
   };
 }));

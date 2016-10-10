@@ -14,8 +14,14 @@ type Query {
   currentUser: User
 }
 
+type Mutation {
+  # Sync user stars
+  syncUserStars: Boolean
+}
+
 schema {
   query: Query
+  mutation: Mutation
 }
 `];
 

@@ -24,4 +24,26 @@ describe('server.graphql.resolvers', () => {
       });
     });
   });
+
+  describe('#Mutation', () => {
+    const mutation = resolvers.Mutation;
+
+    describe('#syncUserStars', () => {
+      it('should throw if no user provided in context', () => {
+        try {
+          mutation.syncUserStars(null, null, {});
+        } catch (err) {
+          expect(err.message).toMatch(/logged/);
+        }
+      });
+
+      it('should call Users.syncStars', () => {
+        const user = 'toto';
+        const Users = { syncStars: jest.fn() };
+        mutation.syncUserStars(null, null, { user, Users });
+        expect(Users.syncStars.mock.calls.length).toEqual(1);
+        expect(Users.syncStars).toBeCalledWith(user);
+      });
+    });
+  });
 });
