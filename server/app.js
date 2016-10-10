@@ -5,10 +5,12 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import connectMongo from 'connect-mongo';
 import passport from 'passport';
+import { apolloExpress, graphiqlExpress } from 'apollo-server';
 import path from 'path';
 import logger from './logger';
 import { serializeUser, deserializeUser } from './passport/passport';
 import gitHubStrategy from './passport/github';
+import schema from './graphql/schema'; // eslint-disable-line import/no-named-as-default
 
 // TODO 404 page
 // TODO 500 page
@@ -38,6 +40,23 @@ app.use(passport.session());
 passport.use(gitHubStrategy());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use('/graphql', apolloExpress((req) => {
+  const user = req.user;
+  return {
+    schema,
+    context: {
+      user,
+    },
+  };
+}));
+
+// Start graphiql server only in development
+if (process.env.NODE_ENV !== 'production') {
+  app.use('/graphiql', graphiqlExpress({
+    endpointURL: '/graphql',
+  }));
+}
 
 app.get('/', (req, res) => {
   if (!req.isAuthenticated()) {
