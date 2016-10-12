@@ -46,4 +46,23 @@ const RootWithData = graphql(repositoryQuery, {
   },
 })(RepositoriesList);
 
-export default RootWithData;
+const trackRepositoryMutation = gql`
+  mutation trackRepository($repositoryId: String!, $active: Boolean!) {
+    trackRepository(repositoryId: $repositoryId, active: $active) {
+      id
+      starred
+      fullName
+    }
+  }
+`;
+
+// TODO optimistic ui
+const RootWithDataAndMutations = graphql(trackRepositoryMutation, {
+  props: ({ mutate }) => ({
+    trackRepository: (repositoryId, active) => mutate({
+      variables: { repositoryId, active },
+    }),
+  }),
+})(RootWithData);
+
+export default RootWithDataAndMutations;

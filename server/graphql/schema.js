@@ -36,6 +36,8 @@ type Query {
 type Mutation {
   # Sync user stars
   syncUserStars: Boolean
+  # Sync user stars
+  trackRepository(repositoryId: String! active: Boolean!): Repository
 }
 
 schema {

@@ -81,6 +81,23 @@ class Users {
       });
     });
   }
+
+  trackRepository(userContext, repositoryId, active) {
+    return this.get(userContext.id).then((user) => {
+      if (!user) {
+        throw new Error('No user found');
+      }
+      user.starred = user.starred.map((star) => {
+        if (star.githubId === repositoryId) {
+          star.active = active;
+        }
+        return star;
+      });
+      // Save user and return respository
+      return user.save().then(() =>
+        Repository.findOne({ 'github.id': repositoryId }).exec());
+    });
+  }
 }
 
 export default Users;

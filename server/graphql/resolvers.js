@@ -22,6 +22,13 @@ const resolvers = {
       }
       return Users.syncStars(user);
     },
+
+    trackRepository(_, { repositoryId, active }, context) {
+      if (!context.user) {
+        throw new Error('Must be logged in.');
+      }
+      return context.Users.trackRepository(context.user, repositoryId, active);
+    },
   },
 
   Repository: {

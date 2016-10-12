@@ -1,4 +1,5 @@
 import { connectDb, disconnectDb, createUser } from '../core/tests';
+import UsersModel from '../models/users';
 import Users from './users';
 
 describe('server.actions.users', () => {
@@ -83,6 +84,24 @@ describe('server.actions.users', () => {
       } catch (err) {
         expect(err.body.message).toEqual('Bad credentials');
       }
+    });
+  });
+
+  describe('#trackRepository', () => {
+    const users = new Users();
+
+    it('should throw with not found user', async () => {
+      try {
+        await users.trackRepository({ id: '507f1f77bcf86cd799439011' });
+      } catch (err) {
+        expect(err.message).toEqual('No user found');
+      }
+    });
+
+    it('should set starred repo to false', async () => {
+      await users.trackRepository({ id: user.id }, user.starred[1].githubId, false);
+      const ret = await UsersModel.findOne({ _id: user.id }).exec();
+      expect(ret.starred[0].active).toEqual(false);
     });
   });
 

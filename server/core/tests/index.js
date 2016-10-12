@@ -33,6 +33,13 @@ export function createUser() {
       email: 'email',
       accessToken: 'accessToken',
     },
+    starred: [{
+      active: false,
+      githubId: 'githubId1',
+    }, {
+      active: true,
+      githubId: 'githubId2',
+    }],
   });
   return user.save();
 }

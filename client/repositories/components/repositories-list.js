@@ -4,8 +4,11 @@ import CircularProgress from 'material-ui/CircularProgress';
 import Toggle from 'material-ui/Toggle';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const RepositoriesListItem = ({ repository }) =>
-  (<div className="repositories-list-content">
+const RepositoriesListItem = ({ repository, onTrack }) => {
+  const handleToggle = (_, val) => {
+    onTrack(repository.githubId, val);
+  };
+  return (<div className="repositories-list-content">
     {repository.latestRelease ?
       <span className="release">Release {repository.latestRelease.tagName}</span>
       : <span className="release">No release</span>}
@@ -25,24 +28,37 @@ const RepositoriesListItem = ({ repository }) =>
           </a>
         </p>
         <div className="pull-right">
-          <Toggle label="Notifications" toggled={repository.starred} />
+          <Toggle label="Notifications" toggled={repository.starred} onToggle={handleToggle} />
         </div>
       </div>
     </div>
     <span className="circle" />
   </div>);
+};
 
 RepositoriesListItem.propTypes = {
-  repository: React.PropTypes.object,
+  repository: PropTypes.object,
+  onTrack: PropTypes.func,
 };
 
 class RepositoriesList extends Component {
   constructor(props) {
     super(props);
+    this.handleTrack = this.handleTrack.bind(this);
     this.showMore = this.showMore.bind(this);
     this.state = {
       page: 1,
+      error: null,
     };
+  }
+
+  handleTrack(id, val) {
+    const { trackRepository } = this.props;
+    this.setState({ error: null });
+    trackRepository(id, val)
+      .catch((err) => {
+        this.setState({ error: err.message });
+      });
   }
 
   showMore() {
@@ -52,8 +68,9 @@ class RepositoriesList extends Component {
   }
 
   render() {
-    const { loading, error, repositories } = this.props;
-    const { page } = this.state;
+    const { loading, error: errorProp, repositories } = this.props;
+    const { page, error: errorState } = this.state;
+    const error = errorProp ? errorProp.message : errorState;
     return (<div>
       {!loading && !error && repositories.length === 0 ?
         <div className="center">
@@ -64,6 +81,7 @@ class RepositoriesList extends Component {
           <RepositoriesListItem
             key={repository.id}
             repository={repository}
+            onTrack={this.handleTrack}
           />
         )}
       </div>
@@ -73,7 +91,7 @@ class RepositoriesList extends Component {
         </div>
         : null}
       {loading ? <CircularProgress /> : null}
-      {error ? <p className="bg-danger">{error.message}</p> : null}
+      {error ? <p className="bg-danger">{error}</p> : null}
     </div>);
   }
 }
@@ -84,6 +102,7 @@ RepositoriesList.propTypes = {
   error: PropTypes.string,
   repositories: PropTypes.array,
   loadMoreRepositories: PropTypes.func,
+  trackRepository: PropTypes.func,
 };
 
 RepositoriesList.defaultProps = {
