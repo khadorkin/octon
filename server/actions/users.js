@@ -15,7 +15,7 @@ class Users {
   }
 
   getRepositories(userContext, page = 1) {
-    const limit = 100;
+    const limit = 50;
     return this.get(userContext.id).then((user) => {
       if (!user) {
         throw new Error('No user found');

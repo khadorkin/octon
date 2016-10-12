@@ -67,7 +67,7 @@ class RepositoriesList extends Component {
           />
         )}
       </div>
-      {!loading && repositories.length * page === 100 * page ?
+      {!loading && repositories.length === 50 * page ?
         <div className="center">
           <RaisedButton label="Show more" onTouchTap={this.showMore} />
         </div>
