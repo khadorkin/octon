@@ -28,6 +28,16 @@ const userSchema = new mongoose.Schema({
   lastSync: {
     type: Date,
   },
+  dailyNotification: {
+    type: Boolean,
+    required: true,
+    default: true,
+  },
+  weeklyNotification: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
   github: {
     id: {
       type: String,

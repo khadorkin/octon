@@ -97,6 +97,23 @@ class Users {
         Repository.findOne({ _id: repositoryId }).exec());
     });
   }
+
+  setNotification(userContext, type, active) {
+    return this.get(userContext.id).then((user) => {
+      if (!user) {
+        throw new Error('No user found');
+      }
+      if (type === 'daily') {
+        user.dailyNotification = active;
+      } else if (type === 'weekly') {
+        user.weeklyNotification = active;
+      } else {
+        throw new Error('Invalid type');
+      }
+      // Save user and return respository
+      return user.save();
+    });
+  }
 }
 
 export default Users;

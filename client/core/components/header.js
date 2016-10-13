@@ -4,7 +4,7 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
-const Header = ({ user, loading }) => {
+const Header = ({ user, loading, onSettings }) => {
   const handleLogout = () => {
     window.location.href = '/logout';
   };
@@ -24,6 +24,7 @@ const Header = ({ user, loading }) => {
           anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
           targetOrigin={{ horizontal: 'right', vertical: 'top' }}
         >
+          <MenuItem primaryText="Settings" onTouchTap={onSettings} />
           <MenuItem primaryText="Sign out" onTouchTap={handleLogout} />
         </IconMenu>
       </ul>
@@ -34,6 +35,7 @@ const Header = ({ user, loading }) => {
 Header.propTypes = {
   loading: PropTypes.bool,
   user: PropTypes.object,
+  onSettings: PropTypes.func,
 };
 
 export default Header;

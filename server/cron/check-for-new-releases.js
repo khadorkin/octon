@@ -16,7 +16,7 @@ class CheckForNewReleases {
   }
 
   findUsersTrackingRepo(repository, release) {
-    return User.find({ 'starred.repositoryId': repository.refId }).exec().then((users) => {
+    return User.find({ 'starred.repositoryId': repository.refId, dailyNotification: true }).exec().then((users) => {
       repository.latestRelease.date = moment(repository.latestRelease.publishedAt).format('ddd DD MMM - h.mma');
       repository.latestRelease.body = release.body ? marked(release.body) : null;
       users.forEach((user) => {

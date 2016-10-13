@@ -5,8 +5,11 @@ import Root from '../components/root';
 const currentUserQuery = gql`
   query currentUser {
     currentUser {
+      id
       photo
       lastSync
+      dailyNotification
+      weeklyNotification
     }
   }
 `;

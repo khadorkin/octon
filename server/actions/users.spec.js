@@ -99,9 +99,41 @@ describe('server.actions.users', () => {
     });
 
     it('should set starred repo to false', async () => {
-      await users.trackRepository({ id: user.id }, user.starred[1].repositoryId, false);
+      await users.trackRepository({ id: user.id }, user.starred[1].repositoryId.toString(), false);
       const ret = await UsersModel.findOne({ _id: user.id }).exec();
-      expect(ret.starred[0].active).toEqual(false);
+      expect(ret.starred[1].active).toEqual(false);
+    });
+  });
+
+  describe('#setNotification', () => {
+    const users = new Users();
+
+    it('should throw with not found user', async () => {
+      try {
+        await users.setNotification({ id: '507f1f77bcf86cd799439011' });
+      } catch (err) {
+        expect(err.message).toEqual('No user found');
+      }
+    });
+
+    it('should throw with invalid type', async () => {
+      try {
+        await users.setNotification({ id: user.id }, 'type');
+      } catch (err) {
+        expect(err.message).toEqual('Invalid type');
+      }
+    });
+
+    it('should set dailyNotification to false', async () => {
+      await users.setNotification({ id: user.id }, 'daily', false);
+      const ret = await UsersModel.findOne({ _id: user.id }).exec();
+      expect(ret.dailyNotification).toEqual(false);
+    });
+
+    it('should set weeklyNotification to true', async () => {
+      await users.setNotification({ id: user.id }, 'weekly', true);
+      const ret = await UsersModel.findOne({ _id: user.id }).exec();
+      expect(ret.weeklyNotification).toEqual(true);
     });
   });
 

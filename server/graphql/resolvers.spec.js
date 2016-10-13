@@ -83,6 +83,26 @@ describe('server.graphql.resolvers', () => {
         expect(Users.trackRepository).toBeCalledWith(user, repositoryId, active);
       });
     });
+
+    describe('#setNotification', () => {
+      it('should throw if no user provided in context', () => {
+        try {
+          mutation.setNotification(null, {}, {});
+        } catch (err) {
+          expect(err.message).toMatch(/logged/);
+        }
+      });
+
+      it('should call Users.setNotification', () => {
+        const user = 'toto';
+        const Users = { setNotification: jest.fn() };
+        const type = 'daily';
+        const active = true;
+        mutation.setNotification(null, { type, active }, { user, Users });
+        expect(Users.setNotification.mock.calls.length).toEqual(1);
+        expect(Users.setNotification).toBeCalledWith(user, type, active);
+      });
+    });
   });
 
   describe('#Repository', () => {

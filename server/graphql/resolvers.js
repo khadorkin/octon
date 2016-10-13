@@ -29,6 +29,13 @@ const resolvers = {
       }
       return context.Users.trackRepository(context.user, repositoryId, active);
     },
+
+    setNotification(_, { type, active }, context) {
+      if (!context.user) {
+        throw new Error('Must be logged in.');
+      }
+      return context.Users.setNotification(context.user, type, active);
+    },
   },
 
   Repository: {
