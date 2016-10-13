@@ -12,6 +12,7 @@ import { serializeUser, deserializeUser } from './passport/passport';
 import gitHubStrategy from './passport/github';
 import schema from './graphql/schema'; // eslint-disable-line import/no-named-as-default
 import Users from './actions/users';
+import cron from './cron';
 
 // TODO 404 page
 // TODO 500 page
@@ -105,3 +106,6 @@ db.on('error', (err) => {
 app.listen(process.env.PORT, () => {
   logger.info(`app started on port ${process.env.PORT}`);
 });
+
+// Start cron tasks
+cron();
