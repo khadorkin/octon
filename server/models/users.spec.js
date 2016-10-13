@@ -27,19 +27,19 @@ describe('server.models.users', () => {
       const array = ['1', '2'];
       const response = user.setStars([], array);
       expect(response).toEqual([{
-        githubId: '1', active: true,
+        repositoryId: '1', active: true,
       }, {
-        githubId: '2', active: true,
+        repositoryId: '2', active: true,
       }]);
     });
 
     it('should return false for old star', () => {
       const array = ['1', '2'];
-      const response = user.setStars([{ githubId: '2', active: false }], array);
+      const response = user.setStars([{ repositoryId: '2', active: false }], array);
       expect(response).toEqual([{
-        githubId: '1', active: true,
+        repositoryId: '1', active: true,
       }, {
-        githubId: '2', active: false,
+        repositoryId: '2', active: false,
       }]);
     });
   });

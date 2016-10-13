@@ -16,14 +16,14 @@ class CheckForNewReleases {
   }
 
   findUsersTrackingRepo(repository, release) {
-    return User.find({ 'starred.githubId': repository.github.id }).exec().then((users) => {
+    return User.find({ 'starred.repositoryId': repository.refId }).exec().then((users) => {
       repository.latestRelease.date = moment(repository.latestRelease.publishedAt).format('ddd DD MMM - h.mma');
       repository.latestRelease.body = release.body ? marked(release.body) : null;
       users.forEach((user) => {
         let send = false;
         // Check if user have star.active
         user.starred.forEach((star) => {
-          if (star.githubId === repository.github.id && star.active) {
+          if (star.repositoryId.toString() === repository.id.toString() && star.active) {
             send = true;
           }
         });

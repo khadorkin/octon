@@ -35,10 +35,10 @@ export function createUser() {
     },
     starred: [{
       active: false,
-      githubId: 'githubId1',
+      repositoryId: '57ff5c5c74b8ac07d4d1b0f0',
     }, {
       active: true,
-      githubId: 'githubId2',
+      repositoryId: '57ff5c5c74b8ac07d4d1b0e9',
     }],
   });
   return user.save();

@@ -99,7 +99,7 @@ describe('server.actions.users', () => {
     });
 
     it('should set starred repo to false', async () => {
-      await users.trackRepository({ id: user.id }, user.starred[1].githubId, false);
+      await users.trackRepository({ id: user.id }, user.starred[1].repositoryId, false);
       const ret = await UsersModel.findOne({ _id: user.id }).exec();
       expect(ret.starred[0].active).toEqual(false);
     });

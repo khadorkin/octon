@@ -96,19 +96,11 @@ describe('server.graphql.resolvers', () => {
       });
     });
 
-    describe('#githubId', () => {
-      it('should return repository.github.id', () => {
-        const arg = { github: { id: 'id' } };
-        const ret = repository.githubId(arg);
-        expect(arg.github.id).toEqual(ret);
-      });
-    });
-
     describe('#starred', () => {
       it('should call context.Users.get', async () => {
-        const arg = { github: { id: 'id' } };
+        const arg = { id: 'id' };
         const context = {
-          user: { id: 'id', starred: [{ githubId: 'id2', active: false }] },
+          user: { id: 'id', starred: [{ repositoryId: 'id2', active: false }] },
         };
         context.Users = { get: jest.fn() };
         context.Users.get.mockReturnValue(Promise.resolve(context.user));
@@ -118,9 +110,9 @@ describe('server.graphql.resolvers', () => {
       });
 
       it('should return true', async () => {
-        const arg = { github: { id: 'id' } };
+        const arg = { id: 'id' };
         const context = {
-          user: { id: 'id', starred: [{ githubId: 'id', active: true }] },
+          user: { id: 'id', starred: [{ repositoryId: 'id', active: true }] },
         };
         context.Users = { get: jest.fn() };
         context.Users.get.mockReturnValue(Promise.resolve(context.user));

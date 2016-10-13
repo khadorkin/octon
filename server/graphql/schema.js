@@ -18,11 +18,9 @@ type Release {
 type Repository {
   id: String!
   name: String!
-  fullName: String!
   photo: String!
   htmlUrl: String!
   starred: Boolean!
-  githubId: String!
   latestRelease: Release
 }
 

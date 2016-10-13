@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const releaseSchema = new mongoose.Schema({
-  githubId: {
+  refId: {
     type: String,
     required: true,
   },
@@ -28,10 +28,6 @@ const repositorySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  fullName: {
-    type: String,
-    required: true,
-  },
   htmlUrl: {
     type: String,
     required: true,
@@ -40,11 +36,13 @@ const repositorySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  github: {
-    id: {
-      type: String,
-      required: true,
-    },
+  type: {
+    type: String,
+    required: true,
+  },
+  refId: {
+    type: String,
+    required: true,
   },
   latestRelease: {
     type: releaseSchema,

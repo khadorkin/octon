@@ -5,6 +5,7 @@ export function handleGithubReturn(accessToken, refreshToken, profile, cb) {
   return User.findOne({ 'github.id': profile.id }).exec().then((user) => {
     // If user already exist update his accessToken
     if (user) {
+      user.photo = profile.photos[0].value;
       user.github.accessToken = accessToken;
       return user.save().then((data) => {
         cb(null, data);

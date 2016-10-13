@@ -38,7 +38,7 @@ class Email {
 
   newRelease(user, repository) {
     const newReleaseMail = this.constructEmail('new-release');
-    const subject = `${repository.fullName} ${repository.latestRelease.tagName} new version`;
+    const subject = `${repository.name} ${repository.latestRelease.tagName} new version`;
     const html = newReleaseMail({ repository, BASE_URL: process.env.BASE_URL });
     this.sendMail({ to: user.github.email, subject, html });
   }

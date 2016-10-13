@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 const starred = new mongoose.Schema({
-  githubId: {
-    type: String,
+  repositoryId: {
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
   active: {
@@ -51,7 +51,7 @@ const userSchema = new mongoose.Schema({
 
 function getActiveStarred(userStarred, id) {
   for (let i = 0; i < userStarred.length; i += 1) {
-    if (userStarred[i].githubId === id.toString()) {
+    if (userStarred[i].repositoryId.toString() === id.toString()) {
       return userStarred[i].active;
     }
   }
@@ -62,7 +62,7 @@ userSchema.methods.setStars = (userStarred, githubStars) => {
   const stars = [];
   githubStars.forEach((star) => {
     stars.push({
-      githubId: star,
+      repositoryId: star,
       active: getActiveStarred(userStarred, star),
     });
   });

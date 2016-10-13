@@ -24,7 +24,7 @@ class GithubCore {
   }
 
   getLatestRelease(repo) {
-    return this.api.get(`repos/${repo.fullName}/tags`).then((data) => {
+    return this.api.get(`repos/${repo.name}/tags`).then((data) => {
       // If there is tags
       if (data) {
         // Remove invalid semver versions
@@ -44,7 +44,7 @@ class GithubCore {
 
   getReleaseObject(repo, version) {
     // Find latest github release
-    return this.api.get(`repos/${repo.fullName}/releases`)
+    return this.api.get(`repos/${repo.name}/releases`)
       .then((releases) => {
         const release = releases[0];
         // If there is a release and the name is the same than tag
@@ -52,7 +52,7 @@ class GithubCore {
           // Create latest release object
           const latestRelease = {
             type: 'release',
-            githubId: release.id,
+            refId: release.id,
             tagName: release.tag_name,
             htmlUrl: release.html_url,
             publishedAt: release.published_at,
@@ -61,14 +61,14 @@ class GithubCore {
           return latestRelease;
         }
         // Return infos about commit
-        return this.api.get(`repos/${repo.fullName}/commits/${version.commit.sha}`)
+        return this.api.get(`repos/${repo.name}/commits/${version.commit.sha}`)
           .then((commit) => {
             // Create latest release object
             const latestRelease = {
               type: 'tag',
-              githubId: commit.sha,
+              refId: commit.sha,
               tagName: version.name,
-              htmlUrl: `https://github.com/${repo.fullName}/releases`,
+              htmlUrl: `https://github.com/${repo.name}/releases`,
               publishedAt: commit.commit.committer.date,
             };
             return latestRelease;

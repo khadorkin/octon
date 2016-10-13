@@ -6,10 +6,9 @@ const repositoryQuery = gql`
   query userRepositories($page: Int) {
     userRepositories(page: $page) {
       id
-      fullName
+      name
       photo
       htmlUrl
-      githubId
       starred
       latestRelease {
         tagName
@@ -51,7 +50,7 @@ const trackRepositoryMutation = gql`
     trackRepository(repositoryId: $repositoryId, active: $active) {
       id
       starred
-      fullName
+      name
     }
   }
 `;

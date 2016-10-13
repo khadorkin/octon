@@ -20,8 +20,8 @@ class Users {
       if (!user) {
         throw new Error('No user found');
       }
-      const starredIds = user.starred.map(data => data.githubId);
-      return Repository.find({ 'github.id': { $in: starredIds } })
+      const repositoriesIds = user.starred.map(data => data.repositoryId);
+      return Repository.find({ _id: { $in: repositoriesIds } })
         .sort({ 'latestRelease.publishedAt': -1, name: 1 })
         .skip(limit * (page - 1)).limit(limit)
         .exec();
@@ -48,22 +48,20 @@ class Users {
       return github.getAllUserRepositories().then((githubRepositories) => {
         const githubRepositoriesIds = githubRepositories.map(repo => repo.id);
         // Find all repo already in database
-        return Repository.find({ 'github.id': { $in: githubRepositoriesIds } })
+        return Repository.find({ refId: { $in: githubRepositoriesIds }, type: 'github' })
           .then((repositories) => {
             // Remove them to insert only new ones
-            const repositoriesIds = repositories.map(repo => repo.github.id);
+            let repositoriesIds = repositories.map(repo => repo.refId);
             const githubRepositoriesToInsert = githubRepositories.filter(repo =>
               repositoriesIds.indexOf(repo.id.toString()) === -1);
             // Insert new ones
             const promises = githubRepositoriesToInsert.map((repo) => {
               const newRepo = new Repository({
-                name: repo.name,
-                fullName: repo.full_name,
+                name: repo.full_name,
                 htmlUrl: repo.html_url,
                 photo: repo.owner.avatar_url,
-                github: {
-                  id: repo.id,
-                },
+                type: 'github',
+                refId: repo.id,
               });
               return github.getLatestRelease(newRepo).then((latestRelease) => {
                 if (latestRelease) {
@@ -72,8 +70,9 @@ class Users {
                 return newRepo.save();
               });
             });
-            return Promise.all(promises).then(() => {
-              user.starred = user.setStars(user.starred, githubRepositoriesIds);
+            return Promise.all(promises).then((data) => {
+              repositoriesIds = repositories.concat(data).map(repo => repo.id);
+              user.starred = user.setStars(user.starred, repositoriesIds);
               user.lastSync = Date.now();
               return user.save();
             });
@@ -88,14 +87,14 @@ class Users {
         throw new Error('No user found');
       }
       user.starred = user.starred.map((star) => {
-        if (star.githubId === repositoryId) {
+        if (star.repositoryId.toString() === repositoryId) {
           star.active = active;
         }
         return star;
       });
       // Save user and return respository
       return user.save().then(() =>
-        Repository.findOne({ 'github.id': repositoryId }).exec());
+        Repository.findOne({ _id: repositoryId }).exec());
     });
   }
 }

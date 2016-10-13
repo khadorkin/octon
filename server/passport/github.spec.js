@@ -43,11 +43,12 @@ describe('server.passport.github', () => {
       expect(callback.mock.calls[0][1]).toBeTruthy();
     });
 
-    it('should update user accessToken', async () => {
+    it('should update user accessToken and photo', async () => {
       const callback = jest.fn();
-      await handleGithubReturn('accessToken2', null, { id: 'id' }, callback);
+      await handleGithubReturn('accessToken2', null, { id: 'id', photos: [{ value: 'photoValue2' }] }, callback);
       const user = await User.findOne({ _id: callback.mock.calls[0][1].id });
       expect(user.github.accessToken).toEqual('accessToken2');
+      expect(user.photo).toEqual('photoValue2');
       expect(callback.mock.calls.length).toEqual(1);
       expect(callback.mock.calls[0][0]).toEqual(null);
       expect(callback.mock.calls[0][1]).toBeTruthy();

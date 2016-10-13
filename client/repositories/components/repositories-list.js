@@ -6,7 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 const RepositoriesListItem = ({ repository, onTrack }) => {
   const handleToggle = (_, val) => {
-    onTrack(repository.githubId, val);
+    onTrack(repository.id, val);
   };
   return (<div className="repositories-list-content">
     {repository.latestRelease ?
@@ -24,7 +24,7 @@ const RepositoriesListItem = ({ repository, onTrack }) => {
       <div className="media-body">
         <p className="media-heading">
           <a href={repository.htmlUrl} target="_blank" rel="noopener noreferrer">
-            {repository.fullName}
+            {repository.name}
           </a>
         </p>
         <div className="pull-right">
@@ -95,7 +95,6 @@ class RepositoriesList extends Component {
     </div>);
   }
 }
-
 
 RepositoriesList.propTypes = {
   loading: PropTypes.bool,
