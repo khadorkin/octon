@@ -10,7 +10,12 @@ const RepositoriesListItem = ({ repository, onTrack }) => {
   };
   return (<div className="repositories-list-content">
     {repository.latestRelease ?
-      <span className="release">Release {repository.latestRelease.tagName}</span>
+      <span className="release">
+        <a
+          href={repository.latestRelease.htmlUrl}
+          target="_blank" rel="noopener noreferrer"
+        >Release {repository.latestRelease.tagName}</a>
+      </span>
       : <span className="release">No release</span>}
     {repository.latestRelease ?
       <span className="date"><TimeAgo datetime={new Date(repository.latestRelease.publishedAt)} /></span>
