@@ -14,7 +14,6 @@ describe('server.emails.index', () => {
   };
 
   it('should be a class', () => {
-    process.env.MAIL_URL = 'MAIL_URL';
     expect(typeof Email).toBe('function');
   });
 

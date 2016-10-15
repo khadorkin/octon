@@ -4,7 +4,7 @@ import Repository from '../../models/repositories';
 
 export function connectDb() {
   mongoose.Promise = Promise;
-  mongoose.connect(MONGO_TEST_URL);
+  mongoose.connect(process.env.MONGO_URL);
   const db = mongoose.connection;
   return new Promise((resolve) => {
     db.once('open', () => {
@@ -20,8 +20,11 @@ export async function dropDb() {
 
 export async function disconnectDb(done) {
   await dropDb();
+  const db = mongoose.connection;
   mongoose.disconnect();
-  done();
+  db.on('disconnected', () => {
+    done();
+  });
 }
 
 export function createUser() {

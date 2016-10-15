@@ -9,7 +9,6 @@ describe('server.passport.github', () => {
     });
 
     it('should return strategy', () => {
-      process.env.GITHUB_CLIENT_ID = 'toto';
       expect(gitHubStrategy()).toBeTruthy();
     });
   });
