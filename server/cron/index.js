@@ -3,21 +3,19 @@ import checkForNewReleases from './check-for-new-releases';
 import logger from '../logger';
 
 class Cron {
-  constructor() {
-    this.start();
-  }
-
   start() {
     // Run once a day
-    this.checkForNewReleasesJob = schedule.scheduleJob('0 12 * * *', () => {
-      checkForNewReleases()
-        .then(() => {
-          logger.log('info', 'finish checkForNewReleases');
-        })
-        .catch((err) => {
-          logger.log('error', err);
-        });
-    });
+    this.checkForNewReleasesJob = schedule.scheduleJob('0 12 * * *', this.startCheckForNewReleasesJob);
+  }
+
+  startCheckForNewReleasesJob() {
+    return checkForNewReleases()
+      .then(() => {
+        logger.log('info', 'finish checkForNewReleases');
+      })
+      .catch((err) => {
+        logger.log('error', err);
+      });
   }
 
   stop() {

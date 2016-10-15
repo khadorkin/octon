@@ -93,6 +93,7 @@ class Server {
 
     // Start cron tasks
     this.cron = new Cron();
+    this.cron.start();
   }
 
   startMongo() {
