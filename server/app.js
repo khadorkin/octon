@@ -4,7 +4,6 @@ import Server from './core/server';
 // Configure env variables
 dotenv.config();
 
-// TODO check all env variables are set
 const envVariables = ['GITHUB_CLIENT_ID', 'GITHUB_CLIENT_SECRET', 'GITHUB_REDIRECT_URL',
   'MONGO_URL', 'MAIL_URL', 'SESSION_SECRET', 'PORT', 'BASE_URL'];
 envVariables.forEach((env) => {
