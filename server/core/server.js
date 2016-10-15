@@ -17,10 +17,8 @@ import Cron from '../cron';
 // TODO 500 page
 
 class Server {
-  start() {
-    // Connect to mongodb
-    mongoose.connect(process.env.MONGO_URL);
-    mongoose.Promise = Promise;
+  async start() {
+    await this.startMongo();
 
     this.app = express();
     const MongoStore = connectMongo(session);
@@ -91,22 +89,37 @@ class Server {
       res.redirect('/');
     });
 
-    // Log mongodb
-    const db = mongoose.connection;
-    db.once('open', () => {
-      logger.info('connected to mongodb');
-    });
-    db.on('error', (err) => {
-      logger.log('error', err);
-    });
-
-    // Start listening on port
-    this.server = this.app.listen(process.env.PORT, () => {
-      logger.info(`app started on port ${process.env.PORT}`);
-    });
+    await this.startExpressServer();
 
     // Start cron tasks
     this.cron = new Cron();
+  }
+
+  startMongo() {
+    // Connect to mongodb
+    mongoose.connect(process.env.MONGO_URL);
+    mongoose.Promise = Promise;
+    const db = mongoose.connection;
+    return new Promise((resolve, reject) => {
+      db.on('connected', () => {
+        logger.info('connected to mongodb');
+        resolve();
+      });
+      db.on('error', (err) => {
+        logger.log('error', err);
+        reject(err);
+      });
+    });
+  }
+
+  startExpressServer() {
+    return new Promise((resolve) => {
+      // Start listening on port
+      this.server = this.app.listen(process.env.PORT, () => {
+        logger.info(`app started on port ${process.env.PORT}`);
+        resolve();
+      });
+    });
   }
 
   stop(done) {
@@ -117,7 +130,7 @@ class Server {
     mongoose.disconnect();
     db.on('disconnected', () => {
       // Stop webpack server
-      this.webpackServer.close();
+      if (this.webpackServer) this.webpackServer.close();
       // Stop express
       this.server.close();
       if (done) done();

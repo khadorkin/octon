@@ -1,3 +1,4 @@
+import 'babel-polyfill'; // eslint-disable-line
 import dotenv from 'dotenv';
 import Server from './core/server';
 
