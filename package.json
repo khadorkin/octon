@@ -11,7 +11,7 @@
   "jest": {
     "testEnvironment": "node",
     "testRegex": "(/.*.(test|spec)).(js|jsx)$",
-    "setupFiles": ["./tests/index.js"]
+    "setupFiles": ["./tests/setup.js"]
   },
   "repository": {
     "type": "git",
