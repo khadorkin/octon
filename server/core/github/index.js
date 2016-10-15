@@ -26,7 +26,7 @@ class GithubCore {
   getLatestRelease(repo) {
     return this.api.get(`repos/${repo.name}/tags`).then((data) => {
       // If there is tags
-      if (data) {
+      if (data && data.length > 0) {
         // Remove invalid semver versions
         let versions = data.filter(v => semver.valid(v.name));
         // Sorts version by most recent
