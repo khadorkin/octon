@@ -10,6 +10,7 @@ describe('server.cron.index', () => {
 
     it('should ser checkForNewReleasesJob', () => {
       cron.start();
+      cron.stop();
       expect(cron.checkForNewReleasesJob).toBeTruthy();
     });
   });
