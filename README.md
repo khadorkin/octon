@@ -7,16 +7,15 @@
 [![Build Status](https://travis-ci.org/pradel/octon.svg?branch=master)](https://travis-ci.org/pradel/octon)
 [![Coverage Status](https://coveralls.io/repos/github/pradel/octon/badge.svg?branch=master)](https://coveralls.io/github/pradel/octon?branch=master)
 
-Notify you when a new release has been made on repositories you starred on Github.
+Notifies you when a new release has been made on repositories you starred on Github.
 
 ### Features
 
-Email you when a new release has been made
+Emails you when a new release has been made on Github.
 
 ### Why
 
-Create an app fully functioning with latest javascript (es6, linting, coverage ...).
-I also wanted to learn how to build a real app from scratch with a graphql back and frontend.
+I wanted to create an app fully functioning with the latest javascript (es6, linting, coverage ...) and to learn how to build a real app from scratch with a graphql back and frontend.
 
 ### Stack
 
