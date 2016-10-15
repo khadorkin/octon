@@ -20,6 +20,14 @@ import cron from './cron';
 // Configure env variables
 dotenv.config();
 
+// TODO check all env variables are set
+const envVariables = ['GITHUB_CLIENT_ID', 'GITHUB_CLIENT_SECRET', 'GITHUB_REDIRECT_URL',
+  'MONGO_URL', 'MAIL_URL', 'SESSION_SECRET', 'PORT', 'BASE_URL'];
+envVariables.forEach((env) => {
+  if (!process.env[env]) {
+    throw new Error(`Env variable ${env} not set`);
+  }
+});
 // Connect to mongodb
 mongoose.connect(process.env.MONGO_URL);
 mongoose.Promise = Promise;
