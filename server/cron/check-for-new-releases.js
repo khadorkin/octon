@@ -5,7 +5,7 @@ import User from '../models/users';
 import Repository from '../models/repositories';
 import Email from '../emails';
 
-class CheckForNewReleases {
+export class CheckForNewReleases {
   constructor(github) {
     this.github = github;
     this.email = new Email();

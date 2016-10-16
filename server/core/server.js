@@ -123,18 +123,20 @@ class Server {
     });
   }
 
-  stop(done) {
+  stop() {
     // Stop cron tasks
     this.cron.stop();
     // Stop mongodb
     const db = mongoose.connection;
     mongoose.disconnect();
-    db.on('disconnected', () => {
-      // Stop webpack server
-      if (this.webpackServer) this.webpackServer.close();
-      // Stop express
-      this.server.close();
-      if (done) done();
+    return new Promise((resolve) => {
+      db.on('disconnected', () => {
+        // Stop webpack server
+        if (this.webpackServer) this.webpackServer.close();
+        // Stop express
+        this.server.close();
+        resolve();
+      });
     });
   }
 }
