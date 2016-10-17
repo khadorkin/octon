@@ -9,17 +9,21 @@ const RepositoriesListItem = ({ repository, onTrack }) => {
     onTrack(repository.id, val);
   };
   return (<div className="repositories-list-content">
-    {repository.latestRelease ?
-      <span className="release">
-        <a
-          href={repository.latestRelease.htmlUrl}
-          target="_blank" rel="noopener noreferrer"
-        >Release {repository.latestRelease.tagName}</a>
-      </span>
-      : <span className="release">No release</span>}
-    {repository.latestRelease ?
-      <span className="date"><TimeAgo datetime={new Date(repository.latestRelease.publishedAt)} /></span>
-      : null}
+    <div className="left-block overflow">
+      {repository.latestRelease ?
+        <span className="release">
+          <a
+            href={repository.latestRelease.htmlUrl}
+            target="_blank" rel="noopener noreferrer"
+            title={repository.latestRelease.tagName}
+          >Release {repository.latestRelease.tagName}</a>
+        </span>
+        : <span className="release">No release</span>}
+      <br />
+      {repository.latestRelease ?
+        <span className="date"><TimeAgo datetime={new Date(repository.latestRelease.publishedAt)} /></span>
+        : null}
+    </div>
     <div className="media">
       <div className="media-left">
         <a href={repository.htmlUrl} target="_blank" rel="noopener noreferrer">
@@ -76,7 +80,7 @@ class RepositoriesList extends Component {
     const { loading, error: errorProp, repositories } = this.props;
     const { page, error: errorState } = this.state;
     const error = errorProp ? errorProp.message : errorState;
-    return (<div>
+    return (<div style={{ paddingLeft: 16 }}>
       {!loading && !error && repositories.length === 0 ?
         <div className="center">
           <p>You don&apos;t have starred repositories</p>

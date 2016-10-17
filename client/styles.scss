@@ -3,6 +3,12 @@ body {
   background: linear-gradient(45deg, rgb(220, 129, 170) 0%, rgb(56, 150, 150) 100%);
 }
 
+.overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .navbar {
   .navbar-brand img {
     height: 25px;
@@ -35,8 +41,9 @@ body {
 }
 
 .repositories-list {
-  margin: 0px 0 30px 120px;
+  margin: 0px 0 30px 140px;
   padding-left: 30px;
+  padding-right: 16px;
   border-left: 4px solid rgb(0, 160, 219);
 
   .repositories-list-content {
@@ -47,19 +54,20 @@ body {
       margin-top: 0;
     }
 
-    .release {
+    .left-block {
       margin-top: -20px;
       top: 50%;
-      left: -154px;
+      left: -170px;
       position: absolute;
+      width: 120px;
+    }
+
+    .release {
       color: rgb(0, 160, 219);
     }
 
     .date {
-      margin-top: 0px;
-      top: 50%;
-      left: -154px;
-      position: absolute;
+
     }
 
     .circle {
@@ -102,4 +110,8 @@ body {
   .pull-right {
     margin-top: -28px;
   }
+}
+
+label {
+  font-weight: 400;
 }
