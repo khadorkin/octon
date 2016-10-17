@@ -50,16 +50,22 @@ const trackRepositoryMutation = gql`
     trackRepository(repositoryId: $repositoryId, active: $active) {
       id
       starred
-      name
     }
   }
 `;
 
-// TODO optimistic ui
 const RootWithDataAndMutations = graphql(trackRepositoryMutation, {
   props: ({ mutate }) => ({
     trackRepository: (repositoryId, active) => mutate({
       variables: { repositoryId, active },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        trackRepository: {
+          id: repositoryId,
+          __typename: 'Repository',
+          starred: active,
+        },
+      },
     }),
   }),
 })(RootWithData);
