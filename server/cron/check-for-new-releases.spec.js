@@ -34,10 +34,18 @@ describe('server.cron.check-for-new-releases', () => {
       expect(ret).toBeTruthy();
     });
 
-    it('should return null if no realease found', async () => {
+    it('should return true if no realease found', async () => {
       checkForNewReleases.github = { getLatestRelease: jest.fn() };
       checkForNewReleases.github.getLatestRelease.mockReturnValue(Promise.resolve(null));
       const ret = await checkForNewReleases.getLatestReleaseAndSave(['repository']);
+      expect(checkForNewReleases.github.getLatestRelease.mock.calls.length).toEqual(1);
+      expect(ret).toBeTruthy();
+    });
+
+    it('should return true if same release id is found', async () => {
+      checkForNewReleases.github = { getLatestRelease: jest.fn() };
+      checkForNewReleases.github.getLatestRelease.mockReturnValue(Promise.resolve({ refId: 'refId' }));
+      const ret = await checkForNewReleases.getLatestReleaseAndSave([{ latestRelease: { refId: 'refId' } }]);
       expect(checkForNewReleases.github.getLatestRelease.mock.calls.length).toEqual(1);
       expect(ret).toBeTruthy();
     });

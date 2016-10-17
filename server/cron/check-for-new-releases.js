@@ -44,7 +44,7 @@ export class CheckForNewReleases {
       // If there is no release or no new release
       if (!release ||
         (repository.latestRelease &&
-        release.githubId.toString() === repository.latestRelease.githubId.toString())) {
+        release.refId.toString() === repository.latestRelease.refId.toString())) {
         return null;
       }
       // If new release
