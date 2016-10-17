@@ -9,10 +9,11 @@ class Email {
     this.transporter = nodemailer.createTransport(process.env.MAIL_URL);
   }
 
-  constructEmail(name) {
+  constructEmail(name, params) {
     let email = fs.readFileSync(`${__dirname}/templates/${name}.html`, 'utf8');
-    email = mjml2html(email);
     email = handlebars.compile(email);
+    email = email(params);
+    email = mjml2html(email);
     return email;
   }
 
@@ -37,9 +38,18 @@ class Email {
   }
 
   newRelease(user, repository) {
-    const newReleaseMail = this.constructEmail('new-release');
     const subject = `${repository.name} ${repository.latestRelease.tagName} new version`;
-    const html = newReleaseMail({ repository, BASE_URL: process.env.BASE_URL });
+    const html = this.constructEmail('new-release', {
+      repository, BASE_URL: process.env.BASE_URL,
+    });
+    this.sendMail({ to: user.github.email, subject, html });
+  }
+
+  weeklyUpdate(user, repositories) {
+    const subject = 'Weekly update';
+    const html = this.constructEmail('weekly-update', {
+      repositories, BASE_URL: process.env.BASE_URL,
+    });
     this.sendMail({ to: user.github.email, subject, html });
   }
 }

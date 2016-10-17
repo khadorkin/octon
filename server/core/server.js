@@ -50,22 +50,36 @@ class Server {
       };
     }));
 
-    if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
+    if (process.env.NODE_ENV !== 'production') {
       // Start graphiql server
       this.app.use('/graphiql', graphiqlExpress({
         endpointURL: '/graphql',
       }));
 
-      // Start webpack dev server
-      const webpack = require('webpack'); // eslint-disable-line
-      const WebpackDevServer = require('webpack-dev-server'); // eslint-disable-line
-      const config = require('../webpack.config.js'); // eslint-disable-line
-      const compiler = webpack(config);
-      this.webpackServer = new WebpackDevServer(compiler, {
-        hot: true,
-        inline: true,
-      });
-      this.webpackServer.listen(3020);
+      if (process.env.NODE_ENV !== 'test') {
+        // Start webpack dev server
+        const webpack = require('webpack'); // eslint-disable-line
+        const WebpackDevServer = require('webpack-dev-server'); // eslint-disable-line
+        const config = require('../webpack.config.js'); // eslint-disable-line
+        const compiler = webpack(config);
+        const options = {
+          hot: true,
+          inline: true,
+          stats: {
+            chunks: false,
+          },
+        };
+        if (process.env.NODE_ENV === 'test') {
+          options.stats.warnings = false;
+          options.stats.version = false;
+          options.stats.timings = false;
+          options.stats.assets = false;
+          options.stats.hash = false;
+          options.stats.modules = false;
+        }
+        this.webpackServer = new WebpackDevServer(compiler, options);
+        await this.startWebpackServer();
+      }
     }
 
     this.app.get('/', (req, res) => {
@@ -118,6 +132,16 @@ class Server {
       // Start listening on port
       this.server = this.app.listen(process.env.PORT, () => {
         logger.info(`app started on port ${process.env.PORT}`);
+        resolve();
+      });
+    });
+  }
+
+  startWebpackServer() {
+    return new Promise((resolve) => {
+      // Start listening on port
+      this.webpackServer.listen(process.env.WEBPACK_PORT, () => {
+        logger.info(`webpack-dev-server started on port ${process.env.WEBPACK_PORT}`);
         resolve();
       });
     });

@@ -19,10 +19,11 @@ describe('server.cron.index', () => {
     const cron = new Cron();
 
     it('should cancel checkForNewReleasesJob', () => {
-      const mock = jest.fn();
-      cron.checkForNewReleasesJob = { cancel: mock };
+      cron.checkForNewReleasesJob = { cancel: jest.fn() };
+      cron.weeklyMailJob = { cancel: jest.fn() };
       cron.stop();
-      expect(mock.mock.calls.length).toEqual(1);
+      expect(cron.checkForNewReleasesJob.cancel.mock.calls.length).toEqual(1);
+      expect(cron.weeklyMailJob.cancel.mock.calls.length).toEqual(1);
     });
   });
 });

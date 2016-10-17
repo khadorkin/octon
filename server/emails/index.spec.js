@@ -94,4 +94,18 @@ describe('server.emails.index', () => {
       expect(email.sendMail.mock.calls.length).toEqual(1);
     });
   });
+
+  describe('#weeklyUpdate', () => {
+    const email = new Email();
+
+    it('should be a function', () => {
+      expect(typeof email.weeklyUpdate).toBe('function');
+    });
+
+    it('should call sendMail', () => {
+      email.sendMail = jest.fn();
+      email.weeklyUpdate(user, []);
+      expect(email.sendMail.mock.calls.length).toEqual(1);
+    });
+  });
 });
