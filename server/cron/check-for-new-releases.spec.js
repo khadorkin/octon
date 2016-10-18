@@ -11,6 +11,7 @@ describe('server.cron.check-for-new-releases', () => {
     it('should set github and email', () => {
       expect(checkForNewReleases.github).toEqual('toto');
       expect(checkForNewReleases.email).toBeTruthy();
+      expect(checkForNewReleases.email.newRelease).toBeTruthy();
     });
   });
 

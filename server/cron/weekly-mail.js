@@ -19,6 +19,7 @@ class WeeklyMail {
     return Repository.find({ 'latestRelease.publishedAt': {
       $gte: startDate, $lt: endDate,
     } }).sort({ 'latestRelease.publishedAt': -1, name: 1 }).exec().then((repositories) => {
+      if (repositories.length === 0) return true;
       repositories = repositories.map((repository) => {
         repository.latestRelease.date = moment(repository.latestRelease.publishedAt).format('ddd DD MMM - h.mma');
         return repository;
@@ -42,6 +43,7 @@ class WeeklyMail {
           });
           this.sendEmailNotification(user, userRepositories);
         });
+        return true;
       });
     });
   }

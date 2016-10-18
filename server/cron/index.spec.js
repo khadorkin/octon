@@ -8,7 +8,7 @@ describe('server.cron.index', () => {
   describe('#start', () => {
     const cron = new Cron();
 
-    it('should ser checkForNewReleasesJob', () => {
+    it('should set checkForNewReleasesJob', () => {
       cron.start();
       cron.stop();
       expect(cron.checkForNewReleasesJob).toBeTruthy();

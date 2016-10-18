@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import faker from 'faker';
 import User from '../../models/users';
 import Repository from '../../models/repositories';
 
@@ -29,12 +30,12 @@ export async function disconnectDb(done) {
 
 export function createUser() {
   const user = new User({
-    username: 'username',
-    photo: 'photo',
+    username: faker.name.firstName(),
+    photo: faker.image.imageUrl(),
     github: {
-      id: 'id',
-      email: 'email',
-      accessToken: 'accessToken',
+      id: faker.random.uuid(),
+      email: faker.internet.email(),
+      accessToken: faker.random.uuid(),
     },
     starred: [{
       active: false,
@@ -45,4 +46,15 @@ export function createUser() {
     }],
   });
   return user.save();
+}
+
+export function createRepository() {
+  const repository = new Repository({
+    name: faker.name.findName(),
+    htmlUrl: faker.internet.url(),
+    photo: faker.image.imageUrl(),
+    type: 'github',
+    refId: faker.random.uuid(),
+  });
+  return repository.save();
 }
