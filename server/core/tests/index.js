@@ -49,14 +49,15 @@ export function createUser(options = {}) {
   return user.save();
 }
 
-export function createRepository() {
-  const repository = new Repository({
+export function createRepository(options = {}) {
+  const schema = {
     name: faker.name.findName(),
     htmlUrl: faker.internet.url(),
     photo: faker.image.imageUrl(),
     type: 'github',
     refId: faker.random.uuid(),
-  });
+  };
+  const repository = new Repository(Object.assign({}, schema, options));
   return repository.save();
 }
 
