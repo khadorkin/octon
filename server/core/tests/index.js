@@ -28,8 +28,8 @@ export async function disconnectDb(done) {
   });
 }
 
-export function createUser() {
-  const user = new User({
+export function createUser(options = {}) {
+  const schema = {
     username: faker.name.firstName(),
     photo: faker.image.imageUrl(),
     github: {
@@ -44,7 +44,8 @@ export function createUser() {
       active: true,
       repositoryId: '57ff5c5c74b8ac07d4d1b0e9',
     }],
-  });
+  };
+  const user = new User(Object.assign({}, schema, options));
   return user.save();
 }
 
@@ -57,4 +58,15 @@ export function createRepository() {
     refId: faker.random.uuid(),
   });
   return repository.save();
+}
+
+export function createLatestRelease(options = {}) {
+  const latestRelease = {
+    refId: faker.random.uuid(),
+    type: 'tag',
+    tagName: faker.name.findName(),
+    htmlUrl: faker.internet.url(),
+    publishedAt: Date.now(),
+  };
+  return Object.assign({}, latestRelease, options);
 }
