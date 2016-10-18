@@ -4,6 +4,10 @@ import WeeklyMail from './weekly-mail';
 import logger from '../logger';
 
 class Cron {
+  constructor() {
+    this.weeklyMail = new WeeklyMail();
+  }
+
   start() {
     // Run once a day
     this.checkForNewReleasesJob = schedule.scheduleJob('0 12 * * *', this.startCheckForNewReleasesJob);
@@ -22,14 +26,9 @@ class Cron {
   }
 
   startWeeklyMail() {
-    const weeklyMail = new WeeklyMail();
-    return weeklyMail.start()
-      .then(() => {
-        logger.log('info', 'finish checkForNewReleases');
-      })
-      .catch((err) => {
-        logger.log('error', err);
-      });
+    return this.weeklyMail.start()
+      .then(() => logger.log('info', 'finish checkForNewReleases'))
+      .catch(err => logger.log('error', err));
   }
 
   stop() {

@@ -5,6 +5,14 @@ describe('server.cron.index', () => {
     expect(typeof Cron).toBe('function');
   });
 
+  describe('#constructor', () => {
+    const cron = new Cron();
+
+    it('should set weeklyMail', () => {
+      expect(cron.weeklyMail).toBeTruthy();
+    });
+  });
+
   describe('#start', () => {
     const cron = new Cron();
 
@@ -12,6 +20,24 @@ describe('server.cron.index', () => {
       cron.start();
       cron.stop();
       expect(cron.checkForNewReleasesJob).toBeTruthy();
+    });
+  });
+
+  describe('#startWeeklyMail', () => {
+    const cron = new Cron();
+
+    it('should start weeklyMail job', async () => {
+      cron.weeklyMail = { start: jest.fn() };
+      cron.weeklyMail.start.mockReturnValue(Promise.resolve('sucess'));
+      await cron.startWeeklyMail();
+      expect(cron.weeklyMail.start.mock.calls.length).toEqual(1);
+    });
+
+    it('should catch error', async () => {
+      cron.weeklyMail = { start: jest.fn() };
+      cron.weeklyMail.start.mockReturnValue(Promise.reject('error'));
+      await cron.startWeeklyMail();
+      expect(cron.weeklyMail.start.mock.calls.length).toEqual(1);
     });
   });
 

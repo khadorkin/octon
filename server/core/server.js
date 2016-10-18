@@ -116,7 +116,7 @@ class Server {
     mongoose.Promise = Promise;
     const db = mongoose.connection;
     return new Promise((resolve, reject) => {
-      db.on('connected', () => {
+      db.once('open', () => {
         logger.info('connected to mongodb');
         resolve();
       });
