@@ -42,7 +42,7 @@ class Email {
     const html = this.constructEmail('new-release', {
       repository, BASE_URL: process.env.BASE_URL,
     });
-    this.sendMail({ to: user.github.email, subject, html });
+    this.sendMail({ to: user.email, subject, html });
   }
 
   weeklyUpdate(user, repositories) {
@@ -50,7 +50,7 @@ class Email {
     const html = this.constructEmail('weekly-update', {
       repositories, BASE_URL: process.env.BASE_URL,
     });
-    this.sendMail({ to: user.github.email, subject, html });
+    this.sendMail({ to: user.email, subject, html });
   }
 }
 

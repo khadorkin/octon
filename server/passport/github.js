@@ -24,9 +24,9 @@ export function handleGithubReturn(accessToken, refreshToken, profile, cb) {
     const newUser = new User({
       username: profile.username,
       photo: profile.photos[0].value,
+      email: primaryEmail,
       github: {
         id: profile.id,
-        email: primaryEmail,
         accessToken,
       },
     });

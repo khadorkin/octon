@@ -32,9 +32,9 @@ export function createUser(options = {}) {
   const schema = {
     username: faker.name.firstName(),
     photo: faker.image.imageUrl(),
+    email: faker.internet.email(),
     github: {
       id: faker.random.uuid(),
-      email: faker.internet.email(),
       accessToken: faker.random.uuid(),
     },
     starred: [{

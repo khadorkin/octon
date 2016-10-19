@@ -38,12 +38,12 @@ const userSchema = new mongoose.Schema({
     required: true,
     default: false,
   },
+  email: {
+    type: String,
+    required: true,
+  },
   github: {
     id: {
-      type: String,
-      required: true,
-    },
-    email: {
       type: String,
       required: true,
     },
