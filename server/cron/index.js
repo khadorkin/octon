@@ -1,10 +1,11 @@
 import schedule from 'node-schedule';
-import checkForNewReleases from './check-for-new-releases';
+import CheckForNewReleases from './check-for-new-releases';
 import WeeklyMail from './weekly-mail';
 import logger from '../logger';
 
 class Cron {
   constructor() {
+    this.checkForNewReleases = new CheckForNewReleases();
     this.weeklyMail = new WeeklyMail();
   }
 
@@ -16,13 +17,9 @@ class Cron {
   }
 
   startCheckForNewReleasesJob() {
-    return checkForNewReleases()
-      .then(() => {
-        logger.log('info', 'finish checkForNewReleases');
-      })
-      .catch((err) => {
-        logger.log('error', err);
-      });
+    return this.checkForNewReleases.start()
+      .then(() => logger.log('info', 'finish checkForNewReleases'))
+      .catch(err => logger.log('error', err));
   }
 
   startWeeklyMail() {

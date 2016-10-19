@@ -5,14 +5,26 @@ import User from '../models/users';
 import Repository from '../models/repositories';
 import Email from '../emails';
 
-export class CheckForNewReleases {
-  constructor(github) {
-    this.github = github;
+class CheckForNewReleases {
+  constructor() {
     this.email = new Email();
   }
 
   sendEmailNotification(user, repository) {
     return this.email.newRelease(user, repository);
+  }
+
+  start() {
+    return User.findOne().exec().then((user) => {
+      if (!user) {
+        throw new Error('No users');
+      }
+      this.github = new Github({ accessToken: user.github.accessToken });
+
+      return Repository.find().exec().then(repositories =>
+        this.getLatestReleaseAndSave(repositories)
+      );
+    });
   }
 
   findUsersTrackingRepo(repository, release) {
@@ -57,16 +69,4 @@ export class CheckForNewReleases {
   }
 }
 
-export default function () {
-  return User.findOne().exec().then((user) => {
-    if (!user) {
-      throw new Error('No users');
-    }
-    const github = new Github({ accessToken: user.github.accessToken });
-    const checkForNewReleases = new CheckForNewReleases(github);
-
-    return Repository.find().exec().then(repositories =>
-      checkForNewReleases.getLatestReleaseAndSave(repositories)
-    );
-  });
-}
+export default CheckForNewReleases;

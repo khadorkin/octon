@@ -8,7 +8,8 @@ describe('server.cron.index', () => {
   describe('#constructor', () => {
     const cron = new Cron();
 
-    it('should set weeklyMail', () => {
+    it('should set cron jobs', () => {
+      expect(cron.checkForNewReleases).toBeTruthy();
       expect(cron.weeklyMail).toBeTruthy();
     });
   });
@@ -20,6 +21,25 @@ describe('server.cron.index', () => {
       cron.start();
       cron.stop();
       expect(cron.checkForNewReleasesJob).toBeTruthy();
+      expect(cron.weeklyMailJob).toBeTruthy();
+    });
+  });
+
+  describe('#startCheckForNewReleasesJob', () => {
+    const cron = new Cron();
+
+    it('should start checkForNewReleases job', async () => {
+      cron.checkForNewReleases = { start: jest.fn() };
+      cron.checkForNewReleases.start.mockReturnValue(Promise.resolve('sucess'));
+      await cron.startCheckForNewReleasesJob();
+      expect(cron.checkForNewReleases.start.mock.calls.length).toEqual(1);
+    });
+
+    it('should catch error', async () => {
+      cron.checkForNewReleases = { start: jest.fn() };
+      cron.checkForNewReleases.start.mockReturnValue(Promise.reject('error'));
+      await cron.startCheckForNewReleasesJob();
+      expect(cron.checkForNewReleases.start.mock.calls.length).toEqual(1);
     });
   });
 
