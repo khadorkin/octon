@@ -104,6 +104,24 @@ describe('server.graphql.resolvers', () => {
       });
     });
 
+    describe('#editUserEmail', () => {
+      it('should throw if no user provided in context', () => {
+        try {
+          mutation.editUserEmail(null, {}, {});
+        } catch (err) {
+          expect(err.message).toMatch(/logged/);
+        }
+      });
+
+      it('should call Users.editEmail', () => {
+        const user = 'toto';
+        const Users = { editEmail: jest.fn() };
+        mutation.editUserEmail(null, { email: 'email' }, { user, Users });
+        expect(Users.editEmail.mock.calls.length).toEqual(1);
+        expect(Users.editEmail).toBeCalledWith(user, 'email');
+      });
+    });
+
     describe('#deleteUserAccount', () => {
       it('should throw if no user provided in context', () => {
         try {
@@ -113,7 +131,7 @@ describe('server.graphql.resolvers', () => {
         }
       });
 
-      it('should call Users.deleteUserAccount', () => {
+      it('should call Users.deleteAccount', () => {
         const user = 'toto';
         const Users = { deleteAccount: jest.fn() };
         mutation.deleteUserAccount(null, null, { user, Users });

@@ -137,6 +137,35 @@ describe('server.actions.users', () => {
     });
   });
 
+  describe('#editEmail', () => {
+    const users = new Users();
+
+    it('should throw with not found user', async () => {
+      try {
+        await users.editEmail({ id: '507f1f77bcf86cd799439011' });
+      } catch (err) {
+        expect(err.message).toEqual('No user found');
+      }
+    });
+
+    it('should throw with invalid email', async () => {
+      try {
+        await users.editEmail({ id: user.id }, 'email');
+      } catch (err) {
+        expect(err.message).toEqual('Invalid email');
+      }
+    });
+
+    it('should delete user in database', async () => {
+      const email = 'toto@toto.com';
+      const ret = await users.editEmail({ id: user.id }, email);
+      const retUser = await UsersModel.findOne({ _id: user.id }).exec();
+      expect(ret).toBeTruthy();
+      expect(ret.email).toEqual(email);
+      expect(retUser.email).toEqual(email);
+    });
+  });
+
   describe('#deleteAccount', () => {
     const users = new Users();
 

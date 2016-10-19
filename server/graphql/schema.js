@@ -41,6 +41,8 @@ type Mutation {
   trackRepository(repositoryId: String! active: Boolean!): Repository
   # Set user notification
   setNotification(type: String! active: Boolean!): User
+  # Edit user email
+  editUserEmail(email: String!): User
   # Delete account
   deleteUserAccount: Boolean
 }

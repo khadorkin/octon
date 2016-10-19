@@ -1,4 +1,5 @@
 import DataLoader from 'dataloader';
+import validator from 'validator';
 import Github from '../core/github';
 import User from '../models/users';
 import Repository from '../models/repositories';
@@ -111,6 +112,19 @@ class Users {
         throw new Error('Invalid type');
       }
       // Save user and return respository
+      return user.save();
+    });
+  }
+
+  editEmail(userContext, email) {
+    return this.get(userContext.id).then((user) => {
+      if (!user) {
+        throw new Error('No user found');
+      }
+      if (!validator.isEmail(email)) {
+        throw new Error('Invalid email');
+      }
+      user.email = email;
       return user.save();
     });
   }

@@ -37,6 +37,13 @@ const resolvers = {
       return context.Users.setNotification(context.user, type, active);
     },
 
+    editUserEmail(_, { email }, { user, Users }) {
+      if (!user) {
+        throw new Error('Must be logged in.');
+      }
+      return Users.editEmail(user, email);
+    },
+
     deleteUserAccount(_, __, { user, Users }) {
       if (!user) {
         throw new Error('Must be logged in.');
