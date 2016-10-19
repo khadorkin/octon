@@ -35,7 +35,7 @@ ReactDOM.render(
 );
 
 if (module.hot) {
-  module.hot.accept('./App', () => {
+  module.hot.accept('./app', () => {
     ReactDOM.render(
       <AppContainer>
         <ApolloProvider client={client}>
