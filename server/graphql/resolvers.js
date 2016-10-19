@@ -36,6 +36,13 @@ const resolvers = {
       }
       return context.Users.setNotification(context.user, type, active);
     },
+
+    deleteUserAccount(_, __, { user, Users }) {
+      if (!user) {
+        throw new Error('Must be logged in.');
+      }
+      return Users.deleteAccount(user);
+    },
   },
 
   Repository: {

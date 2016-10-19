@@ -137,5 +137,24 @@ describe('server.actions.users', () => {
     });
   });
 
+  describe('#deleteAccount', () => {
+    const users = new Users();
+
+    it('should throw with not found user', async () => {
+      try {
+        await users.deleteAccount({ id: '507f1f77bcf86cd799439011' });
+      } catch (err) {
+        expect(err.message).toEqual('No user found');
+      }
+    });
+
+    it('should delete user in database', async () => {
+      const ret = await users.deleteAccount({ id: user.id });
+      const retUser = await UsersModel.findOne({ _id: user.id }).exec();
+      expect(ret).toBeTruthy();
+      expect(retUser).not.toBeTruthy();
+    });
+  });
+
   afterAll(disconnectDb);
 });

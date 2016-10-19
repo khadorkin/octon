@@ -103,6 +103,24 @@ describe('server.graphql.resolvers', () => {
         expect(Users.setNotification).toBeCalledWith(user, type, active);
       });
     });
+
+    describe('#deleteUserAccount', () => {
+      it('should throw if no user provided in context', () => {
+        try {
+          mutation.deleteUserAccount(null, null, {});
+        } catch (err) {
+          expect(err.message).toMatch(/logged/);
+        }
+      });
+
+      it('should call Users.deleteUserAccount', () => {
+        const user = 'toto';
+        const Users = { deleteAccount: jest.fn() };
+        mutation.deleteUserAccount(null, null, { user, Users });
+        expect(Users.deleteAccount.mock.calls.length).toEqual(1);
+        expect(Users.deleteAccount).toBeCalledWith(user);
+      });
+    });
   });
 
   describe('#Repository', () => {

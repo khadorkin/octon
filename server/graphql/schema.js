@@ -6,6 +6,7 @@ type User {
   id: String!
   username: String!
   photo: String!
+  email: String!
   lastSync: String
   dailyNotification: Boolean!
   weeklyNotification: Boolean!
@@ -38,8 +39,10 @@ type Mutation {
   syncUserStars: Boolean
   # Sync user stars
   trackRepository(repositoryId: String! active: Boolean!): Repository
-  # Sync user stars
+  # Set user notification
   setNotification(type: String! active: Boolean!): User
+  # Delete account
+  deleteUserAccount: Boolean
 }
 
 schema {

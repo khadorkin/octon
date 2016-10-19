@@ -114,6 +114,15 @@ class Users {
       return user.save();
     });
   }
+
+  deleteAccount(userContext) {
+    return this.get(userContext.id).then((user) => {
+      if (!user) {
+        throw new Error('No user found');
+      }
+      return user.remove();
+    });
+  }
 }
 
 export default Users;
