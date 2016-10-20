@@ -7,6 +7,7 @@ const currentUserQuery = gql`
     currentUser {
       id
       photo
+      email
       lastSync
       dailyNotification
       weeklyNotification

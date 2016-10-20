@@ -38,7 +38,7 @@ body {
   padding: 16px;
 }
 
-.bg-danger {
+.bg-success, bg-danger {
   padding: 15px;
 }
 
@@ -50,6 +50,17 @@ body {
   .title {
     line-height: 48px;
     margin-left: 16px;
+  }
+
+  .form-email {
+    margin-left: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .input {
+      width: 100%;
+    }
   }
 }
 
