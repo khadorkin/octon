@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { CircularProgress } from 'material-ui/Progress';
 import Button from 'material-ui/Button';
+import { List } from 'material-ui/List';
 import RepositoriesListItem from './repositories-list-item';
 
 class RepositoriesList extends Component {
@@ -38,7 +39,7 @@ class RepositoriesList extends Component {
         <div className="center">
           <p>You don&apos;t have starred repositories</p>
         </div> : null}
-      <div className="repositories-list">
+      <List className="repositories-list">
         {repositories.map(repository =>
           <RepositoriesListItem
             key={repository.id}
@@ -46,7 +47,7 @@ class RepositoriesList extends Component {
             onTrack={this.handleTrack}
           />
         )}
-      </div>
+      </List>
       {!loading && repositories.length === 50 * page ?
         <div className="center">
           <Button onClick={this.showMore}>Show more</Button>

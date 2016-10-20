@@ -48,22 +48,18 @@ body {
 }
 
 .repositories-list {
-  margin: 0px 0 30px 140px;
-  padding-left: 30px;
+  margin: 0px 0 30px 140px !important;
+  padding-left: 20px !important;
+  overflow: visible !important;
   border-left: 4px solid rgb(0, 160, 219);
 
   .repositories-list-content {
-    margin: 30px 0;
     position: relative;
-
-    &:first-child {
-      margin-top: 0;
-    }
 
     .left-block {
       margin-top: -20px;
       top: 50%;
-      left: -170px;
+      left: -160px;
       position: absolute;
       width: 120px;
     }
@@ -79,7 +75,7 @@ body {
     .circle {
       margin-top: -10px;
       top: 50%;
-      left: -42px;
+      left: -32px;
       width: 10px;
       height: 10px;
       background: #48b379;
