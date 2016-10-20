@@ -90,6 +90,12 @@ body {
       text-decoration: none;
     }
 
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     .circle {
       margin-top: -10px;
       top: 50%;

@@ -44,8 +44,8 @@ const RepositoriesListItem = ({ repository, onTrack }) => {
           rel="noopener noreferrer"
         >{repository.name}</Text>}
     />
-    <ListItemSecondaryAction>
-      Notifications
+    <ListItemSecondaryAction className="actions">
+      <span>Notifications</span>
       <Switch checked={repository.starred} onClick={handleToggle} />
     </ListItemSecondaryAction>
     <span className="circle" />
