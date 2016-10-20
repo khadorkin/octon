@@ -1,3 +1,5 @@
+$max-width-container: 850px;
+
 body {
   background: rgb(0, 160, 219);
   background: linear-gradient(45deg, rgb(220, 129, 170) 0%, rgb(56, 150, 150) 100%);
@@ -10,6 +12,10 @@ body {
 }
 
 .navbar {
+  .container {
+    max-width: $max-width-container;
+  }
+
   .navbar-brand img {
     height: 25px;
   }
@@ -28,7 +34,7 @@ body {
   margin-top: 66px;
   margin-bottom: 16px;
   background-color: white;
-  max-width: 850px;
+  max-width: $max-width-container;
   padding: 16px;
 }
 
@@ -68,8 +74,9 @@ body {
       color: rgb(0, 160, 219);
     }
 
-    .date {
-
+    .name {
+      color: #333;
+      text-decoration: none;
     }
 
     .circle {
@@ -114,6 +121,6 @@ body {
   }
 }
 
-label {
-  font-weight: 400;
+a, a:hover, a:focus {
+  color: rgb(0, 160, 219);
 }

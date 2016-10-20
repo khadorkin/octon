@@ -34,10 +34,19 @@ const RepositoriesListItem = ({ repository, onTrack }) => {
       src={repository.photo}
     />
     <ListItemText
-      primary={<Text type="subheading" component="a" href={repository.htmlUrl} target="_blank" rel="noopener noreferrer">{repository.name}</Text>}
+      primary={
+        <Text
+          type="subheading"
+          component="a"
+          className="name"
+          href={repository.htmlUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >{repository.name}</Text>}
     />
     <ListItemSecondaryAction>
-      Notifications <Switch checked={repository.starred} onClick={handleToggle} />
+      Notifications
+      <Switch checked={repository.starred} onClick={handleToggle} />
     </ListItemSecondaryAction>
     <span className="circle" />
   </ListItem>);
