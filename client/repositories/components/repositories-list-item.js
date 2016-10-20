@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 import TimeAgo from 'timeago-react';
-import Toggle from 'material-ui/Toggle';
+import Switch from 'material-ui/Switch';
 
 const RepositoriesListItem = ({ repository, onTrack }) => {
-  const handleToggle = (_, val) => {
-    onTrack(repository.id, val);
+  const handleToggle = () => {
+    onTrack(repository.id, !repository.starred);
   };
   return (<div className="repositories-list-content">
     <div className="left-block overflow">
@@ -35,7 +35,7 @@ const RepositoriesListItem = ({ repository, onTrack }) => {
           </a>
         </p>
         <div className="pull-right">
-          <Toggle label="Notifications" toggled={repository.starred} onToggle={handleToggle} />
+          Notifications <Switch checked={repository.starred} onClick={handleToggle} />
         </div>
       </div>
     </div>

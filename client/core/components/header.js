@@ -1,36 +1,57 @@
-import React, { PropTypes } from 'react';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-import IconButton from 'material-ui/IconButton/IconButton';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import React, { Component, PropTypes } from 'react';
+import IconButton from 'material-ui/IconButton';
+import { Menu, MenuItem } from 'material-ui/Menu';
 
-const Header = ({ user, loading, onSettings }) => {
-  const handleLogout = () => {
+class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      menuOpen: false,
+      menuAnchorEl: null,
+    };
+  }
+
+  handleLogout = () => {
+    this.handleToggleMenu();
     window.location.href = '/logout';
-  };
-  return (<nav className="navbar navbar-default navbar-fixed-top">
-    <div className="container">
-      <div className="navbar-header">
-        <a className="navbar-brand" href="/">
-          <img alt="Brand" src="/img/logo.svg" />
-        </a>
+  }
+
+  handleSettings = () => {
+    this.handleToggleMenu();
+    this.props.onSettings();
+  }
+
+  handleToggleMenu = event =>
+    this.setState({ menuOpen: !this.state.menuOpen, menuAnchorEl: event && event.currentTarget });
+
+  render() {
+    const { user, loading } = this.props;
+    const { menuOpen, menuAnchorEl } = this.state;
+    return (<nav className="navbar navbar-default navbar-fixed-top">
+      <div className="container">
+        <div className="navbar-header">
+          <a className="navbar-brand" href="/">
+            <img alt="Brand" src="/img/logo.svg" />
+          </a>
+        </div>
+        <ul className="nav navbar-nav navbar-right">
+          {loading ? <li><a>Loading ...</a></li> :
+            <li className="navbar-avatar" style={{ backgroundImage: `url(${user.photo})` }} />
+          }
+          <IconButton onClick={this.handleToggleMenu}>more_vert</IconButton>
+          <Menu
+            anchorEl={menuAnchorEl}
+            open={menuOpen}
+            onRequestClose={this.handleToggleMenu}
+          >
+            <MenuItem onClick={this.handleSettings}>Settings</MenuItem>
+            <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
+          </Menu>
+        </ul>
       </div>
-      <ul className="nav navbar-nav navbar-right">
-        {loading ? <li><a>Loading ...</a></li> :
-          <li className="navbar-avatar" style={{ backgroundImage: `url(${user.photo})` }} />
-        }
-        <IconMenu
-          iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-          anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-          targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-        >
-          <MenuItem primaryText="Settings" onTouchTap={onSettings} />
-          <MenuItem primaryText="Sign out" onTouchTap={handleLogout} />
-        </IconMenu>
-      </ul>
-    </div>
-  </nav>);
-};
+    </nav>);
+  }
+}
 
 Header.propTypes = {
   loading: PropTypes.bool,

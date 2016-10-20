@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button';
 
 const FirstLogin = ({ syncUserStars }) =>
   (<div className="center">
     Welcome, this is the first time you come here<br /><br />
-    <RaisedButton label="Sync my stars" onTouchTap={syncUserStars} />
+    <Button raised onClick={syncUserStars}>Sync my stars</Button>
   </div>);
 
 FirstLogin.propTypes = {

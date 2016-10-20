@@ -1,38 +1,44 @@
 import React, { PropTypes } from 'react';
-import Subheader from 'material-ui/Subheader';
-import { List, ListItem } from 'material-ui/List';
-import Toggle from 'material-ui/Toggle';
+import Text from 'material-ui/Text';
 import IconButton from 'material-ui/IconButton';
-import CloseIcon from 'material-ui/svg-icons/navigation/close';
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+} from 'material-ui/List';
+import Switch from 'material-ui/Switch';
 
 const Settings = ({ open, onSettings, user, setNotification }) => {
   if (!open) return null;
-  const handleSetNotificationDaily = (_, active) => {
-    setNotification('daily', active);
+  const handleSetNotificationDaily = () => {
+    setNotification('daily', !user.dailyNotification);
     // TODO error
   };
-  const handleSetNotificationWeekly = (_, active) => {
-    setNotification('weekly', active);
+  const handleSetNotificationWeekly = () => {
+    setNotification('weekly', !user.weeklyNotification);
     // TODO error
   };
   return (<div>
+    <Text type="title">
+      Settings
+    </Text>
     <div className="pull-right">
-      <IconButton onTouchTap={onSettings}><CloseIcon /></IconButton>
+      <IconButton onClick={onSettings}>close</IconButton>
     </div>
     <List>
-      <Subheader>Settings</Subheader>
-      <ListItem
-        primaryText="Daily notifications"
-        rightToggle={
-          <Toggle toggled={user.dailyNotification} onToggle={handleSetNotificationDaily} />
-        }
-      />
-      <ListItem
-        primaryText="Weekly notifications"
-        rightToggle={
-          <Toggle toggled={user.weeklyNotification} onToggle={handleSetNotificationWeekly} />
-        }
-      />
+      <ListItem>
+        <ListItemText primary="Daily notifications" />
+        <ListItemSecondaryAction>
+          <Switch checked={user.dailyNotification} onClick={handleSetNotificationDaily} />
+        </ListItemSecondaryAction>
+      </ListItem>
+      <ListItem>
+        <ListItemText primary="Weekly notifications" />
+        <ListItemSecondaryAction>
+          <Switch checked={user.weeklyNotification} onClick={handleSetNotificationWeekly} />
+        </ListItemSecondaryAction>
+      </ListItem>
     </List>
   </div>);
 };

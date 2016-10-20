@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import CircularProgress from 'material-ui/CircularProgress';
-import RaisedButton from 'material-ui/RaisedButton';
+import { CircularProgress } from 'material-ui/Progress';
+import Button from 'material-ui/Button';
 import RepositoriesListItem from './repositories-list-item';
 
 class RepositoriesList extends Component {
@@ -49,7 +49,7 @@ class RepositoriesList extends Component {
       </div>
       {!loading && repositories.length === 50 * page ?
         <div className="center">
-          <RaisedButton label="Show more" onTouchTap={this.showMore} />
+          <Button onClick={this.showMore}>Show more</Button>
         </div>
         : null}
       {loading ? <CircularProgress /> : null}

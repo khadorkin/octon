@@ -24,4 +24,9 @@ I wanted to create an app fully functioning with the latest javascript (es6, lin
 - [Apollo](http://www.apollostack.com)
 - [MongoDb](https://www.mongodb.com/)
 
+# Development
+
+- `npm install` Install nodejs dependencies
+- `npm run init` Init the repository with material-ui next branch
+
 Special thanks to [Quentin Saubadu](https://www.facebook.com/quentinsaubadu) for the logo and design!
