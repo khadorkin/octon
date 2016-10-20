@@ -12,11 +12,11 @@ import Switch from 'material-ui/Switch';
 const Settings = ({ open, onSettings, user, setNotification }) => {
   if (!open) return null;
   const handleSetNotificationDaily = () => {
-    setNotification('daily', !user.dailyNotification);
+    setNotification('daily', !user.dailyNotification, user);
     // TODO error
   };
   const handleSetNotificationWeekly = () => {
-    setNotification('weekly', !user.weeklyNotification);
+    setNotification('weekly', !user.weeklyNotification, user);
     // TODO error
   };
   return (<div>

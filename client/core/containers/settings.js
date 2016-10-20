@@ -12,11 +12,19 @@ const trackRepositoryMutation = gql`
   }
 `;
 
-// TODO optimistic ui
 const SettingsWithMutations = graphql(trackRepositoryMutation, {
   props: ({ mutate }) => ({
-    setNotification: (type, active) => mutate({
+    setNotification: (type, active, user) => mutate({
       variables: { type, active },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        setNotification: {
+          __typename: 'User',
+          id: user.id,
+          dailyNotification: type === 'daily' ? active : user.dailyNotification,
+          weeklyNotification: type === 'weekly' ? active : user.weeklyNotification,
+        },
+      },
     }),
   }),
 })(Settings);
