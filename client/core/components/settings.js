@@ -28,7 +28,7 @@ class Settings extends Component {
   handleSetNotificationWeekly = () => {
     const { setNotification, user } = this.props;
     this.setState({ error: '' });
-    setNotification('weekly', '!user.weeklyNotification', user)
+    setNotification('weekly', !user.weeklyNotification, user)
       .catch(err => this.setState({ error: err.message }));
   }
 
