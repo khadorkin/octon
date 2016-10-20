@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import Server from './core/server';
 
 // Configure env variables
-dotenv.config();
+dotenv.config({ silent: true });
 
 const envVariables = ['GITHUB_CLIENT_ID', 'GITHUB_CLIENT_SECRET', 'GITHUB_REDIRECT_URL',
   'MONGO_URL', 'MAIL_URL', 'SESSION_SECRET', 'PORT', 'BASE_URL'];
