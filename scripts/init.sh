@@ -1,6 +1,4 @@
 #!/bin/bash
-ls
-ls node_modules
 cd node_modules/material-ui-build
 npm i
 npm run build

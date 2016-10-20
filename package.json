@@ -11,7 +11,7 @@
     "test-travis": "npm run lint && npm run test:server -- --coverage",
     "test:server": "jest server",
     "lint": "eslint server client",
-    "heroku-postbuild": "npm run init"
+    "heroku-postbuild": "npm run init && npm run build"
   },
   "jest": {
     "testEnvironment": "node",
