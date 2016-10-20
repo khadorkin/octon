@@ -28,6 +28,7 @@ class Root extends Component {
     this.setState({ loading: true, error: '' });
     syncUserStars().then(() => {
       this.setState({ loading: false });
+      location.reload();
     }).catch((err) => {
       this.setState({ loading: false, error: err.message });
     });
