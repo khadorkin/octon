@@ -3,7 +3,10 @@
   "description": "Notify you when a new release has been made on repositories you starred on Github.",
   "scripts": {
     "init": "./scripts/init.sh",
-    "start": "babel-watch server/app.js",
+    "start": "npm run init && npm run build && node server-build/app.js",
+    "start:dev": "babel-watch server/app.js",
+    "build": "npm run build:server",
+    "build:server": "babel server --out-dir server-build",
     "test": "npm run lint && npm run test:server",
     "test-travis": "npm run lint && npm run test:server -- --coverage",
     "test:server": "jest server",
