@@ -8,6 +8,7 @@ import {
   ListItemSecondaryAction,
 } from 'material-ui/List';
 import Switch from 'material-ui/Switch';
+import Divider from 'material-ui/Divider';
 
 class Settings extends Component {
   constructor(props) {
@@ -57,6 +58,7 @@ class Settings extends Component {
           </ListItemSecondaryAction>
         </ListItem>
       </List>
+      <Divider />
     </div>);
   }
 }
