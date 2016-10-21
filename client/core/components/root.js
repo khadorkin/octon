@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import createPalette from 'material-ui/styles/palette';
-import createMuiTheme from 'material-ui/styles/theme';
-import { blue, pink } from 'material-ui/styles/colors';
-import { CircularProgress } from 'material-ui/Progress';
+import MuiThemeProvider from 'material-ui-build/src/styles/MuiThemeProvider';
+import createPalette from 'material-ui-build/src/styles/palette';
+import createMuiTheme from 'material-ui-build/src/styles/theme';
+import { blue, pink } from 'material-ui-build/src/styles/colors';
+import { CircularProgress } from 'material-ui-build/src/Progress';
 import Header from './header';
 import Settings from './../containers/settings';
 import FirstLogin from './first-login';

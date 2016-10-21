@@ -1,16 +1,16 @@
 import React, { Component, PropTypes } from 'react';
-import Text from 'material-ui/Text';
-import IconButton from 'material-ui/IconButton';
+import Text from 'material-ui-build/src/Text';
+import IconButton from 'material-ui-build/src/IconButton';
 import {
   List,
   ListItem,
   ListItemText,
   ListItemSecondaryAction,
-} from 'material-ui/List';
-import TextField, { TextFieldInput, TextFieldLabel } from 'material-ui/TextField';
-import Switch from 'material-ui/Switch';
-import Button from 'material-ui/Button';
-import Divider from 'material-ui/Divider';
+} from 'material-ui-build/src/List';
+import TextField, { TextFieldInput, TextFieldLabel } from 'material-ui-build/src/TextField';
+import Switch from 'material-ui-build/src/Switch';
+import Button from 'material-ui-build/src/Button';
+import Divider from 'material-ui-build/src/Divider';
 
 class Settings extends Component {
   constructor(props) {

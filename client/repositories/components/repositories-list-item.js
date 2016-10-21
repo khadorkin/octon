@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react';
 import TimeAgo from 'timeago-react';
-import Switch from 'material-ui/Switch';
+import Switch from 'material-ui-build/src/Switch';
 import {
   ListItem,
   ListItemText,
   ListItemSecondaryAction,
-} from 'material-ui/List';
-import Avatar from 'material-ui/Avatar';
-import Text from 'material-ui/Text';
+} from 'material-ui-build/src/List';
+import Avatar from 'material-ui-build/src/Avatar';
+import Text from 'material-ui-build/src/Text';
 
 const RepositoriesListItem = ({ repository, onTrack }) => {
   const handleToggle = () => {

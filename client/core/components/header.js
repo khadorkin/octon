@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import IconButton from 'material-ui/IconButton';
-import { Menu, MenuItem } from 'material-ui/Menu';
+import IconButton from 'material-ui-build/src/IconButton';
+import { Menu, MenuItem } from 'material-ui-build/src/Menu';
 
 class Header extends Component {
   constructor(props) {

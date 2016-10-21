@@ -3,12 +3,8 @@ import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader'; // eslint-disable-line
 import ApolloClient, { createNetworkInterface, addTypename } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import Root from './core/containers/root';
 import './styles.scss';
-
-// Needed by material-ui
-injectTapEventPlugin();
 
 const networkInterface = createNetworkInterface({
   uri: '/graphql',

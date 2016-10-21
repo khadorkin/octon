@@ -28,7 +28,7 @@ module.exports = {
       loader: 'babel',
       // Exclude apollo client from the webpack config in case
       // we want to use npm link.
-      exclude: /(node_modules)|(apollo-client)/,
+      exclude: /(node_modules\/(?!material-ui))|(apollo-client)/,
     }, {
       test: /\.json$/,
       loader: 'json',

@@ -30,7 +30,6 @@ First you will need to have a mongodb server running.
 
 - `cp .env.default .env` Edit the .env file
 - `npm install` Install nodejs dependencies
-- `npm run init` Init the repository with material-ui next branch
 - `npm start:dev` Start the server and webpack
 
 Special thanks to [Quentin Saubadu](https://www.facebook.com/quentinsaubadu) for the logo and design!

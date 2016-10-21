@@ -5,6 +5,7 @@
     "react"
   ],
   "plugins": [
-    "transform-async-to-generator"
+    "transform-async-to-generator",
+    "transform-dev-warning"
   ]
 }

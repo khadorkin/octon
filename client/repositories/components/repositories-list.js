@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { CircularProgress } from 'material-ui/Progress';
-import Button from 'material-ui/Button';
-import { List } from 'material-ui/List';
-import TextField, { TextFieldInput, TextFieldLabel } from 'material-ui/TextField';
+import { CircularProgress } from 'material-ui-build/src/Progress';
+import Button from 'material-ui-build/src/Button';
+import { List } from 'material-ui-build/src/List';
+import TextField, { TextFieldInput, TextFieldLabel } from 'material-ui-build/src/TextField';
 import RepositoriesListItem from './repositories-list-item';
 
 class RepositoriesList extends Component {
