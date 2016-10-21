@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 import nodemailer from 'nodemailer';
 import { mjml2html } from 'mjml';
 import htmlToText from 'html-to-text';
@@ -10,7 +11,9 @@ class Email {
   }
 
   constructEmail(name, params) {
-    let email = fs.readFileSync(`${__dirname}/templates/${name}.html`, 'utf8');
+    const templatePath = path.resolve(__dirname, '..', '..',
+      'server', 'emails', 'templates', `${name}.html`);
+    let email = fs.readFileSync(templatePath, 'utf8');
     email = handlebars.compile(email);
     email = email(params);
     email = mjml2html(email);
