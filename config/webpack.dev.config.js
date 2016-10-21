@@ -1,5 +1,9 @@
+const path = require('path'); // eslint-disable-line
 const webpack = require('webpack'); // eslint-disable-line
 const autoprefixer = require('autoprefixer'); // eslint-disable-line
+const HtmlWebpackPlugin = require('html-webpack-plugin'); // eslint-disable-line
+
+const buildPath = path.resolve(__dirname, 'public', 'build');
 
 module.exports = {
   entry: {
@@ -12,8 +16,8 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js',
-    publicPath: 'http://localhost:3020/',
-    path: '/',
+    publicPath: '/build/',
+    path: buildPath,
   },
   module: {
     loaders: [{

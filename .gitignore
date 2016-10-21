@@ -3,4 +3,4 @@ node_modules
 *.log
 coverage
 server-build
-client-build
+public/build

@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import connectMongo from 'connect-mongo';
 import passport from 'passport';
 import { apolloExpress, graphiqlExpress } from 'apollo-server';
+import httpProxy from 'http-proxy';
 import path from 'path';
 import logger from '../logger';
 import { serializeUser, deserializeUser } from '../passport/passport';
@@ -20,6 +21,7 @@ class Server {
   async start() {
     await this.startMongo();
 
+    this.proxy = httpProxy.createProxyServer();
     this.app = express();
     const MongoStore = connectMongo(session);
 
@@ -56,13 +58,20 @@ class Server {
         endpointURL: '/graphql',
       }));
 
+      this.app.all('/build/*', (req, res) => {
+        this.proxy.web(req, res, {
+          target: `http://localhost:${process.env.WEBPACK_PORT}`,
+        });
+      });
+
       if (process.env.NODE_ENV !== 'test') {
         // Start webpack dev server
         const webpack = require('webpack'); // eslint-disable-line
         const WebpackDevServer = require('webpack-dev-server'); // eslint-disable-line
-        const config = require('../webpack.config.js'); // eslint-disable-line
+        const config = require('../../config/webpack.dev.config.js'); // eslint-disable-line
         const compiler = webpack(config);
         const options = {
+          publicPath: '/build/',
           hot: true,
           inline: true,
           stats: {
