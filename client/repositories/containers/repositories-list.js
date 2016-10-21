@@ -3,8 +3,8 @@ import gql from 'graphql-tag';
 import RepositoriesList from '../components/repositories-list';
 
 const repositoryQuery = gql`
-  query userRepositories($page: Int) {
-    userRepositories(page: $page) {
+  query userRepositories($page: Int, $search: String) {
+    userRepositories(page: $page, search: $search) {
       id
       name
       photo
@@ -26,10 +26,11 @@ const RootWithData = graphql(repositoryQuery, {
       error,
       repositories: userRepositories,
       queryRefetch: refetch,
-      loadMoreRepositories: ({ page }) =>
+      loadMoreRepositories: ({ page, search }) =>
         fetchMore({
           variables: {
             page,
+            search,
           },
           updateQuery: (previousResult, { fetchMoreResult }) => {
             if (!fetchMoreResult.data) { return previousResult; }

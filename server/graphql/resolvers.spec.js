@@ -36,9 +36,9 @@ describe('server.graphql.resolvers', () => {
       it('should call Users.getRepositories', () => {
         const user = 'toto';
         const Users = { getRepositories: jest.fn() };
-        query.userRepositories(null, { page: 'page' }, { user, Users });
+        query.userRepositories(null, { page: 'page', search: 'search' }, { user, Users });
         expect(Users.getRepositories.mock.calls.length).toEqual(1);
-        expect(Users.getRepositories).toBeCalledWith(user, 'page');
+        expect(Users.getRepositories).toBeCalledWith(user, 'page', 'search');
       });
     });
   });

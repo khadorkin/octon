@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { CircularProgress } from 'material-ui/Progress';
 import Button from 'material-ui/Button';
 import { List } from 'material-ui/List';
+import TextField, { TextFieldInput, TextFieldLabel } from 'material-ui/TextField';
 import RepositoriesListItem from './repositories-list-item';
 
 class RepositoriesList extends Component {
@@ -10,6 +11,7 @@ class RepositoriesList extends Component {
     this.handleTrack = this.handleTrack.bind(this);
     this.showMore = this.showMore.bind(this);
     this.state = {
+      search: '',
       page: 1,
       error: null,
     };
@@ -30,30 +32,54 @@ class RepositoriesList extends Component {
     this.props.loadMoreRepositories({ page });
   }
 
+  handleChangeSearch = (event) => {
+    const { queryRefetch } = this.props;
+    const search = event.target.value;
+    this.setState({ search, page: 1 });
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
+    this.timeoutId = setTimeout(() => {
+      queryRefetch({ page: 1, search });
+    }, 600);
+  }
+
   render() {
     const { loading, error: errorProp, repositories } = this.props;
-    const { page, error: errorState } = this.state;
+    const { search, page, error: errorState } = this.state;
     const error = errorProp ? errorProp.message : errorState;
-    return (<div style={{ paddingLeft: 16 }}>
+    return (<div className="container-repositories-list">
+      <TextField className="search-input">
+        <TextFieldLabel htmlFor="search">
+          Search
+        </TextFieldLabel>
+        <TextFieldInput
+          id="search"
+          value={search}
+          onChange={this.handleChangeSearch}
+        />
+      </TextField>
       {!loading && !error && repositories.length === 0 ?
         <div className="center">
-          <p>You don&apos;t have starred repositories</p>
+          <p>No repositories found</p>
         </div> : null}
-      <List className="repositories-list">
-        {repositories.map(repository =>
-          <RepositoriesListItem
-            key={repository.id}
-            repository={repository}
-            onTrack={this.handleTrack}
-          />
-        )}
-      </List>
+      {loading ? <CircularProgress /> : null}
+      {repositories.length > 0 ?
+        <List className="repositories-list">
+          {repositories.map(repository =>
+            <RepositoriesListItem
+              key={repository.id}
+              repository={repository}
+              onTrack={this.handleTrack}
+            />
+          )}
+        </List>
+        : null}
       {!loading && repositories.length === 50 * page ?
         <div className="center">
           <Button onClick={this.showMore}>Show more</Button>
         </div>
         : null}
-      {loading ? <CircularProgress /> : null}
       {error ? <p className="bg-danger">{error}</p> : null}
     </div>);
   }
@@ -63,8 +89,9 @@ RepositoriesList.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.string,
   repositories: PropTypes.array,
-  loadMoreRepositories: PropTypes.func,
-  trackRepository: PropTypes.func,
+  queryRefetch: PropTypes.func.isRequired,
+  loadMoreRepositories: PropTypes.func.isRequired,
+  trackRepository: PropTypes.func.isRequired,
 };
 
 RepositoriesList.defaultProps = {

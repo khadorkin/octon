@@ -31,7 +31,7 @@ type Query {
   # Get current user
   currentUser: User
   # Get user starred repositories
-  userRepositories(page: Int): [Repository]
+  userRepositories(page: Int, search: String): [Repository]
 }
 
 type Mutation {

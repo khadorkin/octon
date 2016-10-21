@@ -15,14 +15,18 @@ class Users {
     return this.userLoader.load(id);
   }
 
-  getRepositories(userContext, page = 1) {
+  getRepositories(userContext, page = 1, search) {
     const limit = 50;
     return this.get(userContext.id).then((user) => {
       if (!user) {
         throw new Error('No user found');
       }
       const repositoriesIds = user.starred.map(data => data.repositoryId);
-      return Repository.find({ _id: { $in: repositoriesIds } })
+      const query = { _id: { $in: repositoriesIds } };
+      if (search && search.length >= 1) {
+        query.name = new RegExp(search);
+      }
+      return Repository.find(query)
         .sort({ 'latestRelease.publishedAt': -1, name: 1 })
         .skip(limit * (page - 1)).limit(limit)
         .exec();

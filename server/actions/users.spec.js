@@ -52,6 +52,11 @@ describe('server.actions.users', () => {
       const ret = await users.getRepositories({ id: user.id });
       expect(ret).toEqual([]);
     });
+
+    it('should search with regex', async () => {
+      const ret = await users.getRepositories({ id: user.id }, 1, 'a');
+      expect(ret).toEqual([]);
+    });
   });
 
   describe('#syncStars', () => {

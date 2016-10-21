@@ -7,11 +7,11 @@ const resolvers = {
       return user;
     },
 
-    userRepositories(_, { page }, { user, Users }) {
+    userRepositories(_, { page, search }, { user, Users }) {
       if (!user) {
         throw new Error('Must be logged in.');
       }
-      return Users.getRepositories(user, page);
+      return Users.getRepositories(user, page, search);
     },
   },
 

@@ -64,6 +64,13 @@ body {
   }
 }
 
+.container-repositories-list {
+  padding-left: 16px;
+
+  .search-input {
+    margin-top: 0;
+  }
+}
 .repositories-list {
   margin: 0px 0 30px 140px !important;
   padding-left: 20px !important;
