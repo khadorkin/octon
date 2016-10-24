@@ -3,8 +3,12 @@ import Button from 'material-ui-build/src/Button';
 
 const FirstLogin = ({ syncUserStars, loading }) =>
   (<div className="center">
-    Welcome, this is the first time you come here<br /><br />
-    {!loading ? <Button raised onClick={syncUserStars}>Sync my stars</Button> : null}
+    {!loading ?
+      <div>
+        Welcome, this is the first time you come here<br /><br />
+        <Button raised onClick={syncUserStars}>Sync my stars</Button>
+      </div>
+      : 'Syncing your stars ...'}
   </div>);
 
 FirstLogin.propTypes = {
