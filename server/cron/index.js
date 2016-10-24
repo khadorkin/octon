@@ -11,9 +11,9 @@ class Cron {
 
   start() {
     // Run each 6 hours
-    this.checkForNewReleasesJob = schedule.scheduleJob('0 0,6,12,18 * * *', this.startCheckForNewReleasesJob);
+    this.checkForNewReleasesJob = schedule.scheduleJob('0 0,6,12,18 * * *', () => this.startCheckForNewReleasesJob());
     // Run once a week every sunday
-    this.weeklyMailJob = schedule.scheduleJob('0 13 * * 6', this.startWeeklyMail);
+    this.weeklyMailJob = schedule.scheduleJob('0 13 * * 6', () => this.startWeeklyMail());
   }
 
   startCheckForNewReleasesJob() {
