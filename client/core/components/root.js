@@ -57,7 +57,7 @@ class Root extends Component {
               {error ? <p className="bg-danger">{error}</p> : null}
               {loadingState ? <div className="center"><CircularProgress /></div> : null}
               {!user.lastSync ?
-                <FirstLogin syncUserStars={this.syncUserStars} />
+                <FirstLogin syncUserStars={this.syncUserStars} loading={loadingState} />
                 : <RepositoriesList user={user} />}
             </div>}
         </div>
