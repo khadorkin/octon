@@ -108,6 +108,16 @@ class Server {
         res.redirect('/');
       });
 
+    // TODO remove after test
+    this.app.get('/test/check', (req, res) => {
+      this.cron.checkForNewReleases();
+      res.json(true);
+    });
+    this.app.get('/test/check2', (req, res) => {
+      this.cron.weeklyMail();
+      res.json(true);
+    });
+
     this.app.get('/logout', (req, res) => {
       req.logout();
       res.redirect('/');
