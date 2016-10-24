@@ -110,11 +110,11 @@ class Server {
 
     // TODO remove after test
     this.app.get('/test/check', (req, res) => {
-      this.cron.checkForNewReleases();
+      this.cron.startCheckForNewReleasesJob();
       res.json(true);
     });
     this.app.get('/test/check2', (req, res) => {
-      this.cron.weeklyMail();
+      this.cron.startWeeklyMail();
       res.json(true);
     });
 
