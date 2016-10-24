@@ -17,14 +17,16 @@ class Cron {
   }
 
   startCheckForNewReleasesJob() {
+    logger.log('info', 'start checkForNewReleases');
     return this.checkForNewReleases.start()
       .then(() => logger.log('info', 'finish checkForNewReleases'))
       .catch(err => logger.log('error', err));
   }
 
   startWeeklyMail() {
+    logger.log('info', 'start weeklyMail');
     return this.weeklyMail.start()
-      .then(() => logger.log('info', 'finish checkForNewReleases'))
+      .then(() => logger.log('info', 'finish weeklyMail'))
       .catch(err => logger.log('error', err));
   }
 
