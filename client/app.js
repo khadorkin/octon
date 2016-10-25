@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader'; // eslint-disable-line
 import ApolloClient, { createNetworkInterface, addTypename } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
-import Root from './core/containers/root';
+import Router from './core/components/router';
 import './styles.scss';
 
 const networkInterface = createNetworkInterface({
@@ -25,7 +25,7 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <Root />
+    <Router />
   </ApolloProvider>,
   document.getElementById('content')
 );
@@ -35,8 +35,8 @@ if (module.hot) {
     ReactDOM.render(
       <AppContainer>
         <ApolloProvider client={client}>
-          <Root />
-        </ApolloProvider>,
+          <Router />
+        </ApolloProvider>
       </AppContainer>,
       document.getElementById('content')
     );

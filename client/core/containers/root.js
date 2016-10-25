@@ -30,16 +30,4 @@ const RootWithData = graphql(currentUserQuery, {
   }),
 })(Root);
 
-const syncUserStarsMutation = gql`
-  mutation syncUserStars {
-    syncUserStars
-  }
-`;
-
-const RootWithDataAndMutation = graphql(syncUserStarsMutation, {
-  props: ({ mutate }) => ({
-    syncUserStars: () => mutate({}),
-  }),
-})(RootWithData);
-
-export default RootWithDataAndMutation;
+export default RootWithData;

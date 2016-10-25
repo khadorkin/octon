@@ -50,7 +50,7 @@ class Settings extends Component {
   }
 
   handleDeleteAccount = () => {
-    // TODO clean material modal
+    // TODO make a clean material modal
     const { deleteUserAccount } = this.props;
     const choice = confirm('Do you really want to delete your account? (this action is irreversible)');
     if (choice) {
@@ -69,18 +69,13 @@ class Settings extends Component {
   handleToggleShowMore = () => this.setState({ showMore: !this.state.showMore })
 
   render() {
-    const { open, onSettings, user } = this.props;
+    const { user } = this.props;
     const { success, error, email, showMore } = this.state;
-    if (!open) return null;
     return (<div className="settings">
-      <Text type="title" className="title">
-        Settings
-        <div className="pull-right">
-          <IconButton onClick={onSettings}>close</IconButton>
-        </div>
-      </Text>
+      <Text type="title" className="title">Settings</Text>
       {success ? <p className="bg-success">{success}</p> : null}
       {error ? <p className="bg-danger">{error}</p> : null}
+      <Divider />
       <List>
         <ListItem>
           <ListItemText primary="Daily notifications" />
@@ -95,6 +90,7 @@ class Settings extends Component {
           </ListItemSecondaryAction>
         </ListItem>
       </List>
+      <Divider />
       <form onSubmit={this.handleChangeUserEmail} className="form-email">
         <TextField className="input">
           <TextFieldLabel htmlFor="email">
@@ -111,19 +107,14 @@ class Settings extends Component {
       {showMore ?
         <div className="pull-right">
           <Button raised accent onClick={this.handleDeleteAccount}>Delete my account</Button>
-          <Divider />
         </div>
         : <Button onClick={this.handleToggleShowMore}>Show more</Button>}
-      <div className="clearfix" />
-      <Divider />
     </div>);
   }
 }
 
 Settings.propTypes = {
-  open: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
-  onSettings: PropTypes.func.isRequired,
   setNotification: PropTypes.func.isRequired,
   editUserEmail: PropTypes.func.isRequired,
   deleteUserAccount: PropTypes.func.isRequired,
