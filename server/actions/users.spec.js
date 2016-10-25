@@ -71,12 +71,12 @@ describe('server.actions.users', () => {
 
     it('should throw if user already have synced hi', async () => {
       const users = new Users();
-      user.lastSync = Date.now();
+      user.github.lastSync = Date.now();
       await user.save();
       try {
         await users.syncStars({ id: user.id });
       } catch (err) {
-        user.lastSync = null;
+        user.github.lastSync = null;
         await user.save();
         expect(err.message).toEqual('You already have sync your stars less than 1 hour before');
       }

@@ -92,14 +92,6 @@ class Server {
       }
     }
 
-    this.app.get('/', (req, res) => {
-      if (!req.isAuthenticated()) {
-        res.sendFile(path.resolve('server/templates/index.html'));
-      } else {
-        res.sendFile(path.resolve('server/templates/app.html'));
-      }
-    });
-
     this.app.get('/auth/github', passport.authenticate('github'));
 
     this.app.get('/auth/github/callback',
@@ -111,6 +103,14 @@ class Server {
     this.app.get('/logout', (req, res) => {
       req.logout();
       res.redirect('/');
+    });
+
+    this.app.get('*', (req, res) => {
+      if (!req.isAuthenticated()) {
+        res.sendFile(path.resolve('server/templates/index.html'));
+      } else {
+        res.sendFile(path.resolve('server/templates/app.html'));
+      }
     });
 
     await this.startExpressServer();

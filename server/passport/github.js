@@ -22,11 +22,11 @@ export function handleGithubReturn(accessToken, refreshToken, profile, cb) {
 
     // Create a new user
     const newUser = new User({
-      username: profile.username,
       photo: profile.photos[0].value,
       email: primaryEmail,
       github: {
         id: profile.id,
+        username: profile.username,
         accessToken,
       },
     });

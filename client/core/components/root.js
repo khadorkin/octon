@@ -56,7 +56,7 @@ class Root extends Component {
               <Settings open={settingsOpen} user={user} onSettings={this.handleSettings} />
               {error ? <p className="bg-danger">{error}</p> : null}
               {loadingState ? <div className="center"><CircularProgress /></div> : null}
-              {!user.lastSync ?
+              {!user.github.lastSync ?
                 <FirstLogin syncUserStars={this.syncUserStars} loading={loadingState} />
                 : <RepositoriesList user={user} />}
             </div>}

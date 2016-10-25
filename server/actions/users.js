@@ -1,5 +1,6 @@
 import DataLoader from 'dataloader';
 import validator from 'validator';
+import docker from 'docker-hub-api';
 import Github from '../core/github';
 import User from '../models/users';
 import Repository from '../models/repositories';
@@ -39,10 +40,10 @@ class Users {
         throw new Error('No user found');
       }
       // Check if user have already sync stars 1 hour before
-      if (user.lastSync) {
+      if (user.github.lastSync) {
         let date = new Date();
         date = new Date(date.getTime() - (60 * 60000));
-        if (date < user.lastSync) {
+        if (date < user.github.lastSync) {
           throw new Error('You already have sync your stars less than 1 hour before');
         }
       }
@@ -78,7 +79,7 @@ class Users {
             return Promise.all(promises).then((data) => {
               repositoriesIds = repositories.concat(data).map(repo => repo.id);
               user.starred = user.setStars(user.starred, repositoriesIds);
-              user.lastSync = Date.now();
+              user.github.lastSync = Date.now();
               return user.save();
             });
           });
@@ -130,6 +131,28 @@ class Users {
       }
       user.email = email;
       return user.save();
+    });
+  }
+
+  addDockerAccount(userContext, username) {
+    return this.get(userContext.id).then((user) => {
+      if (!user) {
+        throw new Error('No user found');
+      }
+      return docker.user(username)
+        .then((res) => {
+          if (res === 'Not Found') {
+            throw new Error('User not found on docker hub');
+          }
+          if (res.type !== 'User') {
+            throw new Error('Not a valid docker user');
+          }
+          user.docker = {
+            id: res.id,
+            username: res.username,
+          };
+          return user.save();
+        });
     });
   }
 

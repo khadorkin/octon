@@ -44,12 +44,24 @@ const resolvers = {
       return Users.editEmail(user, email);
     },
 
+    addDockerAccount(_, { username }, { user, Users }) {
+      if (!user) {
+        throw new Error('Must be logged in.');
+      }
+      return Users.addDockerAccount(user, username);
+    },
+
     deleteUserAccount(_, __, { user, Users }) {
       if (!user) {
         throw new Error('Must be logged in.');
       }
       return Users.deleteAccount(user);
     },
+  },
+
+  User: {
+    github: user => user.github,
+    docker: user => user.docker,
   },
 
   Repository: {

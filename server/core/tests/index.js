@@ -30,11 +30,11 @@ export async function disconnectDb(done) {
 
 export function createUser(options = {}) {
   const schema = {
-    username: faker.name.firstName(),
     photo: faker.image.imageUrl(),
     email: faker.internet.email(),
     github: {
       id: faker.random.uuid(),
+      username: faker.name.firstName(),
       accessToken: faker.random.uuid(),
     },
     starred: [{

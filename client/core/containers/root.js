@@ -8,9 +8,16 @@ const currentUserQuery = gql`
       id
       photo
       email
-      lastSync
       dailyNotification
       weeklyNotification
+      github {
+        username
+        lastSync
+      }
+      docker {
+        username
+        lastSync
+      }
     }
   }
 `;

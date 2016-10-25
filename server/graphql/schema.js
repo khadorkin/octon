@@ -2,14 +2,25 @@ import { makeExecutableSchema } from 'graphql-tools';
 import resolvers from './resolvers';
 
 export const rootSchema = [`
+type UserGithub {
+  username: String!
+  lastSync: String
+}
+
+type UserDocker {
+  username: String!
+  lastSync: String
+}
+
 type User {
   id: String!
-  username: String!
   photo: String!
   email: String!
   lastSync: String
   dailyNotification: Boolean!
   weeklyNotification: Boolean!
+  github: UserGithub!
+  docker: UserDocker
 }
 
 type Release {
@@ -43,6 +54,8 @@ type Mutation {
   setNotification(type: String! active: Boolean!): User
   # Edit user email
   editUserEmail(email: String!): User
+  # Add a docker account to user
+  addDockerAccount(username: String!): User
   # Delete account
   deleteUserAccount: Boolean
 }
