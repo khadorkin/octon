@@ -2,7 +2,6 @@
   "name": "octon",
   "description": "Notify you when a new release has been made on repositories you starred on Github.",
   "scripts": {
-    "init": "./scripts/init.sh",
     "start": "node server-build/app.js",
     "start:dev": "babel-watch server/app.js",
     "build": "npm run build:server && npm run build:client",
