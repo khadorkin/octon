@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import Text from 'material-ui-build/src/Text';
-import IconButton from 'material-ui-build/src/IconButton';
 import {
   List,
   ListItem,
@@ -75,7 +74,7 @@ class Settings extends Component {
       <Text type="title" className="title">Settings</Text>
       {success ? <p className="bg-success">{success}</p> : null}
       {error ? <p className="bg-danger">{error}</p> : null}
-      <Divider />
+      <Divider className="content" />
       <List>
         <ListItem>
           <ListItemText primary="Daily notifications" />
@@ -90,8 +89,8 @@ class Settings extends Component {
           </ListItemSecondaryAction>
         </ListItem>
       </List>
-      <Divider />
-      <form onSubmit={this.handleChangeUserEmail} className="form-email">
+      <Divider className="content" />
+      <form onSubmit={this.handleChangeUserEmail} className="content form-email">
         <TextField className="input">
           <TextFieldLabel htmlFor="email">
             Email

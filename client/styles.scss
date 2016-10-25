@@ -11,6 +11,11 @@ body {
   white-space: nowrap;
 }
 
+.content {
+  margin-left: 16px !important;
+  margin-right: 16px !important;
+}
+
 .navbar {
   .container {
     max-width: $max-width-container;
@@ -53,7 +58,7 @@ body {
   }
 
   .form-email {
-    margin-left: 16px;
+    margin-top: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
