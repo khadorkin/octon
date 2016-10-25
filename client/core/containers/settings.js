@@ -12,7 +12,7 @@ const trackRepositoryMutation = gql`
   }
 `;
 
-const SettingsWithMutation = graphql(trackRepositoryMutation, {
+let SettingsWithMutation = graphql(trackRepositoryMutation, {
   props: ({ mutate }) => ({
     setNotification: (type, active, user) => mutate({
       variables: { type, active },
@@ -38,11 +38,23 @@ const editUserEmailMutation = gql`
   }
 `;
 
-const SettingsWithMutations = graphql(editUserEmailMutation, {
+SettingsWithMutation = graphql(editUserEmailMutation, {
   props: ({ mutate }) => ({
     editUserEmail: email => mutate({
       variables: { email },
     }),
+  }),
+})(SettingsWithMutation);
+
+const deleteUserAccountMutation = gql`
+  mutation deleteUserAccount {
+    deleteUserAccount
+  }
+`;
+
+const SettingsWithMutations = graphql(deleteUserAccountMutation, {
+  props: ({ mutate }) => ({
+    deleteUserAccount: () => mutate({}),
   }),
 })(SettingsWithMutation);
 

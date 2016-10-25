@@ -19,6 +19,7 @@ class Settings extends Component {
       success: '',
       error: '',
       email: props.user.email,
+      showMore: false,
     };
   }
 
@@ -48,11 +49,28 @@ class Settings extends Component {
       .catch(err => this.setState({ error: err.message }));
   }
 
+  handleDeleteAccount = () => {
+    // TODO clean material modal
+    const { deleteUserAccount } = this.props;
+    const choice = confirm('Do you really want to delete your account? (this action is irreversible)');
+    if (choice) {
+      this.setState({ success: '', error: '' });
+      deleteUserAccount()
+        .then(() => {
+          this.setState({ success: 'Account deleted' });
+          location.reload();
+        })
+        .catch(err => this.setState({ error: err.message }));
+    }
+  }
+
   handleChangeEmail = event => this.setState({ email: event.target.value })
+
+  handleToggleShowMore = () => this.setState({ showMore: !this.state.showMore })
 
   render() {
     const { open, onSettings, user } = this.props;
-    const { success, error, email } = this.state;
+    const { success, error, email, showMore } = this.state;
     if (!open) return null;
     return (<div className="settings">
       <Text type="title" className="title">
@@ -90,6 +108,12 @@ class Settings extends Component {
         </TextField>
         <Button type="submit">Submit</Button>
       </form>
+      {showMore ?
+        <div className="pull-right">
+          <Button raised accent onClick={this.handleDeleteAccount}>Delete my account</Button>
+          <Divider />
+        </div>
+        : <Button onClick={this.handleToggleShowMore}>Show more</Button>}
       <div className="clearfix" />
       <Divider />
     </div>);
@@ -102,6 +126,7 @@ Settings.propTypes = {
   onSettings: PropTypes.func.isRequired,
   setNotification: PropTypes.func.isRequired,
   editUserEmail: PropTypes.func.isRequired,
+  deleteUserAccount: PropTypes.func.isRequired,
 };
 
 export default Settings;
