@@ -46,6 +46,25 @@ SettingsWithMutation = graphql(editUserEmailMutation, {
   }),
 })(SettingsWithMutation);
 
+const addDockerAccountMutation = gql`
+  mutation addDockerAccount($username: String!) {
+    addDockerAccount(username: $username) {
+      id
+      docker {
+        username
+      }
+    }
+  }
+`;
+
+SettingsWithMutation = graphql(addDockerAccountMutation, {
+  props: ({ mutate }) => ({
+    addDockerAccount: username => mutate({
+      variables: { username },
+    }),
+  }),
+})(SettingsWithMutation);
+
 const deleteUserAccountMutation = gql`
   mutation deleteUserAccount {
     deleteUserAccount

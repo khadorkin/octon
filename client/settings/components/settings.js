@@ -9,7 +9,6 @@ import {
 import TextField, { TextFieldInput, TextFieldLabel } from 'material-ui-build/src/TextField';
 import Switch from 'material-ui-build/src/Switch';
 import Button from 'material-ui-build/src/Button';
-import Divider from 'material-ui-build/src/Divider';
 
 class Settings extends Component {
   constructor(props) {
@@ -18,6 +17,7 @@ class Settings extends Component {
       success: '',
       error: '',
       email: props.user.email,
+      dockerUsername: props.user.docker ? props.user.docker.username : '',
       showMore: false,
     };
   }
@@ -48,6 +48,16 @@ class Settings extends Component {
       .catch(err => this.setState({ error: err.message }));
   }
 
+  handleChangeDockerUser = (e) => {
+    e.preventDefault();
+    const { addDockerAccount } = this.props;
+    const { dockerUsername } = this.state;
+    this.setState({ success: '', error: '' });
+    addDockerAccount(dockerUsername)
+      .then(() => this.setState({ success: 'Info updated' }))
+      .catch(err => this.setState({ error: err.message }));
+  }
+
   handleDeleteAccount = () => {
     // TODO make a clean material modal
     const { deleteUserAccount } = this.props;
@@ -65,16 +75,17 @@ class Settings extends Component {
 
   handleChangeEmail = event => this.setState({ email: event.target.value })
 
+  handleChangeDockerUsername = event => this.setState({ dockerUsername: event.target.value })
+
   handleToggleShowMore = () => this.setState({ showMore: !this.state.showMore })
 
   render() {
     const { user } = this.props;
-    const { success, error, email, showMore } = this.state;
+    const { success, error, email, dockerUsername, showMore } = this.state;
     return (<div className="settings">
-      <Text type="title" className="title">Settings</Text>
+      <Text type="title" className="content title">Settings</Text>
       {success ? <p className="bg-success">{success}</p> : null}
       {error ? <p className="bg-danger">{error}</p> : null}
-      <Divider className="content" />
       <List>
         <ListItem>
           <ListItemText primary="Daily notifications" />
@@ -89,7 +100,7 @@ class Settings extends Component {
           </ListItemSecondaryAction>
         </ListItem>
       </List>
-      <Divider className="content" />
+      <Text type="subheading" className="content title">Email</Text>
       <form onSubmit={this.handleChangeUserEmail} className="content form-email">
         <TextField className="input">
           <TextFieldLabel htmlFor="email">
@@ -99,6 +110,22 @@ class Settings extends Component {
             id="email"
             value={email}
             onChange={this.handleChangeEmail}
+          />
+        </TextField>
+        <Button type="submit">Submit</Button>
+      </form>
+      <Text type="subheading" className="content title">Github</Text>
+      <Text className="content">Connected as {user.github.username}</Text>
+      <Text type="subheading" className="content title">Docker</Text>
+      <form onSubmit={this.handleChangeDockerUser} className="content form-email">
+        <TextField className="input">
+          <TextFieldLabel htmlFor="username">
+            Username
+          </TextFieldLabel>
+          <TextFieldInput
+            id="username"
+            value={dockerUsername}
+            onChange={this.handleChangeDockerUsername}
           />
         </TextField>
         <Button type="submit">Submit</Button>
@@ -116,6 +143,7 @@ Settings.propTypes = {
   user: PropTypes.object.isRequired,
   setNotification: PropTypes.func.isRequired,
   editUserEmail: PropTypes.func.isRequired,
+  addDockerAccount: PropTypes.func.isRequired,
   deleteUserAccount: PropTypes.func.isRequired,
 };
 
