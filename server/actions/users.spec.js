@@ -171,6 +171,43 @@ describe('server.actions.users', () => {
     });
   });
 
+  describe('#addDockerAccount', () => {
+    const users = new Users();
+
+    it('should throw with not found user', async () => {
+      try {
+        await users.addDockerAccount({ id: '507f1f77bcf86cd799439011' });
+      } catch (err) {
+        expect(err.message).toEqual('No user found');
+      }
+    });
+
+    it('should throw with invalid docker user', async () => {
+      try {
+        await users.addDockerAccount({ id: user.id }, 'leopradel42');
+      } catch (err) {
+        expect(err.message).toEqual('User not found on docker hub');
+      }
+    });
+
+    it('should throw for non docker user', async () => {
+      try {
+        await users.addDockerAccount({ id: user.id }, 'library');
+      } catch (err) {
+        expect(err.message).toEqual('Not a valid docker user');
+      }
+    });
+
+    it('should save docker profile', async () => {
+      const ret = await users.addDockerAccount({ id: user.id }, 'leopradel');
+      const retUser = await UsersModel.findOne({ _id: user.id }).exec();
+      expect(ret).toBeTruthy();
+      expect(retUser.docker).toBeTruthy();
+      expect(retUser.docker.id).toEqual('abcd160a963b45d4ae532340af5b85ae');
+      expect(retUser.docker.username).toEqual('leopradel');
+    });
+  });
+
   describe('#deleteAccount', () => {
     const users = new Users();
 

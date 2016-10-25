@@ -122,6 +122,24 @@ describe('server.graphql.resolvers', () => {
       });
     });
 
+    describe('#addDockerAccount', () => {
+      it('should throw if no user provided in context', () => {
+        try {
+          mutation.addDockerAccount(null, {}, {});
+        } catch (err) {
+          expect(err.message).toMatch(/logged/);
+        }
+      });
+
+      it('should call Users.addDockerAccount', () => {
+        const user = 'toto';
+        const Users = { addDockerAccount: jest.fn() };
+        mutation.addDockerAccount(null, { username: 'username' }, { user, Users });
+        expect(Users.addDockerAccount.mock.calls.length).toEqual(1);
+        expect(Users.addDockerAccount).toBeCalledWith(user, 'username');
+      });
+    });
+
     describe('#deleteUserAccount', () => {
       it('should throw if no user provided in context', () => {
         try {
@@ -137,6 +155,26 @@ describe('server.graphql.resolvers', () => {
         mutation.deleteUserAccount(null, null, { user, Users });
         expect(Users.deleteAccount.mock.calls.length).toEqual(1);
         expect(Users.deleteAccount).toBeCalledWith(user);
+      });
+    });
+  });
+
+  describe('#User', () => {
+    const user = resolvers.User;
+
+    describe('#github', () => {
+      it('should return user.github', () => {
+        const arg = { github: { username: 'toto' } };
+        const ret = user.github(arg);
+        expect(arg.github).toEqual(ret);
+      });
+    });
+
+    describe('#docker', () => {
+      it('should return user.docker', () => {
+        const arg = { docker: { username: 'toto' } };
+        const ret = user.docker(arg);
+        expect(arg.docker).toEqual(ret);
       });
     });
   });
