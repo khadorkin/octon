@@ -40,22 +40,22 @@ type Repository {
 
 type Query {
   # Get current user
-  currentUser: User
+  currentUser: User!
   # Get user starred repositories
   userRepositories(page: Int, search: String): [Repository]
 }
 
 type Mutation {
   # Sync user stars
-  syncUserStars: Boolean
+  syncUserGithubStars: User!
   # Sync user stars
-  trackRepository(repositoryId: String! active: Boolean!): Repository
+  trackRepository(repositoryId: String! active: Boolean!): Repository!
   # Set user notification
-  setNotification(type: String! active: Boolean!): User
+  setNotification(type: String! active: Boolean!): User!
   # Edit user email
-  editUserEmail(email: String!): User
+  editUserEmail(email: String!): User!
   # Add a docker account to user
-  addDockerAccount(username: String!): User
+  addDockerAccount(username: String!): User!
   # Delete account
   deleteUserAccount: Boolean
 }

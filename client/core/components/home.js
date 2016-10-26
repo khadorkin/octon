@@ -13,11 +13,11 @@ class Home extends Component {
   }
 
   syncUserStars = () => {
-    const { syncUserStars } = this.props;
+    const { syncUserGithubStars } = this.props;
     this.setState({ loading: true, error: '' });
-    syncUserStars().then(() => {
+    syncUserGithubStars().then(() => {
       this.setState({ loading: false });
-      location.reload();
+      // location.reload();
     }).catch((err) => {
       this.setState({ loading: false, error: err.message });
     });
@@ -47,7 +47,7 @@ Home.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.object,
   user: PropTypes.object,
-  syncUserStars: PropTypes.func.isRequired,
+  syncUserGithubStars: PropTypes.func.isRequired,
 };
 
 Home.defaultProps = {

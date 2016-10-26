@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import TimeAgo from 'timeago-react';
 import Text from 'material-ui-build/src/Text';
 import {
   List,
@@ -116,6 +117,10 @@ class Settings extends Component {
       </form>
       <Text type="subheading" className="content title">Github</Text>
       <Text className="content">Connected as {user.github.username}</Text>
+      <Text className="content">
+        Last star sync: <TimeAgo datetime={new Date(user.github.lastSync)} />
+        <Button onClick={this.handleToggleShowMore}>Sync github stars</Button>
+      </Text>
       <Text type="subheading" className="content title">Docker</Text>
       <form onSubmit={this.handleChangeDockerUser} className="content form-email">
         <TextField className="input">
@@ -130,11 +135,18 @@ class Settings extends Component {
         </TextField>
         <Button type="submit">Submit</Button>
       </form>
-      {showMore ?
-        <div className="pull-right">
-          <Button raised accent onClick={this.handleDeleteAccount}>Delete my account</Button>
-        </div>
-        : <Button onClick={this.handleToggleShowMore}>Show more</Button>}
+      <Text className="content">
+        Last star sync:
+        {user.docker && user.docker.lastSync ? <TimeAgo datetime={new Date(user.docker.lastSync)} /> : ' No sync yet'}
+        <Button onClick={this.handleToggleShowMore}>Sync docker stars</Button>
+      </Text>
+      <div className="content show-more">
+        {showMore ?
+          <div className="pull-right">
+            <Button raised accent onClick={this.handleDeleteAccount}>Delete my account</Button>
+          </div>
+          : <Button onClick={this.handleToggleShowMore}>More settings</Button>}
+      </div>
     </div>);
   }
 }

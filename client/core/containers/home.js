@@ -2,15 +2,20 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import Home from '../components/home';
 
-const syncUserStarsMutation = gql`
-  mutation syncUserStars {
-    syncUserStars
+const syncUserGithubStarsMutation = gql`
+  mutation syncUserGithubStars {
+    syncUserGithubStars {
+      id
+      github {
+        lastSync
+      }
+    }
   }
 `;
 
-const HomeWithMutation = graphql(syncUserStarsMutation, {
+const HomeWithMutation = graphql(syncUserGithubStarsMutation, {
   props: ({ mutate }) => ({
-    syncUserStars: () => mutate({}),
+    syncUserGithubStars: () => mutate({}),
   }),
 })(Home);
 

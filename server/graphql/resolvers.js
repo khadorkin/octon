@@ -16,7 +16,7 @@ const resolvers = {
   },
 
   Mutation: {
-    syncUserStars(_, __, { user, Users }) {
+    syncUserGithubStars(_, __, { user, Users }) {
       if (!user) {
         throw new Error('Must be logged in.');
       }

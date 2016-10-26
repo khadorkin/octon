@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import connectMongo from 'connect-mongo';
 import passport from 'passport';
+import OpticsAgent from 'optics-agent';
 import { apolloExpress, graphiqlExpress } from 'apollo-server';
 import path from 'path';
 import logger from '../logger';
@@ -39,6 +40,9 @@ class Server {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
 
+    // TODO only run OpticsAgent on production mode
+    OpticsAgent.instrumentSchema(schema);
+    this.app.use(OpticsAgent.middleware());
     this.app.use('/graphql', apolloExpress((req) => {
       const user = req.user;
       return {
@@ -46,6 +50,7 @@ class Server {
         context: {
           user,
           Users: new Users(),
+          opticsContext: OpticsAgent.context(req),
         },
       };
     }));
