@@ -59,6 +59,15 @@ class Settings extends Component {
       .catch(err => this.setState({ error: err.message }));
   }
 
+  handleSyncUserGithubStars = (e) => {
+    e.preventDefault();
+    const { syncUserGithubStars } = this.props;
+    this.setState({ success: '', error: '' });
+    syncUserGithubStars()
+      .then(() => this.setState({ success: 'Github stars synced' }))
+      .catch(err => this.setState({ error: err.message }));
+  }
+
   handleDeleteAccount = () => {
     // TODO make a clean material modal
     const { deleteUserAccount } = this.props;
@@ -119,7 +128,7 @@ class Settings extends Component {
       <Text className="content">Connected as {user.github.username}</Text>
       <Text className="content">
         Last star sync: <TimeAgo datetime={new Date(user.github.lastSync)} />
-        <Button onClick={this.handleToggleShowMore}>Sync github stars</Button>
+        <Button onClick={this.handleSyncUserGithubStars}>Sync github stars</Button>
       </Text>
       <Text type="subheading" className="content title">Docker</Text>
       <form onSubmit={this.handleChangeDockerUser} className="content form-email">
@@ -156,6 +165,7 @@ Settings.propTypes = {
   setNotification: PropTypes.func.isRequired,
   editUserEmail: PropTypes.func.isRequired,
   addDockerAccount: PropTypes.func.isRequired,
+  syncUserGithubStars: PropTypes.func.isRequired,
   deleteUserAccount: PropTypes.func.isRequired,
 };
 

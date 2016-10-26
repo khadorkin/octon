@@ -65,6 +65,23 @@ SettingsWithMutation = graphql(addDockerAccountMutation, {
   }),
 })(SettingsWithMutation);
 
+const syncUserGithubStarsMutation = gql`
+  mutation syncUserGithubStars {
+    syncUserGithubStars {
+      id
+      github {
+        lastSync
+      }
+    }
+  }
+`;
+
+SettingsWithMutation = graphql(syncUserGithubStarsMutation, {
+  props: ({ mutate }) => ({
+    syncUserGithubStars: () => mutate({}),
+  }),
+})(SettingsWithMutation);
+
 const deleteUserAccountMutation = gql`
   mutation deleteUserAccount {
     deleteUserAccount
