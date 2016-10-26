@@ -17,7 +17,6 @@ class Home extends Component {
     this.setState({ loading: true, error: '' });
     syncUserGithubStars().then(() => {
       this.setState({ loading: false });
-      // location.reload();
     }).catch((err) => {
       this.setState({ loading: false, error: err.message });
     });

@@ -46,10 +46,10 @@ describe('server.graphql.resolvers', () => {
   describe('#Mutation', () => {
     const mutation = resolvers.Mutation;
 
-    describe('#syncUserStars', () => {
+    describe('#syncUserGithubStars', () => {
       it('should throw if no user provided in context', () => {
         try {
-          mutation.syncUserStars(null, null, {});
+          mutation.syncUserGithubStars(null, null, {});
         } catch (err) {
           expect(err.message).toMatch(/logged/);
         }
@@ -58,7 +58,7 @@ describe('server.graphql.resolvers', () => {
       it('should call Users.syncStars', () => {
         const user = 'toto';
         const Users = { syncStars: jest.fn() };
-        mutation.syncUserStars(null, null, { user, Users });
+        mutation.syncUserGithubStars(null, null, { user, Users });
         expect(Users.syncStars.mock.calls.length).toEqual(1);
         expect(Users.syncStars).toBeCalledWith(user);
       });
