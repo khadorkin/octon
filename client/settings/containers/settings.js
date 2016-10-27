@@ -72,6 +72,9 @@ const syncUserGithubStarsMutation = gql`
       github {
         lastSync
       }
+      docker {
+        lastSync
+      }
     }
   }
 `;
@@ -79,6 +82,26 @@ const syncUserGithubStarsMutation = gql`
 SettingsWithMutation = graphql(syncUserGithubStarsMutation, {
   props: ({ mutate }) => ({
     syncUserGithubStars: () => mutate({}),
+  }),
+})(SettingsWithMutation);
+
+const syncUserDockerStarsMutation = gql`
+  mutation syncUserDockerStars {
+    syncUserDockerStars {
+      id
+      github {
+        lastSync
+      }
+      docker {
+        lastSync
+      }
+    }
+  }
+`;
+
+SettingsWithMutation = graphql(syncUserDockerStarsMutation, {
+  props: ({ mutate }) => ({
+    syncUserDockerStars: () => mutate({}),
   }),
 })(SettingsWithMutation);
 

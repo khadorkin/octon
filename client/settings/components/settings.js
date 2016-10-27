@@ -68,6 +68,15 @@ class Settings extends Component {
       .catch(err => this.setState({ error: err.message }));
   }
 
+  handleSyncUserDockerStars = (e) => {
+    e.preventDefault();
+    const { syncUserDockerStars } = this.props;
+    this.setState({ success: '', error: '' });
+    syncUserDockerStars()
+      .then(() => this.setState({ success: 'Docker stars synced' }))
+      .catch(err => this.setState({ error: err.message }));
+  }
+
   handleDeleteAccount = () => {
     // TODO make a clean material modal
     const { deleteUserAccount } = this.props;
@@ -145,9 +154,8 @@ class Settings extends Component {
         <Button type="submit">Submit</Button>
       </form>
       <Text className="content">
-        Last star sync:
-        {user.docker && user.docker.lastSync ? <TimeAgo datetime={new Date(user.docker.lastSync)} /> : ' No sync yet'}
-        <Button onClick={this.handleToggleShowMore}>Sync docker stars</Button>
+        Last star sync: {user.docker && user.docker.lastSync ? <TimeAgo datetime={new Date(user.docker.lastSync)} /> : ' No sync yet'}
+        <Button onClick={this.handleSyncUserDockerStars}>Sync docker stars</Button>
       </Text>
       <div className="content show-more">
         {showMore ?
@@ -166,6 +174,7 @@ Settings.propTypes = {
   editUserEmail: PropTypes.func.isRequired,
   addDockerAccount: PropTypes.func.isRequired,
   syncUserGithubStars: PropTypes.func.isRequired,
+  syncUserDockerStars: PropTypes.func.isRequired,
   deleteUserAccount: PropTypes.func.isRequired,
 };
 
