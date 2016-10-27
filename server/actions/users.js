@@ -104,7 +104,7 @@ class Users {
           throw new Error('You already have sync your stars less than 1 hour before');
         }
       }
-      const docker = new Docker({ accessToken: user.github.accessToken });
+      const docker = new Docker();
       return docker.getAllUserStars(user.docker.username).then((dockerRepositories) => {
         const dockerRepositoriesIds = dockerRepositories.map(repo => `${repo.user}/${repo.name}`);
         return Repository.find({ refId: { $in: dockerRepositoriesIds }, type: 'github' })
