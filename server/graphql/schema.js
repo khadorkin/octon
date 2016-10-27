@@ -46,8 +46,10 @@ type Query {
 }
 
 type Mutation {
-  # Sync user stars
+  # Sync user github stars
   syncUserGithubStars: User!
+  # Sync user docker stars
+  syncUserDockerStars: User!
   # Sync user stars
   trackRepository(repositoryId: String! active: Boolean!): Repository!
   # Set user notification

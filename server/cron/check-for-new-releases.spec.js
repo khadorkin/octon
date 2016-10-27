@@ -48,10 +48,10 @@ describe('server.cron.check-for-new-releases', () => {
         users.push(await createUser({ dailyNotification: true }));
         users.push(await createUser({ dailyNotification: true }));
         users.push(await createUser({ dailyNotification: false }));
-        users[0].starred.push({ repositoryId: repositories[0].id });
-        users[1].starred.push({ repositoryId: repositories[0].id });
-        users[2].starred.push({ repositoryId: repositories[0].id, active: false });
-        users[3].starred.push({ repositoryId: repositories[0].id });
+        users[0].starred.push({ repositoryId: repositories[0].id, type: 'github' });
+        users[1].starred.push({ repositoryId: repositories[0].id, type: 'github' });
+        users[2].starred.push({ repositoryId: repositories[0].id, active: false, type: 'github' });
+        users[3].starred.push({ repositoryId: repositories[0].id, type: 'github' });
         await users[0].save();
         await users[1].save();
         await users[2].save();

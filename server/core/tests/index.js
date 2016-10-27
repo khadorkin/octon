@@ -40,9 +40,11 @@ export function createUser(options = {}) {
     starred: [{
       active: false,
       repositoryId: '57ff5c5c74b8ac07d4d1b0f0',
+      type: 'github',
     }, {
       active: true,
       repositoryId: '57ff5c5c74b8ac07d4d1b0e9',
+      type: 'github',
     }],
   };
   const user = new User(Object.assign({}, schema, options));

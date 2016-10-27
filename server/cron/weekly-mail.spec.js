@@ -64,9 +64,9 @@ describe('server.cron.weekly-mail', () => {
       await repositories[1].save();
       repositories[2].latestRelease = createLatestRelease();
       await repositories[2].save();
-      users[0].starred.push({ repositoryId: repositories[0].id });
-      users[0].starred.push({ repositoryId: repositories[1].id });
-      users[0].starred.push({ repositoryId: repositories[2].id, active: false });
+      users[0].starred.push({ repositoryId: repositories[0].id, type: 'github' });
+      users[0].starred.push({ repositoryId: repositories[1].id, type: 'github' });
+      users[0].starred.push({ repositoryId: repositories[2].id, active: false, type: 'github' });
       await users[0].save();
       weeklyEmail.sendEmailNotification = jest.fn();
       const ret = await weeklyEmail.start();

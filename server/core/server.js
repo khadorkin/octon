@@ -40,9 +40,11 @@ class Server {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
 
-    // TODO only run OpticsAgent on production mode
-    OpticsAgent.instrumentSchema(schema);
-    this.app.use(OpticsAgent.middleware());
+    if (process.env.NODE_ENV !== 'test') {
+      // TODO only run OpticsAgent on production mode
+      OpticsAgent.instrumentSchema(schema);
+      this.app.use(OpticsAgent.middleware());
+    }
     this.app.use('/graphql', apolloExpress((req) => {
       const user = req.user;
       return {

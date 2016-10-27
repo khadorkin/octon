@@ -64,6 +64,24 @@ describe('server.graphql.resolvers', () => {
       });
     });
 
+    describe('#syncUserDockerStars', () => {
+      it('should throw if no user provided in context', () => {
+        try {
+          mutation.syncUserDockerStars(null, null, {});
+        } catch (err) {
+          expect(err.message).toMatch(/logged/);
+        }
+      });
+
+      it('should call Users.syncStars', () => {
+        const user = 'toto';
+        const Users = { syncDockerStars: jest.fn() };
+        mutation.syncUserDockerStars(null, null, { user, Users });
+        expect(Users.syncDockerStars.mock.calls.length).toEqual(1);
+        expect(Users.syncDockerStars).toBeCalledWith(user);
+      });
+    });
+
     describe('#trackRepository', () => {
       it('should throw if no user provided in context', () => {
         try {
