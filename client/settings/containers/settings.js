@@ -50,8 +50,13 @@ const addDockerAccountMutation = gql`
   mutation addDockerAccount($username: String!) {
     addDockerAccount(username: $username) {
       id
+      github {
+        username
+        lastSync
+      }
       docker {
         username
+        lastSync
       }
     }
   }
@@ -70,9 +75,11 @@ const syncUserGithubStarsMutation = gql`
     syncUserGithubStars {
       id
       github {
+        username
         lastSync
       }
       docker {
+        username
         lastSync
       }
     }
@@ -90,9 +97,11 @@ const syncUserDockerStarsMutation = gql`
     syncUserDockerStars {
       id
       github {
+        username
         lastSync
       }
       docker {
+        username
         lastSync
       }
     }

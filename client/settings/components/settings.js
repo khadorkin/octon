@@ -14,6 +14,7 @@ import Button from 'material-ui-build/src/Button';
 class Settings extends Component {
   constructor(props) {
     super(props);
+    // TODO loading
     this.state = {
       success: '',
       error: '',
@@ -153,10 +154,12 @@ class Settings extends Component {
         </TextField>
         <Button type="submit">Submit</Button>
       </form>
-      <Text className="content">
-        Last star sync: {user.docker && user.docker.lastSync ? <TimeAgo datetime={new Date(user.docker.lastSync)} /> : ' No sync yet'}
-        <Button onClick={this.handleSyncUserDockerStars}>Sync docker stars</Button>
-      </Text>
+      {user.docker ?
+        <Text className="content">
+          Last star sync: {user.docker && user.docker.lastSync ? <TimeAgo datetime={new Date(user.docker.lastSync)} /> : ' No sync yet'}
+          <Button onClick={this.handleSyncUserDockerStars}>Sync docker stars</Button>
+        </Text>
+        : null}
       <div className="content show-more">
         {showMore ?
           <div className="pull-right">
