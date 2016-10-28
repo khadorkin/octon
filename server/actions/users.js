@@ -107,7 +107,7 @@ class Users {
       const docker = new Docker();
       return docker.getAllUserStars(user.docker.username).then((dockerRepositories) => {
         const dockerRepositoriesIds = dockerRepositories.map(repo => `${repo.user}/${repo.name}`);
-        return Repository.find({ refId: { $in: dockerRepositoriesIds }, type: 'github' })
+        return Repository.find({ refId: { $in: dockerRepositoriesIds }, type: 'docker' })
           .then((repositories) => {
             let repositoriesIds = repositories.map(repo => repo.refId);
             const dockerRepositoriesToInsert = dockerRepositories.filter(repo =>

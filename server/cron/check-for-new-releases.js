@@ -1,6 +1,7 @@
 import moment from 'moment';
 import marked from 'marked';
 import Github from '../core/github';
+import Docker from '../core/docker';
 import User from '../models/users';
 import Repository from '../models/repositories';
 import Email from '../emails';
@@ -20,8 +21,9 @@ class CheckForNewReleases {
         throw new Error('No users');
       }
       this.github = new Github({ accessToken: user.github.accessToken });
+      this.docker = new Docker();
 
-      return Repository.find().exec().then(repositories =>
+      return Repository.find().sort({ type: 1 }).exec().then(repositories =>
         this.getLatestReleaseAndSave(repositories)
       );
     });
@@ -52,7 +54,22 @@ class CheckForNewReleases {
       return true;
     }
     const repository = repositories.pop();
-    return this.github.getLatestRelease(repository).then((release) => {
+    return this.getLatestRelease(repository).then((release) => {
+      if (release) {
+        // return this.findUsersTrackingRepo(repository, release);
+      }
+      return null;
+    }).then(() => this.getLatestReleaseAndSave(repositories));
+  }
+
+  getLatestRelease(repository) {
+    let promise;
+    if (repository.type === 'github') {
+      promise = this.github.getLatestRelease(repository);
+    } else {
+      promise = this.docker.getLatestRelease(repository);
+    }
+    return promise.then((release) => {
       // If there is no release or no new release
       if (!release ||
         (repository.latestRelease &&
@@ -61,11 +78,8 @@ class CheckForNewReleases {
       }
       // If new release
       repository.latestRelease = release;
-      return repository.save().then(() =>
-        // Find wich user is tracking repository
-        this.findUsersTrackingRepo(repository, release)
-      );
-    }).then(() => this.getLatestReleaseAndSave(repositories));
+      return repository.save();
+    });
   }
 }
 

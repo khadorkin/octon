@@ -1,6 +1,8 @@
 import { Github } from 'node-social-api';
 import semver from 'semver';
 
+// TODO makeReposirory
+
 class GithubCore {
   constructor(options) {
     this.api = new Github(options);
