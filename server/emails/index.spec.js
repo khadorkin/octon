@@ -6,12 +6,6 @@ describe('server.emails.index', () => {
       email: 'email',
     },
   };
-  const repository = {
-    fullName: 'fullName',
-    latestRelease: {
-      tagName: 'tagName',
-    },
-  };
 
   it('should be a class', () => {
     expect(typeof Email).toBe('function');
