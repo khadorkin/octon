@@ -32,4 +32,45 @@ describe('server.core.docker', () => {
       });
     });
   });
+
+  describe('#makeVersion', () => {
+    const docker = new DockerCore();
+
+    it('should make version', () => {
+      const repository = {
+        refId: 'library/rethinkdb',
+      };
+      const version = {
+        name: '2.3.5',
+        full_size: 75958211,
+        id: 4591144,
+        repository: 121182,
+        creator: 621950,
+        last_updater: 621950,
+        last_updated: '2016-10-22T01:08:43.058336Z',
+        image_id: null,
+        v2: true,
+      };
+      const ret = docker.makeVersion(repository, version);
+      expect(ret).toEqual({
+        type: 'tag',
+        refId: version.id,
+        tagName: version.name,
+        htmlUrl: `https://hub.docker.com/r/${repository.refId}/tags`,
+        publishedAt: version.last_updated,
+      });
+    });
+  });
+
+  describe('#getLatestRelease', () => {
+    const docker = new DockerCore();
+
+    it('should return lastest release', async () => {
+      const repository = {
+        refId: 'library/rethinkdb',
+      };
+      const ret = await docker.getLatestRelease(repository);
+      expect(ret).toBeTruthy();
+    });
+  });
 });
