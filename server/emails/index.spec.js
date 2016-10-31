@@ -33,7 +33,7 @@ describe('server.emails.index', () => {
     });
 
     it('should return compiled template', () => {
-      const template = email.constructEmail('new-release');
+      const template = email.constructEmail('releases-list');
       expect(template).toBeTruthy();
     });
   });
@@ -81,16 +81,16 @@ describe('server.emails.index', () => {
     });
   });
 
-  describe('#newRelease', () => {
+  describe('#dailyUpdate', () => {
     const email = new Email();
 
     it('should be a function', () => {
-      expect(typeof email.newRelease).toBe('function');
+      expect(typeof email.dailyUpdate).toBe('function');
     });
 
     it('should call sendMail', () => {
       email.sendMail = jest.fn();
-      email.newRelease(user, repository);
+      email.dailyUpdate(user, []);
       expect(email.sendMail.mock.calls.length).toEqual(1);
     });
   });

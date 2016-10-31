@@ -10,6 +10,7 @@ describe('server.cron.index', () => {
 
     it('should set cron jobs', () => {
       expect(cron.checkForNewReleases).toBeTruthy();
+      expect(cron.dailyMail).toBeTruthy();
       expect(cron.weeklyMail).toBeTruthy();
     });
   });
@@ -61,14 +62,34 @@ describe('server.cron.index', () => {
     });
   });
 
+  describe('#startDailyMail', () => {
+    const cron = new Cron();
+
+    it('should start dailyMail job', async () => {
+      cron.dailyMail = { start: jest.fn() };
+      cron.dailyMail.start.mockReturnValue(Promise.resolve('sucess'));
+      await cron.startDailyMail();
+      expect(cron.dailyMail.start.mock.calls.length).toEqual(1);
+    });
+
+    it('should catch error', async () => {
+      cron.dailyMail = { start: jest.fn() };
+      cron.dailyMail.start.mockReturnValue(Promise.reject('error'));
+      await cron.startDailyMail();
+      expect(cron.dailyMail.start.mock.calls.length).toEqual(1);
+    });
+  });
+
   describe('#stop', () => {
     const cron = new Cron();
 
     it('should cancel checkForNewReleasesJob', () => {
       cron.checkForNewReleasesJob = { cancel: jest.fn() };
+      cron.dailyMailJob = { cancel: jest.fn() };
       cron.weeklyMailJob = { cancel: jest.fn() };
       cron.stop();
       expect(cron.checkForNewReleasesJob.cancel.mock.calls.length).toEqual(1);
+      expect(cron.dailyMailJob.cancel.mock.calls.length).toEqual(1);
       expect(cron.weeklyMailJob.cancel.mock.calls.length).toEqual(1);
     });
   });

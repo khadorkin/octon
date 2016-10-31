@@ -5,9 +5,9 @@ import {
   createRepository,
   createLatestRelease,
 } from '../core/tests';
-import WeeklyMail from './weekly-mail';
+import UpdateMail from './update-mail';
 
-describe('server.cron.weekly-mail', () => {
+describe('server.cron.update-mail', () => {
   const repositories = [];
   const users = [];
 
@@ -23,35 +23,47 @@ describe('server.cron.weekly-mail', () => {
   });
 
   it('should be a class', () => {
-    expect(typeof WeeklyMail).toBe('function');
+    expect(typeof UpdateMail).toBe('function');
   });
 
   describe('#constructor', () => {
-    const weeklyEmail = new WeeklyMail();
+    const updateEmail = new UpdateMail('daily');
 
     it('should set email', () => {
-      expect(weeklyEmail.email).toBeTruthy();
-      expect(weeklyEmail.email.weeklyUpdate).toBeTruthy();
+      expect(updateEmail.email).toBeTruthy();
+      expect(updateEmail.email.weeklyUpdate).toBeTruthy();
+    });
+
+    it('should set type', () => {
+      expect(updateEmail.type).toEqual('daily');
     });
   });
 
   describe('#sendEmailNotification', () => {
-    const weeklyEmail = new WeeklyMail();
+    it('should call this.email.dailyUpdate', () => {
+      const updateEmail = new UpdateMail('daily');
+      const mock = jest.fn();
+      updateEmail.email = { dailyUpdate: mock };
+      updateEmail.sendEmailNotification('user', 'repositories');
+      expect(mock.mock.calls.length).toEqual(1);
+      expect(mock.mock.calls[0]).toEqual(['user', 'repositories']);
+    });
 
     it('should call this.email.weeklyUpdate', () => {
+      const updateEmail = new UpdateMail('weekly');
       const mock = jest.fn();
-      weeklyEmail.email = { weeklyUpdate: mock };
-      weeklyEmail.sendEmailNotification('user', 'repositories');
+      updateEmail.email = { weeklyUpdate: mock };
+      updateEmail.sendEmailNotification('user', 'repositories');
       expect(mock.mock.calls.length).toEqual(1);
       expect(mock.mock.calls[0]).toEqual(['user', 'repositories']);
     });
   });
 
   describe('#start', () => {
-    const weeklyEmail = new WeeklyMail();
+    const updateEmail = new UpdateMail('weekly');
 
     it('should return null', async () => {
-      const ret = await weeklyEmail.start();
+      const ret = await updateEmail.start();
       expect(ret).toBeTruthy();
     });
 
@@ -68,13 +80,13 @@ describe('server.cron.weekly-mail', () => {
       users[0].starred.push({ repositoryId: repositories[1].id, type: 'github' });
       users[0].starred.push({ repositoryId: repositories[2].id, active: false, type: 'github' });
       await users[0].save();
-      weeklyEmail.sendEmailNotification = jest.fn();
-      const ret = await weeklyEmail.start();
-      expect(weeklyEmail.sendEmailNotification.mock.calls.length).toEqual(1);
-      expect(weeklyEmail.sendEmailNotification.mock.calls[0][0].id).toEqual(users[0].id);
-      expect(weeklyEmail.sendEmailNotification.mock.calls[0][1].length).toEqual(2);
-      expect(weeklyEmail.sendEmailNotification.mock.calls[0][1][0].id).toEqual(repositories[1].id);
-      expect(weeklyEmail.sendEmailNotification.mock.calls[0][1][1].id).toEqual(repositories[0].id);
+      updateEmail.sendEmailNotification = jest.fn();
+      const ret = await updateEmail.start();
+      expect(updateEmail.sendEmailNotification.mock.calls.length).toEqual(1);
+      expect(updateEmail.sendEmailNotification.mock.calls[0][0].id).toEqual(users[0].id);
+      expect(updateEmail.sendEmailNotification.mock.calls[0][1].length).toEqual(2);
+      expect(updateEmail.sendEmailNotification.mock.calls[0][1][0].id).toEqual(repositories[1].id);
+      expect(updateEmail.sendEmailNotification.mock.calls[0][1][1].id).toEqual(repositories[0].id);
       expect(ret).toBeTruthy();
     });
   });

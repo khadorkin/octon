@@ -58,7 +58,6 @@ class GithubCore {
             tagName: release.tag_name,
             htmlUrl: release.html_url,
             publishedAt: release.published_at,
-            body: release.body,
           };
           return latestRelease;
         }

@@ -3,17 +3,26 @@ import User from '../models/users';
 import Repository from '../models/repositories';
 import Email from '../emails';
 
-class WeeklyMail {
-  constructor() {
+class UpdateMail {
+  constructor(type) {
     this.email = new Email();
+    this.type = type;
   }
 
   sendEmailNotification(user, repositories) {
+    if (this.type === 'daily') {
+      return this.email.dailyUpdate(user, repositories);
+    }
     return this.email.weeklyUpdate(user, repositories);
   }
 
   start() {
-    const startDate = moment().subtract(7, 'days');
+    let startDate;
+    if (this.type === 'daily') {
+      startDate = moment().subtract(1, 'days');
+    } else {
+      startDate = moment().subtract(7, 'days');
+    }
     const endDate = moment();
     // Only return last 7 days updates
     return Repository.find({ 'latestRelease.publishedAt': {
@@ -26,10 +35,15 @@ class WeeklyMail {
       });
       const repositoriesIds = repositories.map(repo => repo.id);
       // Find users tracking repo
-      return User.find({
+      const query = {
         'starred.repositoryId': { $in: repositoriesIds },
-        weeklyNotification: true,
-      }).then((users) => {
+      };
+      if (this.type === 'daily') {
+        query.dailyNotification = true;
+      } else {
+        query.weeklyNotification = true;
+      }
+      return User.find(query).then((users) => {
         users.forEach((user) => {
           // For each users only return user tracking repos
           const userRepositories = repositories.filter((repository) => {
@@ -49,4 +63,4 @@ class WeeklyMail {
   }
 }
 
-export default WeeklyMail;
+export default UpdateMail;
