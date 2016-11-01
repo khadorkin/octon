@@ -46,10 +46,10 @@ describe('server.graphql.resolvers', () => {
   describe('#Mutation', () => {
     const mutation = resolvers.Mutation;
 
-    describe('#syncUserStars', () => {
+    describe('#syncUserGithubStars', () => {
       it('should throw if no user provided in context', () => {
         try {
-          mutation.syncUserStars(null, null, {});
+          mutation.syncUserGithubStars(null, null, {});
         } catch (err) {
           expect(err.message).toMatch(/logged/);
         }
@@ -58,9 +58,27 @@ describe('server.graphql.resolvers', () => {
       it('should call Users.syncStars', () => {
         const user = 'toto';
         const Users = { syncStars: jest.fn() };
-        mutation.syncUserStars(null, null, { user, Users });
+        mutation.syncUserGithubStars(null, null, { user, Users });
         expect(Users.syncStars.mock.calls.length).toEqual(1);
         expect(Users.syncStars).toBeCalledWith(user);
+      });
+    });
+
+    describe('#syncUserDockerStars', () => {
+      it('should throw if no user provided in context', () => {
+        try {
+          mutation.syncUserDockerStars(null, null, {});
+        } catch (err) {
+          expect(err.message).toMatch(/logged/);
+        }
+      });
+
+      it('should call Users.syncStars', () => {
+        const user = 'toto';
+        const Users = { syncDockerStars: jest.fn() };
+        mutation.syncUserDockerStars(null, null, { user, Users });
+        expect(Users.syncDockerStars.mock.calls.length).toEqual(1);
+        expect(Users.syncDockerStars).toBeCalledWith(user);
       });
     });
 
@@ -122,6 +140,24 @@ describe('server.graphql.resolvers', () => {
       });
     });
 
+    describe('#addDockerAccount', () => {
+      it('should throw if no user provided in context', () => {
+        try {
+          mutation.addDockerAccount(null, {}, {});
+        } catch (err) {
+          expect(err.message).toMatch(/logged/);
+        }
+      });
+
+      it('should call Users.addDockerAccount', () => {
+        const user = 'toto';
+        const Users = { addDockerAccount: jest.fn() };
+        mutation.addDockerAccount(null, { username: 'username' }, { user, Users });
+        expect(Users.addDockerAccount.mock.calls.length).toEqual(1);
+        expect(Users.addDockerAccount).toBeCalledWith(user, 'username');
+      });
+    });
+
     describe('#deleteUserAccount', () => {
       it('should throw if no user provided in context', () => {
         try {
@@ -137,6 +173,26 @@ describe('server.graphql.resolvers', () => {
         mutation.deleteUserAccount(null, null, { user, Users });
         expect(Users.deleteAccount.mock.calls.length).toEqual(1);
         expect(Users.deleteAccount).toBeCalledWith(user);
+      });
+    });
+  });
+
+  describe('#User', () => {
+    const user = resolvers.User;
+
+    describe('#github', () => {
+      it('should return user.github', () => {
+        const arg = { github: { username: 'toto' } };
+        const ret = user.github(arg);
+        expect(arg.github).toEqual(ret);
+      });
+    });
+
+    describe('#docker', () => {
+      it('should return user.docker', () => {
+        const arg = { docker: { username: 'toto' } };
+        const ret = user.docker(arg);
+        expect(arg.docker).toEqual(ret);
       });
     });
   });

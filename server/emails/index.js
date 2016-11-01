@@ -40,17 +40,17 @@ class Email {
     });
   }
 
-  newRelease(user, repository) {
-    const subject = `${repository.name} ${repository.latestRelease.tagName} new version`;
-    const html = this.constructEmail('new-release', {
-      repository, BASE_URL: process.env.BASE_URL,
+  weeklyUpdate(user, repositories) {
+    const subject = 'Weekly update';
+    const html = this.constructEmail('releases-list', {
+      repositories, BASE_URL: process.env.BASE_URL,
     });
     this.sendMail({ to: user.email, subject, html });
   }
 
-  weeklyUpdate(user, repositories) {
-    const subject = 'Weekly update';
-    const html = this.constructEmail('weekly-update', {
+  dailyUpdate(user, repositories) {
+    const subject = 'Daily update';
+    const html = this.constructEmail('releases-list', {
       repositories, BASE_URL: process.env.BASE_URL,
     });
     this.sendMail({ to: user.email, subject, html });

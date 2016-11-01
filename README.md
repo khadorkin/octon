@@ -12,6 +12,10 @@ Notifies you when a new release has been made on repositories you starred on Git
 ### Features
 
 Emails you when a new release has been made on Github.
+- Daily mail
+- Weekly mail
+- Github support
+- Docker support
 
 ### Why
 

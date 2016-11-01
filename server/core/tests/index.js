@@ -30,19 +30,21 @@ export async function disconnectDb(done) {
 
 export function createUser(options = {}) {
   const schema = {
-    username: faker.name.firstName(),
     photo: faker.image.imageUrl(),
     email: faker.internet.email(),
     github: {
       id: faker.random.uuid(),
+      username: faker.name.firstName(),
       accessToken: faker.random.uuid(),
     },
     starred: [{
       active: false,
       repositoryId: '57ff5c5c74b8ac07d4d1b0f0',
+      type: 'github',
     }, {
       active: true,
       repositoryId: '57ff5c5c74b8ac07d4d1b0e9',
+      type: 'github',
     }],
   };
   const user = new User(Object.assign({}, schema, options));

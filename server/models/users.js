@@ -10,13 +10,45 @@ const starred = new mongoose.Schema({
     required: true,
     default: true,
   },
+  type: {
+    type: String,
+    required: true,
+  },
 });
 
-const userSchema = new mongoose.Schema({
+const userGithub = new mongoose.Schema({
+  id: {
+    type: String,
+    required: true,
+  },
   username: {
     type: String,
     required: true,
   },
+  accessToken: {
+    type: String,
+    required: true,
+  },
+  lastSync: {
+    type: Date,
+  },
+}, { _id: false });
+
+const userDocker = new mongoose.Schema({
+  id: {
+    type: String,
+    required: true,
+  },
+  username: {
+    type: String,
+    required: true,
+  },
+  lastSync: {
+    type: Date,
+  },
+}, { _id: false });
+
+const userSchema = new mongoose.Schema({
   photo: {
     type: String,
     required: true,
@@ -24,9 +56,6 @@ const userSchema = new mongoose.Schema({
   starred: {
     type: [starred],
     default: [],
-  },
-  lastSync: {
-    type: Date,
   },
   dailyNotification: {
     type: Boolean,
@@ -43,14 +72,12 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   github: {
-    id: {
-      type: String,
-      required: true,
-    },
-    accessToken: {
-      type: String,
-      required: true,
-    },
+    type: userGithub,
+    required: true,
+  },
+  docker: {
+    type: userDocker,
+    required: false,
   },
   created: {
     type: Date,
@@ -68,12 +95,15 @@ function getActiveStarred(userStarred, id) {
   return true;
 }
 
-userSchema.methods.setStars = (userStarred, githubStars) => {
-  const stars = [];
-  githubStars.forEach((star) => {
+userSchema.methods.setStars = (userStarred, newStars, type) => {
+  // Only keep other type stars
+  const stars = userStarred.filter(star => star.type !== type);
+  // For each new stars add it to user
+  newStars.forEach((star) => {
     stars.push({
       repositoryId: star,
       active: getActiveStarred(userStarred, star),
+      type,
     });
   });
   return stars;

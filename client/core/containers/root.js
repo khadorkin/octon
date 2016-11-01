@@ -8,9 +8,16 @@ const currentUserQuery = gql`
       id
       photo
       email
-      lastSync
       dailyNotification
       weeklyNotification
+      github {
+        username
+        lastSync
+      }
+      docker {
+        username
+        lastSync
+      }
     }
   }
 `;
@@ -23,16 +30,4 @@ const RootWithData = graphql(currentUserQuery, {
   }),
 })(Root);
 
-const syncUserStarsMutation = gql`
-  mutation syncUserStars {
-    syncUserStars
-  }
-`;
-
-const RootWithDataAndMutation = graphql(syncUserStarsMutation, {
-  props: ({ mutate }) => ({
-    syncUserStars: () => mutate({}),
-  }),
-})(RootWithData);
-
-export default RootWithDataAndMutation;
+export default RootWithData;

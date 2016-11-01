@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import IconButton from 'material-ui-build/src/IconButton';
 import { Menu, MenuItem } from 'material-ui-build/src/Menu';
 
@@ -30,9 +31,9 @@ class Header extends Component {
     return (<nav className="navbar navbar-default navbar-fixed-top">
       <div className="container">
         <div className="navbar-header">
-          <a className="navbar-brand" href="/">
+          <Link to="/" className="navbar-brand">
             <img alt="Brand" src="/img/logo.svg" />
-          </a>
+          </Link>
         </div>
         <ul className="nav navbar-nav navbar-right">
           {loading ? <li><a>Loading ...</a></li> :

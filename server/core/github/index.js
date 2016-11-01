@@ -1,6 +1,8 @@
 import { Github } from 'node-social-api';
 import semver from 'semver';
 
+// TODO makeReposirory
+
 class GithubCore {
   constructor(options) {
     this.api = new Github(options);
@@ -56,7 +58,6 @@ class GithubCore {
             tagName: release.tag_name,
             htmlUrl: release.html_url,
             publishedAt: release.published_at,
-            body: release.body,
           };
           return latestRelease;
         }

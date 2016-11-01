@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import connectMongo from 'connect-mongo';
 import passport from 'passport';
+import OpticsAgent from 'optics-agent';
 import { apolloExpress, graphiqlExpress } from 'apollo-server';
 import path from 'path';
 import logger from '../logger';
@@ -39,6 +40,11 @@ class Server {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
 
+    if (process.env.NODE_ENV !== 'test') {
+      // TODO only run OpticsAgent on production mode
+      OpticsAgent.instrumentSchema(schema);
+      this.app.use(OpticsAgent.middleware());
+    }
     this.app.use('/graphql', apolloExpress((req) => {
       const user = req.user;
       return {
@@ -46,6 +52,7 @@ class Server {
         context: {
           user,
           Users: new Users(),
+          opticsContext: OpticsAgent.context(req),
         },
       };
     }));
@@ -92,14 +99,6 @@ class Server {
       }
     }
 
-    this.app.get('/', (req, res) => {
-      if (!req.isAuthenticated()) {
-        res.sendFile(path.resolve('server/templates/index.html'));
-      } else {
-        res.sendFile(path.resolve('server/templates/app.html'));
-      }
-    });
-
     this.app.get('/auth/github', passport.authenticate('github'));
 
     this.app.get('/auth/github/callback',
@@ -111,6 +110,14 @@ class Server {
     this.app.get('/logout', (req, res) => {
       req.logout();
       res.redirect('/');
+    });
+
+    this.app.get('*', (req, res) => {
+      if (!req.isAuthenticated()) {
+        res.sendFile(path.resolve('server/templates/index.html'));
+      } else {
+        res.sendFile(path.resolve('server/templates/app.html'));
+      }
     });
 
     await this.startExpressServer();
