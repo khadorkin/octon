@@ -10,6 +10,7 @@ import {
 import TextField, { TextFieldInput, TextFieldLabel } from 'material-ui-build/src/TextField';
 import Switch from 'material-ui-build/src/Switch';
 import Button from 'material-ui-build/src/Button';
+import { CircularProgress } from 'material-ui-build/src/Progress';
 
 class Settings extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class Settings extends Component {
     this.state = {
       success: '',
       error: '',
+      loading: false,
       email: props.user.email,
       dockerUsername: props.user.docker ? props.user.docker.username : '',
       showMore: false,
@@ -26,56 +28,56 @@ class Settings extends Component {
 
   handleSetNotificationDaily = () => {
     const { setNotification, user } = this.props;
-    this.setState({ success: '', error: '' });
+    this.setState({ loading: true, success: '', error: '' });
     setNotification('daily', !user.dailyNotification, user)
-      .then(() => this.setState({ success: 'Info updated' }))
-      .catch(err => this.setState({ error: err.message }));
+      .then(() => this.setState({ loading: false, success: 'Info updated' }))
+      .catch(err => this.setState({ loading: false, error: err.message }));
   }
 
   handleSetNotificationWeekly = () => {
     const { setNotification, user } = this.props;
-    this.setState({ success: '', error: '' });
+    this.setState({ loading: true, success: '', error: '' });
     setNotification('weekly', !user.weeklyNotification, user)
-      .then(() => this.setState({ success: 'Info updated' }))
-      .catch(err => this.setState({ error: err.message }));
+      .then(() => this.setState({ loading: false, success: 'Info updated' }))
+      .catch(err => this.setState({ loading: false, error: err.message }));
   }
 
   handleChangeUserEmail = (e) => {
     e.preventDefault();
     const { editUserEmail } = this.props;
     const { email } = this.state;
-    this.setState({ success: '', error: '' });
+    this.setState({ loading: true, success: '', error: '' });
     editUserEmail(email)
-      .then(() => this.setState({ success: 'Info updated' }))
-      .catch(err => this.setState({ error: err.message }));
+      .then(() => this.setState({ loading: false, success: 'Info updated' }))
+      .catch(err => this.setState({ loading: false, error: err.message }));
   }
 
   handleChangeDockerUser = (e) => {
     e.preventDefault();
     const { addDockerAccount } = this.props;
     const { dockerUsername } = this.state;
-    this.setState({ success: '', error: '' });
+    this.setState({ loading: true, success: '', error: '' });
     addDockerAccount(dockerUsername)
-      .then(() => this.setState({ success: 'Info updated' }))
-      .catch(err => this.setState({ error: err.message }));
+      .then(() => this.setState({ loading: false, success: 'Info updated' }))
+      .catch(err => this.setState({ loading: false, error: err.message }));
   }
 
   handleSyncUserGithubStars = (e) => {
     e.preventDefault();
     const { syncUserGithubStars } = this.props;
-    this.setState({ success: '', error: '' });
+    this.setState({ loading: true, success: '', error: '' });
     syncUserGithubStars()
-      .then(() => this.setState({ success: 'Github stars synced' }))
-      .catch(err => this.setState({ error: err.message }));
+      .then(() => this.setState({ loading: false, success: 'Github stars synced' }))
+      .catch(err => this.setState({ loading: false, error: err.message }));
   }
 
   handleSyncUserDockerStars = (e) => {
     e.preventDefault();
     const { syncUserDockerStars } = this.props;
-    this.setState({ success: '', error: '' });
+    this.setState({ loading: true, success: '', error: '' });
     syncUserDockerStars()
-      .then(() => this.setState({ success: 'Docker stars synced' }))
-      .catch(err => this.setState({ error: err.message }));
+      .then(() => this.setState({ loading: false, success: 'Docker stars synced' }))
+      .catch(err => this.setState({ loading: false, error: err.message }));
   }
 
   handleDeleteAccount = () => {
@@ -83,13 +85,13 @@ class Settings extends Component {
     const { deleteUserAccount } = this.props;
     const choice = confirm('Do you really want to delete your account? (this action is irreversible)');
     if (choice) {
-      this.setState({ success: '', error: '' });
+      this.setState({ loading: true, success: '', error: '' });
       deleteUserAccount()
         .then(() => {
-          this.setState({ success: 'Account deleted' });
+          this.setState({ loading: false, success: 'Account deleted' });
           location.reload();
         })
-        .catch(err => this.setState({ error: err.message }));
+        .catch(err => this.setState({ loading: false, error: err.message }));
     }
   }
 
@@ -101,9 +103,10 @@ class Settings extends Component {
 
   render() {
     const { user } = this.props;
-    const { success, error, email, dockerUsername, showMore } = this.state;
+    const { loading, success, error, email, dockerUsername, showMore } = this.state;
     return (<div className="settings">
       <Text type="title" className="content title">Settings</Text>
+      {loading ? <CircularProgress /> : null}
       {success ? <p className="bg-success">{success}</p> : null}
       {error ? <p className="bg-danger">{error}</p> : null}
       <List>
