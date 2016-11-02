@@ -6,6 +6,7 @@ import connectMongo from 'connect-mongo';
 import passport from 'passport';
 import OpticsAgent from 'optics-agent';
 import { apolloExpress, graphiqlExpress } from 'apollo-server';
+import moment from 'moment';
 import path from 'path';
 import Rss from 'rss';
 import logger from '../logger';
@@ -125,10 +126,12 @@ class Server {
             site_url: `${process.env.BASE_URL}`,
           });
           data.forEach((repo) => {
+            const date = moment(repo.latestRelease.tagName.publishedAt).format('ddd DD MMM - h.mma');
             feed.item({
               title: repo.name,
-              description: `Release ${repo.latestRelease.name}`, // TODO add date
+              description: `Released ${repo.latestRelease.tagName} on ${date}`,
               url: repo.latestRelease.htmlUrl,
+              date: repo.latestRelease.tagName.publishedAt,
             });
           });
           res.set('Content-Type', 'text/xml').send(feed.xml());
