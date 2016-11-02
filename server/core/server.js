@@ -7,6 +7,7 @@ import passport from 'passport';
 import OpticsAgent from 'optics-agent';
 import { apolloExpress, graphiqlExpress } from 'apollo-server';
 import path from 'path';
+import Rss from 'rss';
 import logger from '../logger';
 import { serializeUser, deserializeUser } from '../passport/passport';
 import gitHubStrategy from '../passport/github';
@@ -110,6 +111,31 @@ class Server {
     this.app.get('/logout', (req, res) => {
       req.logout();
       res.redirect('/');
+    });
+
+    this.app.get('/users/:userId/rss', (req, res) => {
+      // TODO check req.params.userId is objectId
+      const users = new Users();
+      users.getRepositories({ id: req.params.userId }).then(data =>
+        users.get(req.params.userId).then((user) => {
+          const feed = new Rss({
+            title: 'title',
+            description: `Latest releases for ${user.github.username}`,
+            feed_url: `${process.env.BASE_URL}/users/${user.id}/rss`,
+            site_url: `${process.env.BASE_URL}`,
+          });
+          data.forEach((repo) => {
+            feed.item({
+              title: repo.name,
+              description: `Release ${repo.latestRelease.name}`, // TODO add date
+              url: repo.latestRelease.htmlUrl,
+            });
+          });
+          res.set('Content-Type', 'text/xml').send(feed.xml());
+        })
+      ).catch((err) => {
+        res.status(500).send(err.message);
+      });
     });
 
     this.app.get('*', (req, res) => {
