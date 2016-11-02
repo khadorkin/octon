@@ -120,7 +120,7 @@ class Server {
       users.getRepositories({ id: req.params.userId }).then(data =>
         users.get(req.params.userId).then((user) => {
           const feed = new Rss({
-            title: 'title',
+            title: 'Octon',
             description: `Latest releases for ${user.github.username}`,
             feed_url: `${process.env.BASE_URL}/users/${user.id}/rss`,
             site_url: `${process.env.BASE_URL}`,
