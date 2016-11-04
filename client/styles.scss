@@ -161,13 +161,15 @@ a, a:hover, a:focus {
     width: 100%;
   }
   .col-right {
+    transform: translate3d(100%, 0px, 0px);
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    will-change: transform;
     left: 0;
     z-index: 2;
-    display: none;
     padding: 0;
 
     &.open {
-      display: block;
+      transform: translate3d(0px, 0px, 0px);
     }
   }
 
