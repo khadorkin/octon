@@ -25,6 +25,7 @@ describe('server.core.docker', () => {
       const repo = docker.makeReposirory(rethinkdb);
       expect(repo).toEqual({
         name: 'library/rethinkdb',
+        description: rethinkdb.description,
         htmlUrl: 'https://hub.docker.com/r/library/rethinkdb',
         photo: 'https://hub.docker.com/v2/users/library/avatar/',
         type: 'docker',
