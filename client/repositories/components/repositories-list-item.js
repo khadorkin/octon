@@ -1,10 +1,9 @@
 import React, { PropTypes, Component } from 'react';
+import classnames from 'classnames';
 import TimeAgo from 'timeago-react';
-import {
-  ListItem,
-  ListItemText,
-} from 'material-ui-build/src/List';
 import Avatar from 'material-ui-build/src/Avatar';
+import ListItem from 'material-ui-build/src/List/ListItem';
+import ListItemText from 'material-ui-build/src/List/ListItemText';
 import Text from 'material-ui-build/src/Text';
 
 class RepositoriesListItem extends Component {
@@ -32,7 +31,7 @@ class RepositoriesListItem extends Component {
       : 'No release';
     return (
       <ListItem
-        button className={active ? 'repositories-list-item active' : 'repositories-list-item'}
+        button className={classnames('repositories-list-item', { active })}
         onClick={this.handleClick}
       >
         <Avatar

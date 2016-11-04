@@ -1,4 +1,3 @@
-$max-width-container: 850px;
 $white: #ffffff;
 $neon: #1fe8af;
 
@@ -13,10 +12,6 @@ body {
 }
 
 .navbar {
-  .container {
-    max-width: $max-width-container;
-  }
-
   .navbar-brand img {
     height: 25px;
   }
@@ -132,6 +127,10 @@ body {
 }
 
 .repository-content {
+  .icon-close {
+    display: none;
+  }
+
   .actions {
     display: flex;
     align-items: center;
@@ -165,6 +164,7 @@ a, a:hover, a:focus {
     left: 0;
     z-index: 2;
     display: none;
+    padding: 0;
 
     &.open {
       display: block;
@@ -172,6 +172,10 @@ a, a:hover, a:focus {
   }
 
   .navbar {
+    .container-fluid {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
     .navbar-header {
       float: left;
     }
@@ -180,6 +184,29 @@ a, a:hover, a:focus {
       margin: 0;
       .navbar-avatar {
         float: left;
+      }
+    }
+  }
+
+  .repositories-list {
+    .search-input {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
+
+    .repositories-list-item {
+      padding-left: 16px !important;
+    }
+  }
+
+  .repository-content {
+    .icon-close {
+      display: block;
+    }
+
+    .actions {
+      .span-label {
+        display: none;
       }
     }
   }

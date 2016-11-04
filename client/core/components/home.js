@@ -28,7 +28,7 @@ class Home extends Component {
   }
 
   render() {
-    const { loading: loadingProp, user, error: errorProp, params } = this.props;
+    const { loading: loadingProp, user, error: errorProp, params, router } = this.props;
     const { loading: loadingState, error: errorState } = this.state;
     const error = errorProp ? errorProp.message : errorState;
     const loading = loadingProp || loadingState;
@@ -47,7 +47,7 @@ class Home extends Component {
                 onItemSelect={this.handleItemSelect}
               />}
         </div>
-        <RepositoryContent repositoryId={selectedId} />
+        <RepositoryContent router={router} repositoryId={selectedId} />
       </div>
     );
   }

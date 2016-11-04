@@ -1,15 +1,16 @@
 import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 import marked from 'marked';
+import Avatar from 'material-ui-build/src/Avatar';
 import {
   ListItem,
   ListItemText,
   ListItemSecondaryAction,
 } from 'material-ui-build/src/List';
+import IconButton from 'material-ui-build/src/IconButton';
+import CircularProgress from 'material-ui-build/src/Progress/CircularProgress';
 import Switch from 'material-ui-build/src/Switch';
-import Avatar from 'material-ui-build/src/Avatar';
 import Text from 'material-ui-build/src/Text';
-import { CircularProgress } from 'material-ui-build/src/Progress';
 import TimeAgo from 'timeago-react';
 
 class RepositoryContent extends Component {
@@ -26,6 +27,10 @@ class RepositoryContent extends Component {
 
   handleOpenNewTabRelease = () => {
     window.open(this.props.repository.latestRelease.htmlUrl, '_blank');
+  }
+
+  handleCloseCLick = () => {
+    this.props.router.replace('/');
   }
 
   handleTrack = () => {
@@ -47,6 +52,7 @@ class RepositoryContent extends Component {
         {error ? <p className="bg-danger">{error}</p> : null}
         {repository && !loading ?
           <div>
+            <IconButton className="icon-close" onClick={this.handleCloseCLick}>close</IconButton>
             <ListItem button onClick={this.handleOpenNewTabRepository}>
               <Avatar
                 alt={repository.name}
@@ -63,7 +69,7 @@ class RepositoryContent extends Component {
                 }
               />
               <ListItemSecondaryAction className="actions">
-                <span>Notifications</span>
+                <span className="span-label">Notifications</span>
                 <Switch checked={repository.starred} onClick={this.handleTrack} />
               </ListItemSecondaryAction>
             </ListItem>
@@ -83,6 +89,7 @@ RepositoryContent.propTypes = {
   error: PropTypes.string,
   repository: PropTypes.object,
   repositoryId: PropTypes.string,
+  router: PropTypes.object,
   trackRepository: PropTypes.func.isRequired,
 };
 
