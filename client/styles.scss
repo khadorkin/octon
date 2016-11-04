@@ -84,6 +84,11 @@ body {
 .col-left {
   margin-top: 60px;
   width: 35%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  overflow: auto;
   background-color: #ffffff;
   padding-bottom: 16px;
   padding-top: 16px;
@@ -167,6 +172,7 @@ a, a:hover, a:focus {
     left: 0;
     z-index: 2;
     padding: 0;
+    padding-bottom: 16px;
 
     &.open {
       transform: translate3d(0px, 0px, 0px);
