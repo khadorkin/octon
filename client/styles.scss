@@ -117,6 +117,10 @@ body {
       color: $neon;
       font-weight: bold;
     }
+
+    [class^=devicon-] {
+      font-size: 1.4em;
+    }
   }
 }
 

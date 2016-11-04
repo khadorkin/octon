@@ -10,6 +10,7 @@ const repositoryQuery = gql`
       photo
       htmlUrl
       starred
+      type
       latestRelease {
         tagName
         htmlUrl

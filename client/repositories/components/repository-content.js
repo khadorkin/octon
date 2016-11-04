@@ -44,7 +44,7 @@ class RepositoryContent extends Component {
         {loading ? <CircularProgress /> : null}
         {error ? <p className="bg-danger">{error.message}</p> : null}
         {!repository && !loading && !error ? <div>Select a repository</div> : null}
-        {repository ?
+        {repository && !loading ?
           <div>
             <ListItem button onClick={this.handleOpenNewTabRepository}>
               <Avatar

@@ -35,6 +35,7 @@ class RepositoriesListItem extends Component {
           primary={repository.name}
           secondary={latestRelease}
         />
+        {repository.type === 'github' ? <i className="devicon-github-plain" /> : <i className="devicon-docker-plain" />}
       </ListItem>
     );
   }

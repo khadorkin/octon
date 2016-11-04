@@ -35,6 +35,7 @@ type Repository {
   photo: String!
   htmlUrl: String!
   starred: Boolean!
+  type: String!
   latestRelease: Release
 }
 
