@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import classnames from 'classnames';
 import marked from 'marked';
 import {
   ListItem,
@@ -38,10 +39,10 @@ class RepositoryContent extends Component {
 
   render() {
     const { error: errorState } = this.props;
-    const { loading, error: errorProp, repository } = this.props;
+    const { loading, error: errorProp, repository, repositoryId } = this.props;
     const error = errorProp ? errorProp.message : errorState;
     return (
-      <div className="col-right repository-content">
+      <div className={classnames('col-right', 'repository-content', { open: repositoryId })}>
         {loading ? <div className="center loading"><CircularProgress /></div> : null}
         {error ? <p className="bg-danger">{error}</p> : null}
         {repository && !loading ?
@@ -81,6 +82,7 @@ RepositoryContent.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.string,
   repository: PropTypes.object,
+  repositoryId: PropTypes.string,
   trackRepository: PropTypes.func.isRequired,
 };
 

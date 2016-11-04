@@ -67,8 +67,8 @@ body {
 .navbar {
   &.navbar-default {
     background-color: #1c1d1c;
-    border-color: #1c1d1c;
     height: 60px;
+    border: none;
   }
 
   .container-fluid {
@@ -154,4 +154,33 @@ body {
 
 a, a:hover, a:focus {
   color: $neon !important;
+}
+
+// Small devices
+@media (max-width: 778px) {
+  .col-left {
+    width: 100%;
+  }
+  .col-right {
+    left: 0;
+    z-index: 2;
+    display: none;
+
+    &.open {
+      display: block;
+    }
+  }
+
+  .navbar {
+    .navbar-header {
+      float: left;
+    }
+    .navbar-right {
+      float: right;
+      margin: 0;
+      .navbar-avatar {
+        float: left;
+      }
+    }
+  }
 }
