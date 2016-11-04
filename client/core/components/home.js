@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { CircularProgress } from 'material-ui-build/src/Progress';
 import FirstLogin from './first-login';
 import RepositoriesList from '../../repositories/containers/repositories-list';
+import RepositoryContent from '../../repositories/containers/repository-content';
 
 class Home extends Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class Home extends Component {
     this.state = {
       loading: false,
       error: null,
+      selectedId: null,
     };
   }
 
@@ -22,9 +24,13 @@ class Home extends Component {
     });
   }
 
+  handleItemSelect = (id) => {
+    this.setState({ selectedId: id });
+  }
+
   render() {
     const { loading, user, error: errorProp } = this.props;
-    const { loading: loadingState, error: errorState } = this.state;
+    const { loading: loadingState, error: errorState, selectedId } = this.state;
     const error = errorProp ? errorProp.message : errorState;
     return (
       <div>
@@ -34,7 +40,14 @@ class Home extends Component {
             {loadingState ? <div className="center"><CircularProgress /></div> : null}
             {!user.github.lastSync ?
               <FirstLogin syncUserStars={this.syncUserStars} loading={loadingState} />
-              : <RepositoriesList user={user} />}
+              : <div>
+                <RepositoriesList
+                  user={user}
+                  selectedId={selectedId}
+                  onItemSelect={this.handleItemSelect}
+                />
+                <RepositoryContent repositoryId={selectedId} />
+              </div>}
           </div>}
       </div>
     );

@@ -1,19 +1,15 @@
 $max-width-container: 850px;
+$white: #ffffff;
+$neon: #1fe8af;
 
 body {
-  background: rgb(0, 160, 219);
-  background: linear-gradient(45deg, rgb(220, 129, 170) 0%, rgb(56, 150, 150) 100%);
+  background-color: $white;
 }
 
-.overflow {
+.ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.content {
-  margin-left: 16px !important;
-  margin-right: 16px !important;
 }
 
 .navbar {
@@ -33,14 +29,6 @@ body {
     border-radius: 50%;
     margin-top: 5px;
   }
-}
-
-.main-container {
-  margin-top: 66px;
-  margin-bottom: 16px;
-  background-color: white;
-  max-width: $max-width-container;
-  padding: 16px;
 }
 
 .bg-success, .bg-danger {
@@ -71,88 +59,80 @@ body {
   }
 }
 
-.container-repositories-list {
-  padding-left: 16px;
 
-  .search-input {
-    margin-top: 0;
-    margin-right: 16px;
+.navbar {
+  &.navbar-default {
+    background-color: #1c1d1c;
+    border-color: #1c1d1c;
+    height: 60px;
+  }
+
+  .container-fluid {
+    margin-top: 5px;
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .navbar-avatar {
+    border: 1px solid #1fe8af;
+  }
+
+  .material-icons {
+    color: #1fe8af;
   }
 }
+
+.col-left {
+  margin-top: 60px;
+  width: 35%;
+  background-color: #ffffff;
+  padding-bottom: 16px;
+}
+.col-right {
+  margin-top: 60px;
+  position: fixed;
+  left: 35%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #eaeaea;
+  overflow: auto;
+  padding: 0 39px;
+}
+
 .repositories-list {
-  margin: 0px 0 30px 140px !important;
-  padding-left: 20px !important;
-  overflow: visible !important;
-  border-left: 4px solid rgb(0, 160, 219);
+  .search-input {
+    margin-left: 24px;
+    margin-right: 24px;
+  }
+  .repositories-list-item {
+    padding-left: 24px !important;
+    transition: background-color 0.5s linear;
 
-  .repositories-list-content {
-    position: relative;
-
-    .left-block {
-      margin-top: -20px;
-      top: 50%;
-      left: -160px;
-      position: absolute;
-      width: 120px;
+    &.active {
+      background-color: #eaeaea;
     }
 
-    .release {
-      color: rgb(0, 160, 219);
-    }
-
-    .name {
-      color: #333;
-      text-decoration: none;
-    }
-
-    .actions {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .circle {
-      margin-top: -10px;
-      top: 50%;
-      left: -32px;
-      width: 10px;
-      height: 10px;
-      background: #48b379;
-      border: 10px solid rgb(0, 160, 219);
-      border-radius: 50%;
-      display: block;
-      position: absolute;
+    .version {
+      color: $neon;
+      font-weight: bold;
     }
   }
 }
 
-.media {
-  margin-top: 25px;
-
-  .media-left {
-    padding-right: 15px;
+.repository-content {
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .media-object {
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-  }
-
-  .media-body {
-    vertical-align: middle;
-  }
-
-  .media-heading a {
-    color: #5B5E6E;
-    text-decoration: none;
-  }
-
-  .pull-right {
-    margin-top: -28px;
+  .content {
+    margin-left: 16px;
+    margin-right: 16px;
   }
 }
 
 a, a:hover, a:focus {
-  color: rgb(0, 160, 219);
+  color: $neon;
 }

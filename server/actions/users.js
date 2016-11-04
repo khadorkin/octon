@@ -35,6 +35,11 @@ class Users {
     });
   }
 
+  getRepository(userContext, repositoryId) {
+    // TODO check repositoryId is objectId
+    return Repository.findOne({ _id: repositoryId });
+  }
+
   syncStars(userContext) {
     return this.get(userContext.id).then((user) => {
       if (!user) {

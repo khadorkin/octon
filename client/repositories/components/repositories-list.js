@@ -8,8 +8,6 @@ import RepositoriesListItem from './repositories-list-item';
 class RepositoriesList extends Component {
   constructor(props) {
     super(props);
-    this.handleTrack = this.handleTrack.bind(this);
-    this.showMore = this.showMore.bind(this);
     this.state = {
       search: '',
       page: 1,
@@ -17,16 +15,7 @@ class RepositoriesList extends Component {
     };
   }
 
-  handleTrack(id, val) {
-    const { trackRepository } = this.props;
-    this.setState({ error: null });
-    trackRepository(id, val)
-      .catch((err) => {
-        this.setState({ error: err.message });
-      });
-  }
-
-  showMore() {
+  showMore = () => {
     const page = this.state.page + 1;
     this.setState({ page });
     this.props.loadMoreRepositories({ page });
@@ -45,10 +34,10 @@ class RepositoriesList extends Component {
   }
 
   render() {
-    const { loading, error: errorProp, repositories } = this.props;
+    const { loading, error: errorProp, repositories, onItemSelect, selectedId } = this.props;
     const { search, page, error: errorState } = this.state;
     const error = errorProp ? errorProp.message : errorState;
-    return (<div className="container-repositories-list">
+    return (<div className="repositories-list col-left">
       <TextField className="search-input">
         <TextFieldLabel htmlFor="search">
           Search
@@ -70,7 +59,8 @@ class RepositoriesList extends Component {
             <RepositoriesListItem
               key={repository.id}
               repository={repository}
-              onTrack={this.handleTrack}
+              active={repository.id === selectedId}
+              onClick={onItemSelect}
             />
           )}
         </List>
@@ -88,10 +78,11 @@ class RepositoriesList extends Component {
 RepositoriesList.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.string,
+  selectedId: PropTypes.string,
   repositories: PropTypes.array,
   queryRefetch: PropTypes.func.isRequired,
   loadMoreRepositories: PropTypes.func.isRequired,
-  trackRepository: PropTypes.func.isRequired,
+  onItemSelect: PropTypes.func.isRequired,
 };
 
 RepositoriesList.defaultProps = {

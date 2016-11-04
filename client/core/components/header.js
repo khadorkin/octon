@@ -29,7 +29,7 @@ class Header extends Component {
     const { user, loading } = this.props;
     const { menuOpen, menuAnchorEl } = this.state;
     return (<nav className="navbar navbar-default navbar-fixed-top">
-      <div className="container">
+      <div className="container-fluid">
         <div className="navbar-header">
           <Link to="/" className="navbar-brand">
             <img alt="Brand" src="/img/logo.svg" />

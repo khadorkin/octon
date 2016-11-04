@@ -27,9 +27,7 @@ class Root extends Component {
         <div>
           <Header user={user} loading={loading} onSettings={this.handleSettings} />
           {loading ? <CircularProgress />
-            : <div className="container main-container">
-              {cloneElement(children, { user })}
-            </div>}
+            : cloneElement(children, { user })}
         </div>
       </MuiThemeProvider>
     );
