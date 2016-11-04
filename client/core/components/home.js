@@ -10,7 +10,6 @@ class Home extends Component {
     this.state = {
       loading: false,
       error: null,
-      selectedId: null,
     };
   }
 
@@ -25,14 +24,15 @@ class Home extends Component {
   }
 
   handleItemSelect = (id) => {
-    this.setState({ selectedId: id });
+    this.props.router.replace(`/repositories/${id}`);
   }
 
   render() {
-    const { loading: loadingProp, user, error: errorProp } = this.props;
-    const { loading: loadingState, error: errorState, selectedId } = this.state;
+    const { loading: loadingProp, user, error: errorProp, params } = this.props;
+    const { loading: loadingState, error: errorState } = this.state;
     const error = errorProp ? errorProp.message : errorState;
     const loading = loadingProp || loadingState;
+    const selectedId = params.repositoryId;
     return (
       <div>
         <div className="col-left">
@@ -58,6 +58,8 @@ Home.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.object,
   user: PropTypes.object,
+  router: PropTypes.object,
+  params: PropTypes.object,
   syncUserGithubStars: PropTypes.func.isRequired,
 };
 

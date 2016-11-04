@@ -25,7 +25,7 @@ I wanted to create an app fully functioning with the latest javascript (es6, lin
 
 - [Nodejs](https://nodejs.org)
 - [React](https://facebook.github.io/react)
-- [Apollo](http://www.apollostack.com)
+- [Apollo](http://www.apollostack.com) - Graphql
 - [MongoDb](https://www.mongodb.com/)
 
 # Development
