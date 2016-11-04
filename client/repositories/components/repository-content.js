@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import marked from 'marked';
 import {
   ListItem,
   ListItemText,
@@ -55,7 +56,9 @@ class RepositoryContent extends Component {
                 primary={repository.name}
                 secondary={
                   <Text secondary>Released this{' '}
-                    <TimeAgo datetime={new Date(repository.latestRelease.publishedAt)} />
+                    {repository.latestRelease ?
+                      <TimeAgo datetime={new Date(repository.latestRelease.publishedAt)} />
+                      : 'No release'}
                   </Text>
                 }
               />
@@ -64,7 +67,10 @@ class RepositoryContent extends Component {
                 <Switch checked={repository.starred} onClick={this.handleTrack} />
               </ListItemSecondaryAction>
             </ListItem>
-            <Text className="content" type="title" component="a" href={repository.latestRelease.htmlUrl} target="_blank">{repository.latestRelease.tagName}</Text>
+            {repository.latestRelease ? <Text className="content" type="title" component="a" href={repository.latestRelease.htmlUrl} target="_blank">{repository.latestRelease.tagName}</Text> : null}
+            <Text className="content description">{repository.description}</Text>
+            {repository.latestRelease && repository.latestRelease.description ?
+              <Text className="content markdown-body" dangerouslySetInnerHTML={{ __html: marked(repository.latestRelease.description) }} /> : null}
           </div>
           : null}
       </div>

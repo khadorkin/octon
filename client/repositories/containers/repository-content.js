@@ -7,11 +7,13 @@ const repositoryQuery = gql`
     repository(id: $id) {
       id
       name
+      description
       photo
       htmlUrl
       starred
       latestRelease {
         tagName
+        description
         htmlUrl
         publishedAt
       }

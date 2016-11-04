@@ -1,11 +1,26 @@
 import { Github } from 'node-social-api';
 import semver from 'semver';
 
-// TODO makeReposirory
 
 class GithubCore {
   constructor(options) {
     this.api = new Github(options);
+  }
+
+  /**
+   * @param {object} repo - Github repository object
+   * @description Format a github repository to an object ready to be inserted in database
+   * @return {object}
+   */
+  makeReposirory(repo) {
+    return {
+      name: repo.full_name,
+      description: repo.description,
+      htmlUrl: repo.html_url,
+      photo: repo.owner.avatar_url,
+      type: 'github',
+      refId: repo.id,
+    };
   }
 
   getAllUserRepositories(page = 1, repositories = []) {

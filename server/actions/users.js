@@ -68,13 +68,7 @@ class Users {
               repositoriesIds.indexOf(repo.id.toString()) === -1);
             // Insert new ones
             const promises = githubRepositoriesToInsert.map((repo) => {
-              const newRepo = new Repository({
-                name: repo.full_name,
-                htmlUrl: repo.html_url,
-                photo: repo.owner.avatar_url,
-                type: 'github',
-                refId: repo.id,
-              });
+              const newRepo = new Repository(github.makeReposirory(repo));
               return github.getLatestRelease(newRepo).then((latestRelease) => {
                 if (latestRelease) {
                   newRepo.latestRelease = latestRelease;

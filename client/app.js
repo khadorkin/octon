@@ -4,6 +4,7 @@ import { AppContainer } from 'react-hot-loader'; // eslint-disable-line
 import ApolloClient, { createNetworkInterface, addTypename } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import Router from './core/components/router';
+import '../node_modules/github-markdown-css/github-markdown.css';
 import './styles.scss';
 
 const networkInterface = createNetworkInterface({

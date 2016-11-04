@@ -21,6 +21,7 @@ class Docker {
     // TODO library organization images
     const ret = {
       name: `${repo.user}/${repo.name}`,
+      description: repo.description,
       htmlUrl: `https://hub.docker.com/r/${repo.user}/${repo.name}`,
       photo: `https://hub.docker.com/v2/users/${repo.user}/avatar/`,
       type: 'docker',

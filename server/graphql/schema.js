@@ -25,6 +25,7 @@ type User {
 
 type Release {
   tagName: String!
+  description: String
   htmlUrl: String!
   publishedAt: String!
 }
@@ -32,6 +33,7 @@ type Release {
 type Repository {
   id: String!
   name: String!
+  description: String
   photo: String!
   htmlUrl: String!
   starred: Boolean!

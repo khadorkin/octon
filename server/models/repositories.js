@@ -28,6 +28,10 @@ const repositorySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+    required: false,
+  },
   htmlUrl: {
     type: String,
     required: true,

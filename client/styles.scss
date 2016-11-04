@@ -98,6 +98,7 @@ body {
   background-color: #eaeaea;
   overflow: auto;
   padding: 0 39px;
+  padding-bottom: 16px;
 }
 
 .repositories-list {
@@ -135,8 +136,16 @@ body {
     margin-left: 16px;
     margin-right: 16px;
   }
+
+  .description {
+    margin-top: 10px;
+  }
+
+  .markdown-body {
+    margin-top: 20px;
+  }
 }
 
 a, a:hover, a:focus {
-  color: $neon;
+  color: $neon !important;
 }

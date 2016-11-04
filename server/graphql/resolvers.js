@@ -1,3 +1,6 @@
+import { Github } from 'node-social-api';
+import Repository from '../models/repositories';
+
 const resolvers = {
   Query: {
     currentUser(_, __, { user }) {
@@ -90,6 +93,26 @@ const resolvers = {
         }
         return false;
       }),
+  },
+
+  Release: {
+    description: (rel, _, { user }) => {
+      if (rel.type !== 'release') {
+        return null;
+      }
+      // TODO connector for model
+      return Repository.findOne({ 'latestRelease._id': rel.id }).then((repository) => {
+        if (!repository) throw new Error('Repository not found');
+        const github = new Github({ accessToken: user.github.accessToken });
+        return github.get(`repos/${repository.name}/releases`).then((releases) => {
+          const release = releases[0];
+          if (release && release.tag_name === repository.latestRelease.tagName) {
+            return release.body;
+          }
+          return null;
+        });
+      });
+    },
   },
 };
 
