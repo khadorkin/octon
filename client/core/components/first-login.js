@@ -6,7 +6,7 @@ const FirstLogin = ({ syncUserStars, loading }) =>
     {!loading ?
       <div>
         Welcome, this is the first time you come here<br /><br />
-        <Button raised onClick={syncUserStars}>Sync my stars</Button>
+        <Button primary raised onClick={syncUserStars}>Sync my stars</Button>
       </div>
       : 'Syncing your stars ...'}
   </div>);

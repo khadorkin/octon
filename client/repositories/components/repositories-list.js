@@ -37,7 +37,7 @@ class RepositoriesList extends Component {
     const { loading, error: errorProp, repositories, onItemSelect, selectedId } = this.props;
     const { search, page, error: errorState } = this.state;
     const error = errorProp ? errorProp.message : errorState;
-    return (<div className="repositories-list col-left">
+    return (<div className="repositories-list">
       <TextField className="search-input">
         <TextFieldLabel htmlFor="search">
           Search
@@ -52,7 +52,7 @@ class RepositoriesList extends Component {
         <div className="center">
           <p>No repositories found</p>
         </div> : null}
-      {loading ? <CircularProgress /> : null}
+      {loading ? <div className="center loading"><CircularProgress /></div> : null}
       {repositories.length > 0 ?
         <List className="repositories-list">
           {repositories.map(repository =>

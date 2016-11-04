@@ -42,9 +42,8 @@ class RepositoryContent extends Component {
     const error = errorProp ? errorProp.message : errorState;
     return (
       <div className="col-right repository-content">
-        {loading ? <CircularProgress /> : null}
-        {error ? <p className="bg-danger">{error.message}</p> : null}
-        {!repository && !loading && !error ? <div>Select a repository</div> : null}
+        {loading ? <div className="center loading"><CircularProgress /></div> : null}
+        {error ? <p className="bg-danger">{error}</p> : null}
         {repository && !loading ?
           <div>
             <ListItem button onClick={this.handleOpenNewTabRepository}>

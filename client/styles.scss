@@ -39,6 +39,10 @@ body {
   text-align: center;
 }
 
+.loading {
+  margin-top: 20px;
+}
+
 .settings {
   .title {
     line-height: 48px;
@@ -87,6 +91,7 @@ body {
   width: 35%;
   background-color: #ffffff;
   padding-bottom: 16px;
+  padding-top: 16px;
 }
 .col-right {
   margin-top: 60px;
@@ -105,6 +110,7 @@ body {
   .search-input {
     margin-left: 24px;
     margin-right: 24px;
+    margin-top: 0px;
   }
   .repositories-list-item {
     padding-left: 24px !important;

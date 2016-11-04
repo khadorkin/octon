@@ -8,6 +8,14 @@ import Avatar from 'material-ui-build/src/Avatar';
 import Text from 'material-ui-build/src/Text';
 
 class RepositoriesListItem extends Component {
+  shouldComponentUpdate(nextProps) {
+    if (this.props.repository.id !== nextProps.repository.id ||
+      this.props.active !== nextProps.active) {
+      return true;
+    }
+    return false;
+  }
+
   handleClick = () => {
     this.props.onClick(this.props.repository.id);
   }

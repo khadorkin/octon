@@ -29,26 +29,25 @@ class Home extends Component {
   }
 
   render() {
-    const { loading, user, error: errorProp } = this.props;
+    const { loading: loadingProp, user, error: errorProp } = this.props;
     const { loading: loadingState, error: errorState, selectedId } = this.state;
     const error = errorProp ? errorProp.message : errorState;
+    const loading = loadingProp || loadingState;
     return (
       <div>
-        {loading ? <CircularProgress />
-          : <div>
-            {error ? <p className="bg-danger">{error}</p> : null}
-            {loadingState ? <div className="center"><CircularProgress /></div> : null}
-            {!user.github.lastSync ?
-              <FirstLogin syncUserStars={this.syncUserStars} loading={loadingState} />
-              : <div>
-                <RepositoriesList
-                  user={user}
-                  selectedId={selectedId}
-                  onItemSelect={this.handleItemSelect}
-                />
-                <RepositoryContent repositoryId={selectedId} />
-              </div>}
-          </div>}
+        <div className="col-left">
+          {loading ? <div className="center"><CircularProgress /></div> : null}
+          {error ? <p className="bg-danger">{error}</p> : null}
+          {!user.github.lastSync ?
+            <FirstLogin syncUserStars={this.syncUserStars} loading={loadingState} />
+            :
+              <RepositoriesList
+                user={user}
+                selectedId={selectedId}
+                onItemSelect={this.handleItemSelect}
+              />}
+        </div>
+        <RepositoryContent repositoryId={selectedId} />
       </div>
     );
   }
