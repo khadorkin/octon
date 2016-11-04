@@ -53,7 +53,6 @@ class Home extends Component {
   }
 }
 
-
 Home.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.object,
