@@ -15,7 +15,6 @@ import { CircularProgress } from 'material-ui-build/src/Progress';
 class Settings extends Component {
   constructor(props) {
     super(props);
-    // TODO loading
     this.state = {
       success: '',
       error: '',
@@ -104,9 +103,9 @@ class Settings extends Component {
   render() {
     const { user } = this.props;
     const { loading, success, error, email, dockerUsername, showMore } = this.state;
-    return (<div className="settings">
+    return (<div className="col-right settings open">
       <Text type="title" className="content title">Settings</Text>
-      {loading ? <CircularProgress /> : null}
+      {loading ? <div className="center"><CircularProgress /></div> : null}
       {success ? <p className="bg-success">{success}</p> : null}
       {error ? <p className="bg-danger">{error}</p> : null}
       <List>
@@ -135,13 +134,13 @@ class Settings extends Component {
             onChange={this.handleChangeEmail}
           />
         </TextField>
-        <Button type="submit">Submit</Button>
+        <Button type="submit" raised>Save</Button>
       </form>
       <Text type="subheading" className="content title">Github</Text>
       <Text className="content">Connected as {user.github.username}</Text>
       <Text className="content">
         Last star sync: <TimeAgo datetime={new Date(user.github.lastSync)} />
-        <Button onClick={this.handleSyncUserGithubStars}>Sync github stars</Button>
+        <Button onClick={this.handleSyncUserGithubStars} className="pull-right" raised>Sync github stars</Button>
       </Text>
       <Text type="subheading" className="content title">Docker</Text>
       <form onSubmit={this.handleChangeDockerUser} className="content form-email">
@@ -155,12 +154,12 @@ class Settings extends Component {
             onChange={this.handleChangeDockerUsername}
           />
         </TextField>
-        <Button type="submit">Submit</Button>
+        <Button type="submit" raised>Save</Button>
       </form>
       {user.docker ?
         <Text className="content">
           Last star sync: {user.docker && user.docker.lastSync ? <TimeAgo datetime={new Date(user.docker.lastSync)} /> : ' No sync yet'}
-          <Button onClick={this.handleSyncUserDockerStars}>Sync docker stars</Button>
+          <Button onClick={this.handleSyncUserDockerStars} className="pull-right" raised>Sync docker stars</Button>
         </Text>
         : null}
       <div className="content show-more">

@@ -51,6 +51,10 @@ body {
     .input {
       width: 100%;
     }
+
+    button {
+      margin-left: 20px;
+    }
   }
 
   .show-more {
@@ -103,7 +107,7 @@ body {
   background-color: #eaeaea;
   overflow: auto;
   padding: 0 39px;
-  padding-bottom: 16px;
+  padding-bottom: 40px;
 }
 
 .repositories-list {
@@ -131,6 +135,11 @@ body {
   }
 }
 
+.content {
+  margin-left: 16px !important;
+  margin-right: 16px !important;
+}
+
 .repository-content {
   .icon-close {
     display: none;
@@ -140,11 +149,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .content {
-    margin-left: 16px;
-    margin-right: 16px;
   }
 
   .description {
@@ -172,7 +176,7 @@ a, a:hover, a:focus {
     left: 0;
     z-index: 2;
     padding: 0;
-    padding-bottom: 16px;
+    padding-bottom: 30px;
 
     &.open {
       transform: translate3d(0px, 0px, 0px);

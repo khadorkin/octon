@@ -3,6 +3,7 @@ import { CircularProgress } from 'material-ui-build/src/Progress';
 import FirstLogin from './first-login';
 import RepositoriesList from '../../repositories/containers/repositories-list';
 import RepositoryContent from '../../repositories/containers/repository-content';
+import Settings from '../../settings/containers/settings';
 
 class Home extends Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class Home extends Component {
     const error = errorProp ? errorProp.message : errorState;
     const loading = loadingProp || loadingState;
     const selectedId = params.repositoryId;
+    const path = router.location.pathname;
     return (
       <div>
         <div className="col-left">
@@ -47,7 +49,8 @@ class Home extends Component {
                 onItemSelect={this.handleItemSelect}
               />}
         </div>
-        <RepositoryContent router={router} repositoryId={selectedId} />
+        {path === '/settings' ? <Settings user={user} />
+          : <RepositoryContent router={router} repositoryId={selectedId} />}
       </div>
     );
   }
