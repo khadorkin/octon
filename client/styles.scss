@@ -29,6 +29,10 @@ body {
 .bg-success, .bg-danger {
   padding: 15px;
 }
+.bg-success {
+  color: white;
+  background-color: rgba(31, 232, 175, 0.6);
+}
 
 .center {
   text-align: center;

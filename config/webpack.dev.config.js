@@ -34,7 +34,13 @@ module.exports = {
       loader: 'json',
     }],
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+      'process.env.BASE_URL': JSON.stringify(process.env.BASE_URL),
+    }),
+  ],
   postcss: [autoprefixer()],
   devServer: {
   },

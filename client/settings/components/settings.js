@@ -169,6 +169,9 @@ class Settings extends Component {
         </Text>
         : null}
       <Divider />
+      <Text type="subheading" className="content title">Rss</Text>
+      <Text className="content github-text-sync">{process.env.BASE_URL}/users/{user.id}/rss</Text>
+      <Divider />
       <div className="content show-more">
         {showMore ?
           <div className="pull-right">
