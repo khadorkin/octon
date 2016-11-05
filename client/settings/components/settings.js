@@ -137,14 +137,14 @@ class Settings extends Component {
             onChange={this.handleChangeEmail}
           />
         </TextField>
-        <Button className="email-button" type="submit" raised primary>Save</Button>
+        <Button className="email-button" type="submit" raised accent>Save</Button>
       </form>
       <Divider />
       <Text type="subheading" className="content title">Github</Text>
       <Text className="content github-name">Connected as <b>{user.github.username}</b></Text>
       <Text className="content github-text-sync">
         Last star sync: <TimeAgo datetime={new Date(user.github.lastSync)} />
-        <Button onClick={this.handleSyncUserGithubStars} className="pull-right github-button" raised primary>Sync stars</Button>
+        <Button onClick={this.handleSyncUserGithubStars} className="pull-right github-button" raised accent>Sync stars</Button>
       </Text>
       <div className="clearfix" />
       <Divider />
@@ -160,12 +160,12 @@ class Settings extends Component {
             onChange={this.handleChangeDockerUsername}
           />
         </TextField>
-        <Button type="submit" raised primary>Save</Button>
+        <Button type="submit" raised accent>Save</Button>
       </form>
       {user.docker ?
         <Text className="content github-text-sync">
           Last star sync: {user.docker && user.docker.lastSync ? <TimeAgo datetime={new Date(user.docker.lastSync)} /> : ' No sync yet'}
-          <Button onClick={this.handleSyncUserDockerStars} className="pull-right github-button" raised primary>Sync stars</Button>
+          <Button onClick={this.handleSyncUserDockerStars} className="pull-right github-button" raised accent>Sync stars</Button>
         </Text>
         : null}
       <Divider />

@@ -12,8 +12,10 @@ class Root extends Component {
   }
 
   render() {
+    const neon = blue;
+    neon['500'] = '#1fe8af';
     const palette = createPalette({
-      primary: blue,
+      primary: neon,
       accent: pink,
       type: 'light',
     });
