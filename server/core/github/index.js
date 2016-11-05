@@ -32,7 +32,8 @@ class GithubCore {
     }).then((data) => {
       const repos = [...repositories, ...data];
       // If max repo length returned fetch next page
-      if (data.length === perPage) {
+      // && limit to 1000 last stars
+      if (data.length === perPage && page <= 10) {
         const newPage = page + 1;
         return this.getAllUserRepositories(newPage, repos);
       }
