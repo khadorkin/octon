@@ -32,11 +32,12 @@ ReactDOM.render(
 );
 
 if (module.hot) {
-  module.hot.accept('./app', () => {
+  module.hot.accept('./core/components/router', () => {
+    const NextApp = require('./core/components/router').default; // eslint-disable-line global-require
     ReactDOM.render(
       <AppContainer>
         <ApolloProvider client={client}>
-          <Router />
+          <NextApp />
         </ApolloProvider>
       </AppContainer>,
       document.getElementById('content')

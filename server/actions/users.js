@@ -56,7 +56,6 @@ class Users {
 
       const github = new Github({ accessToken: user.github.accessToken });
 
-      // TODO limit to last 1000 repositories ?
       return github.getAllUserRepositories().then((githubRepositories) => {
         const githubRepositoriesIds = githubRepositories.map(repo => repo.id);
         // Find all repo already in database
