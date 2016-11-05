@@ -10,6 +10,7 @@ import {
 import TextField, { TextFieldInput, TextFieldLabel } from 'material-ui-build/src/TextField';
 import Switch from 'material-ui-build/src/Switch';
 import Button from 'material-ui-build/src/Button';
+import Divider from 'material-ui-build/src/Divider';
 import { CircularProgress } from 'material-ui-build/src/Progress';
 
 class Settings extends Component {
@@ -108,20 +109,22 @@ class Settings extends Component {
       {loading ? <div className="center"><CircularProgress /></div> : null}
       {success ? <p className="bg-success">{success}</p> : null}
       {error ? <p className="bg-danger">{error}</p> : null}
+      <Divider />
       <List>
-        <ListItem>
+        <ListItem className="notifications-item">
           <ListItemText primary="Daily notifications" />
           <ListItemSecondaryAction>
             <Switch checked={user.dailyNotification} onClick={this.handleSetNotificationDaily} />
           </ListItemSecondaryAction>
         </ListItem>
-        <ListItem>
+        <ListItem className="notifications-item">
           <ListItemText primary="Weekly notifications" />
           <ListItemSecondaryAction>
             <Switch checked={user.weeklyNotification} onClick={this.handleSetNotificationWeekly} />
           </ListItemSecondaryAction>
         </ListItem>
       </List>
+      <Divider />
       <Text type="subheading" className="content title">Email</Text>
       <form onSubmit={this.handleChangeUserEmail} className="content form-email">
         <TextField className="input">
@@ -134,17 +137,20 @@ class Settings extends Component {
             onChange={this.handleChangeEmail}
           />
         </TextField>
-        <Button type="submit" raised>Save</Button>
+        <Button className="email-button" type="submit" raised primary>Save</Button>
       </form>
+      <Divider />
       <Text type="subheading" className="content title">Github</Text>
-      <Text className="content">Connected as {user.github.username}</Text>
-      <Text className="content">
+      <Text className="content github-name">Connected as <b>{user.github.username}</b></Text>
+      <Text className="content github-text-sync">
         Last star sync: <TimeAgo datetime={new Date(user.github.lastSync)} />
-        <Button onClick={this.handleSyncUserGithubStars} className="pull-right" raised>Sync github stars</Button>
+        <Button onClick={this.handleSyncUserGithubStars} className="pull-right github-button" raised primary>Sync stars</Button>
       </Text>
+      <div className="clearfix" />
+      <Divider />
       <Text type="subheading" className="content title">Docker</Text>
       <form onSubmit={this.handleChangeDockerUser} className="content form-email">
-        <TextField className="input">
+        <TextField className="input docker-input">
           <TextFieldLabel htmlFor="username">
             Username
           </TextFieldLabel>
@@ -154,14 +160,15 @@ class Settings extends Component {
             onChange={this.handleChangeDockerUsername}
           />
         </TextField>
-        <Button type="submit" raised>Save</Button>
+        <Button type="submit" raised primary>Save</Button>
       </form>
       {user.docker ?
-        <Text className="content">
+        <Text className="content github-text-sync">
           Last star sync: {user.docker && user.docker.lastSync ? <TimeAgo datetime={new Date(user.docker.lastSync)} /> : ' No sync yet'}
-          <Button onClick={this.handleSyncUserDockerStars} className="pull-right" raised>Sync docker stars</Button>
+          <Button onClick={this.handleSyncUserDockerStars} className="pull-right github-button" raised primary>Sync stars</Button>
         </Text>
         : null}
+      <Divider />
       <div className="content show-more">
         {showMore ?
           <div className="pull-right">
