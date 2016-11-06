@@ -52,7 +52,7 @@ class RepositoryContent extends Component {
         {error ? <p className="bg-danger">{error}</p> : null}
         {repository && !loading ?
           <div>
-            <IconButton className="icon-close" onClick={this.handleCloseCLick}>close</IconButton>
+            <IconButton className="icon-close" onClick={this.handleCloseCLick}>arrow_back</IconButton>
             <ListItem button onClick={this.handleOpenNewTabRepository}>
               <Avatar
                 alt={repository.name}
