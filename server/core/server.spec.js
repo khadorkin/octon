@@ -38,12 +38,12 @@ describe('server.core.server', () => {
 
     it('should return home for non logged users', async () => {
       const ret = await rp('http://localhost:4000');
-      expect(ret).toMatch(/Login/);
+      expect(ret).toMatch(/Log in/);
     });
 
     it('should have logout route', async () => {
       const ret = await rp('http://localhost:4000/logout');
-      expect(ret).toMatch(/Login/);
+      expect(ret).toMatch(/Log in/);
     });
 
     afterAll(async (done) => {
