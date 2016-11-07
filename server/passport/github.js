@@ -43,7 +43,7 @@ export default function () {
   return new GitHubStrategy.Strategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: process.env.GITHUB_REDIRECT_URL,
+    callbackURL: `${process.env.BASE_URL}${process.env.GITHUB_REDIRECT_URL}`,
     scope: ['user:email'],
   }, handleGithubReturn);
 }
