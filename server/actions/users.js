@@ -9,7 +9,7 @@ import Repository from '../models/repositories';
 class Users {
   constructor() {
     this.userLoader = new DataLoader(ids =>
-      Promise.all(ids.map(id => User.findOne({ _id: id }).exec()))
+      Promise.all(ids.map(id => User.findOne({ _id: id }).exec())),
     );
   }
 

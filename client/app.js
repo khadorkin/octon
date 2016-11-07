@@ -28,7 +28,7 @@ ReactDOM.render(
   <ApolloProvider client={client}>
     <Router />
   </ApolloProvider>,
-  document.getElementById('content')
+  document.getElementById('content'),
 );
 
 if (module.hot) {
@@ -40,7 +40,7 @@ if (module.hot) {
           <NextApp />
         </ApolloProvider>
       </AppContainer>,
-      document.getElementById('content')
+      document.getElementById('content'),
     );
   });
 }

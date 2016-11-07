@@ -36,8 +36,8 @@ class Header extends Component {
           </Link>
         </div>
         <ul className="nav navbar-nav navbar-right">
-          {loading ? <li><a>Loading ...</a></li> :
-            <li className="navbar-avatar" style={{ backgroundImage: `url(${user.photo})` }} />
+          {loading ? <li><a>Loading ...</a></li>
+            : <li className="navbar-avatar" style={{ backgroundImage: `url(${user.photo})` }} />
           }
           <IconButton onClick={this.handleToggleMenu}>more_vert</IconButton>
           <Menu

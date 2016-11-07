@@ -42,12 +42,11 @@ class Home extends Component {
           {error ? <p className="bg-danger">{error}</p> : null}
           {!user.github.lastSync ?
             <FirstLogin syncUserStars={this.syncUserStars} loading={loadingState} />
-            :
-              <RepositoriesList
-                user={user}
-                selectedId={selectedId}
-                onItemSelect={this.handleItemSelect}
-              />}
+            : <RepositoriesList
+              user={user}
+              selectedId={selectedId}
+              onItemSelect={this.handleItemSelect}
+            />}
         </div>
         {path === '/settings' ? <Settings user={user} />
           : <RepositoryContent router={router} repositoryId={selectedId} />}

@@ -61,7 +61,7 @@ class RepositoriesList extends Component {
               repository={repository}
               active={repository.id === selectedId}
               onClick={onItemSelect}
-            />
+            />,
           )}
         </List>
         : null}

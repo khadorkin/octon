@@ -19,7 +19,7 @@ class CheckForNewReleases {
       this.docker = new Docker();
 
       return Repository.find().sort({ type: 1 }).exec().then(repositories =>
-        this.getLatestReleaseAndSave(repositories)
+        this.getLatestReleaseAndSave(repositories),
       );
     });
   }
