@@ -112,7 +112,12 @@ class Users {
               repositoriesIds.indexOf(`${repo.user}/${repo.name}`) === -1);
             const promises = dockerRepositoriesToInsert.map((repo) => {
               const newRepo = new Repository(docker.makeReposirory(repo));
-              return newRepo.save();
+              return docker.getLatestRelease(newRepo).then((latestRelease) => {
+                if (latestRelease) {
+                  newRepo.latestRelease = latestRelease;
+                }
+                return newRepo.save();
+              });
             });
             return Promise.all(promises).then((data) => {
               repositoriesIds = repositories.concat(data).map(repo => repo.id);
