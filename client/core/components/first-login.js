@@ -8,7 +8,7 @@ const FirstLogin = ({ syncUserStars, loading }) =>
         Welcome, this is the first time you come here<br /><br />
         <Button primary raised onClick={syncUserStars}>Sync my stars</Button>
       </div>
-      : 'Syncing your stars ...'}
+      : 'Syncing your stars ... This may take a while ...'}
   </div>);
 
 FirstLogin.propTypes = {
