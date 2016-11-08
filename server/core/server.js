@@ -29,7 +29,6 @@ class Server {
     this.app.use(session({
       secret: process.env.SESSION_SECRET,
       store: new MongoStore({ mongooseConnection: mongoose.connection }),
-      proxy: true,
       resave: false,
       saveUninitialized: false,
     }));
