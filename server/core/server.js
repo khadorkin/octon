@@ -176,8 +176,8 @@ class Server {
   startExpressServer() {
     return new Promise((resolve) => {
       // Start listening on port
-      this.server = this.app.listen(process.env.PORT, () => {
-        logger.info(`app started on port ${process.env.PORT}`);
+      this.server = this.app.listen(process.env.PORT || 3000, () => {
+        logger.info(`app started on port ${process.env.PORT || 3000}`);
         resolve();
       });
     });
