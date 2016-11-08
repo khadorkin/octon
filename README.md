@@ -36,4 +36,10 @@ First you will need to have a mongodb server running.
 - `npm install` Install nodejs dependencies
 - `npm start:dev` Start the server and webpack
 
+## Docker
+
+`docker-compose -f docker/dev/docker-compose.yml up`
+The app will run on port 3000.
+
+
 Special thanks to [Quentin Saubadu](https://www.facebook.com/quentinsaubadu) for the logo and design!

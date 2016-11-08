@@ -1,0 +1,14 @@
+version: '2'
+services:
+  mongo:
+    image: mongo:3.2
+  octon:
+    build:
+      context: ../../
+      dockerfile: docker/production/Dockerfile
+    links:
+      - mongo
+    environment:
+      - MONGO_URL=mongodb://mongo/octon
+    ports:
+      - "3000:3000"
