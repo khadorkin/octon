@@ -9,5 +9,6 @@ RUN npm install
 COPY . /usr/src/app
 # Expose express port
 EXPOSE 3000
+EXPOSE 3020
 # Run project
 CMD [ "npm", "run", "start:dev" ]
