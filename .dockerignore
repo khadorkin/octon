@@ -1,5 +1,10 @@
 .git
 .gitignore
 .travis.yml
+.env.default
+.env.test
 README.md
 node_modules
+coverage
+docker
+tests
