@@ -21,6 +21,13 @@ import Cron from '../cron';
 
 class Server {
   async start() {
+    // Define default variables
+    process.env.BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
+    process.env.SESSION_SECRET = process.env.SESSION_SECRET || 'secret';
+    process.env.GITHUB_REDIRECT_URL = process.env.GITHUB_REDIRECT_URL || '/auth/github/callback';
+    process.env.WEBPACK_PORT = process.env.WEBPACK_PORT || 3020;
+    process.env.PORT = process.env.PORT || 3000;
+
     await this.startMongo();
 
     this.app = express();
@@ -103,7 +110,7 @@ class Server {
 
     this.app.get('/auth/github', passport.authenticate('github'));
 
-    this.app.get('/auth/github/callback',
+    this.app.get(process.env.GITHUB_REDIRECT_URL,
       passport.authenticate('github', { failureRedirect: '/' }),
       (req, res) => {
         res.redirect('/');
@@ -176,8 +183,8 @@ class Server {
   startExpressServer() {
     return new Promise((resolve) => {
       // Start listening on port
-      this.server = this.app.listen(process.env.PORT || 3000, () => {
-        logger.info(`app started on port ${process.env.PORT || 3000}`);
+      this.server = this.app.listen(process.env.PORT, () => {
+        logger.info(`app started on port ${process.env.PORT}`);
         resolve();
       });
     });
