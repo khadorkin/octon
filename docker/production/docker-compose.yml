@@ -6,7 +6,7 @@ services:
   octon:
     build:
       context: ../../
-      dockerfile: docker/production/Dockerfile
+      dockerfile: Dockerfile
     links:
       - mongo
     environment:
