@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 # Copy package.json
 COPY package.json /usr/src/app/package.json
 # Install dependencies
-RUN npm install
+RUN npm install --quiet
 # Add code
 COPY . /usr/src/app
 # Expose express port
