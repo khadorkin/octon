@@ -1,6 +1,7 @@
-FROM node:7.0.0
+FROM node:argon
 # Setup working directory
 WORKDIR /usr/src/app
+RUN npm install --quiet -g npm
 # Copy package.json
 COPY package.json /usr/src/app/package.json
 # Install dependencies
