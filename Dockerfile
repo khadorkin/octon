@@ -13,7 +13,7 @@ RUN npm run build
 # Set env
 ENV NODE_ENV "production"
 # Remove dev node_modules
-RUN npm run build
+RUN rm -rf node_modules
 # Install production dependencies
 RUN npm install --quiet --production
 # Expose express port
