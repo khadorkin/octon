@@ -9,6 +9,7 @@ import { apolloExpress, graphiqlExpress } from 'apollo-server';
 import moment from 'moment';
 import path from 'path';
 import Rss from 'rss';
+import Feed from 'feed';
 import logger from '../logger';
 import { serializeUser, deserializeUser } from '../passport/passport';
 import gitHubStrategy from '../passport/github';
@@ -126,22 +127,26 @@ class Server {
       const users = new Users();
       users.getRepositories({ id: req.params.userId }).then(data =>
         users.get(req.params.userId).then((user) => {
-          const feed = new Rss({
+          const feed = new Feed({
             title: 'Octon',
             description: `Latest releases for ${user.github.username}`,
-            feed_url: `${process.env.BASE_URL}/users/${user.id}/rss`,
-            site_url: `${process.env.BASE_URL}`,
+            image: `${process.env.BASE_URL}/img/logo.svg`,
+            id: `${process.env.BASE_URL}/users/${user.id}/rss`,
+            link: `${process.env.BASE_URL}/users/${user.id}/rss`,
+            updated: data.length > 0 ? new Date(data[0].latestRelease.publishedAt) : new Date(),
           });
           data.forEach((repo) => {
-            const date = moment(repo.latestRelease.tagName.publishedAt).format('ddd DD MMM - h.mma');
-            feed.item({
+            const date = moment(repo.latestRelease.publishedAt).format('ddd DD MMM - h.mma');
+            feed.addItem({
               title: repo.name,
+              id: `${process.env.BASE_URL}/repositories/${repo.id}`,
+              link: `${process.env.BASE_URL}/repositories/${repo.id}`,
               description: `Released ${repo.latestRelease.tagName} on ${date}`,
-              url: repo.latestRelease.htmlUrl,
-              date: repo.latestRelease.tagName.publishedAt,
+              date: new Date(repo.latestRelease.publishedAt),
+              image: repo.photo,
             });
           });
-          res.set('Content-Type', 'text/xml').send(feed.xml());
+          res.set('Content-Type', 'text/xml').send(feed.render('atom-1.0'));
         }),
       ).catch((err) => {
         res.status(500).send(err.message);
