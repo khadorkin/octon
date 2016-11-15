@@ -22,12 +22,12 @@ class RepositoriesListItem extends Component {
   render() {
     const { repository, active } = this.props;
     const latestRelease = repository.latestRelease ?
-      <Text secondary>Released{' '}
+      (<Text secondary>Released{' '}
         <a className="version" href={repository.latestRelease.htmlUrl} target="_blank" rel="noopener noreferrer">
           {repository.latestRelease.tagName}
         </a>
         {' • '}
-        <TimeAgo datetime={new Date(repository.latestRelease.publishedAt)} /></Text>
+        <TimeAgo datetime={new Date(repository.latestRelease.publishedAt)} /></Text>)
       : 'No release';
     return (
       <ListItem
