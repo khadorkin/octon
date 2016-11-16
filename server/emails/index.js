@@ -45,7 +45,7 @@ class Email {
     const html = this.constructEmail('releases-list', {
       repositories, BASE_URL: process.env.BASE_URL,
     });
-    this.sendMail({ to: user.email, subject, html });
+    this.sendMail({ to: user.email, subject, html: html.html });
   }
 
   dailyUpdate(user, repositories) {
@@ -53,7 +53,7 @@ class Email {
     const html = this.constructEmail('releases-list', {
       repositories, BASE_URL: process.env.BASE_URL,
     });
-    this.sendMail({ to: user.email, subject, html });
+    this.sendMail({ to: user.email, subject, html: html.html });
   }
 }
 

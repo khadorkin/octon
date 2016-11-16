@@ -49,8 +49,7 @@ class Server {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
 
-    if (process.env.NODE_ENV !== 'test') {
-      // TODO only run OpticsAgent on production mode
+    if (process.env.NODE_ENV === 'production') {
       OpticsAgent.instrumentSchema(schema);
       this.app.use(OpticsAgent.middleware());
     }
