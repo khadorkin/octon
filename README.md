@@ -1,7 +1,7 @@
 # octon
 
 <p align="center">
-  <img src="logo.png" alt="Octon logo">
+  <img src="public/img/logo.png" alt="Octon logo">
 </p>
 
 [![Build Status](https://travis-ci.org/pradel/octon.svg?branch=master)](https://travis-ci.org/pradel/octon)
