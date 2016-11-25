@@ -159,7 +159,7 @@ class Server {
       if (!req.isAuthenticated()) {
         res.render('index.html');
       } else {
-        res.sendFile(path.resolve('server/templates/app.html'));
+        res.render('app.html');
       }
     });
 
@@ -167,7 +167,7 @@ class Server {
       if (!req.isAuthenticated()) {
         res.status(404).render('error.html', { error: '404 page not found' });
       } else {
-        res.sendFile(path.resolve('server/templates/app.html'));
+        res.render('app.html');
       }
     });
 
