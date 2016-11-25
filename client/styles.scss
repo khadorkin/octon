@@ -251,3 +251,11 @@ a, a:hover, a:focus {
     }
   }
 }
+
+.not-found {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  flex-direction: column;
+}
