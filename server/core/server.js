@@ -8,7 +8,6 @@ import passport from 'passport';
 import OpticsAgent from 'optics-agent';
 import { apolloExpress, graphiqlExpress } from 'apollo-server';
 import moment from 'moment';
-import path from 'path';
 import Feed from 'feed';
 import logger from '../logger';
 import { serializeUser, deserializeUser } from '../passport/passport';
