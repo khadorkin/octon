@@ -115,7 +115,7 @@ class Server {
     this.app.get(process.env.GITHUB_REDIRECT_URL,
       passport.authenticate('github', { failureRedirect: '/' }),
       (req, res) => {
-        res.redirect('/');
+        res.redirect(req.session.redirectTo || '/');
       });
 
     this.app.get('/logout', (req, res) => {
@@ -154,7 +154,8 @@ class Server {
       });
     });
 
-    this.app.get('/', (req, res) => {
+    this.app.get(['/', '/settings', 'repositories/:repositoryId'], (req, res) => {
+      req.session.redirectTo = req.url;
       if (!req.isAuthenticated()) {
         res.render('index.html');
       } else {
