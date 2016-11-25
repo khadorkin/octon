@@ -17,9 +17,6 @@ import schema from '../graphql/schema'; // eslint-disable-line import/no-named-a
 import Users from '../actions/users';
 import Cron from '../cron';
 
-// TODO 404 page
-// TODO 500 page
-
 class Server {
   async start() {
     // Define default variables
