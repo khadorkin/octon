@@ -1,6 +1,7 @@
 import express from 'express';
 import session from 'express-session';
 import bodyParser from 'body-parser';
+import nunjucks from 'nunjucks';
 import mongoose from 'mongoose';
 import connectMongo from 'connect-mongo';
 import passport from 'passport';
@@ -31,6 +32,11 @@ class Server {
     await this.startMongo();
 
     this.app = express();
+
+    nunjucks.configure('server/templates', {
+      autoescape: true,
+      express: this.app,
+    });
     const MongoStore = connectMongo(session);
 
     this.app.use(session({
@@ -151,12 +157,25 @@ class Server {
       });
     });
 
-    this.app.get('*', (req, res) => {
+    this.app.get('/', (req, res) => {
       if (!req.isAuthenticated()) {
-        res.sendFile(path.resolve('server/templates/index.html'));
+        res.render('index.html');
       } else {
         res.sendFile(path.resolve('server/templates/app.html'));
       }
+    });
+
+    this.app.get('*', (req, res) => {
+      if (!req.isAuthenticated()) {
+        res.status(404).render('error.html', { error: '404 page not found' });
+      } else {
+        res.sendFile(path.resolve('server/templates/app.html'));
+      }
+    });
+
+    this.app.use((err, req, res, next) => { // eslint-disable-line
+      logger.log('info', err);
+      res.status(500).render('error.html', { error: '500 internal server error' });
     });
 
     await this.startExpressServer();
