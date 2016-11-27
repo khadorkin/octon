@@ -8,7 +8,7 @@ const RouterApp = () => (
   <Router history={browserHistory}>
     <Route path="/" component={Root}>
       <IndexRoute component={Home} />
-      <Route path="repositories/:repositoryId" component={Home} />
+      <Route path="repositories/:repositoryType/:repositoryUser/:repositoryName" component={Home} />
       <Route path="settings" component={Home} />
       <Route path="*" component={NotFound} />
     </Route>

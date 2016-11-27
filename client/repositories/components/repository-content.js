@@ -12,6 +12,7 @@ import CircularProgress from 'material-ui-build/src/Progress/CircularProgress';
 import Switch from 'material-ui-build/src/Switch';
 import Text from 'material-ui-build/src/Text';
 import TimeAgo from 'timeago-react';
+import NotFound from '../../core/components/not-found';
 
 class RepositoryContent extends Component {
   constructor(props) {
@@ -50,6 +51,7 @@ class RepositoryContent extends Component {
       <div className={classnames('col-right', 'repository-content', { open: repositoryId })}>
         {loading ? <div className="center loading"><CircularProgress /></div> : null}
         {error ? <p className="bg-danger">{error}</p> : null}
+        {!loading && !error && !repository ? <NotFound title={'404 repository not found'} /> : null}
         {repository && !loading ?
           <div>
             <IconButton className="icon-close" onClick={this.handleCloseCLick}>arrow_back</IconButton>

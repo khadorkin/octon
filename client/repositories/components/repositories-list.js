@@ -34,7 +34,7 @@ class RepositoriesList extends Component {
   }
 
   render() {
-    const { loading, error: errorProp, repositories, onItemSelect, selectedId } = this.props;
+    const { loading, error: errorProp, repositories, onItemSelect, selectedName } = this.props;
     const { search, page, error: errorState } = this.state;
     const error = errorProp ? errorProp.message : errorState;
     return (<div className="repositories-list">
@@ -59,7 +59,7 @@ class RepositoriesList extends Component {
             <RepositoriesListItem
               key={repository.id}
               repository={repository}
-              active={repository.id === selectedId}
+              active={repository.name === selectedName}
               onClick={onItemSelect}
             />,
           )}
@@ -78,7 +78,7 @@ class RepositoriesList extends Component {
 RepositoriesList.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.string,
-  selectedId: PropTypes.string,
+  selectedName: PropTypes.string,
   repositories: PropTypes.array,
   queryRefetch: PropTypes.func.isRequired,
   loadMoreRepositories: PropTypes.func.isRequired,

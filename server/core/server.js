@@ -153,7 +153,7 @@ class Server {
       });
     });
 
-    this.app.get(['/', '/settings', 'repositories/:repositoryId'], (req, res) => {
+    this.app.get(['/', '/settings', '/repositories/:repositoryType/:repositoryUser/:repositoryName'], (req, res) => {
       req.session.redirectTo = req.url;
       if (!req.isAuthenticated()) {
         res.render('index.html');

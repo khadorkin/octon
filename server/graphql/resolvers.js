@@ -17,11 +17,11 @@ const resolvers = {
       return Users.getRepositories(user, page, search);
     },
 
-    repository(_, { id }, { user, Users }) {
+    repository(_, { type, name }, { user, Users }) {
       if (!user) {
         throw new Error('Must be logged in.');
       }
-      return Users.getRepository(user, id);
+      return Users.getRepository(user, { type, name });
     },
   },
 

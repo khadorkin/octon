@@ -3,8 +3,8 @@ import gql from 'graphql-tag';
 import RepositoryContent from '../components/repository-content';
 
 const repositoryQuery = gql`
-  query repository($id: String!) {
-    repository(id: $id) {
+  query repository($type: String!, $name: String!) {
+    repository(type: $type, name: $name) {
       id
       name
       description
@@ -22,8 +22,10 @@ const repositoryQuery = gql`
 `;
 
 const RepositoryContentWithData = graphql(repositoryQuery, {
-  skip: ({ repositoryId }) => !repositoryId,
-  options: ({ repositoryId }) => ({ variables: { id: repositoryId } }),
+  // skip: ({ repositoryType }) => !repositoryType,
+  options: ({ repositoryType, repositoryName }) => ({
+    variables: { type: repositoryType, name: repositoryName },
+  }),
   props: ({ data: { loading, repository, error } }) => ({
     loading,
     repository,

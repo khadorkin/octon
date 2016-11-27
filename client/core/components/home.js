@@ -24,8 +24,8 @@ class Home extends Component {
     });
   }
 
-  handleItemSelect = (id) => {
-    this.props.router.replace(`/repositories/${id}`);
+  handleItemSelect = ({ type, name }) => {
+    this.props.router.replace(`/repositories/${type}/${name}`);
   }
 
   render() {
@@ -33,8 +33,8 @@ class Home extends Component {
     const { loading: loadingState, error: errorState } = this.state;
     const error = errorProp ? errorProp.message : errorState;
     const loading = loadingProp || loadingState;
-    const selectedId = params.repositoryId;
     const path = router.location.pathname;
+    const repositoryName = `${params.repositoryUser}/${params.repositoryName}`;
     return (
       <div>
         <div className="col-left">
@@ -44,12 +44,16 @@ class Home extends Component {
             <FirstLogin syncUserStars={this.syncUserStars} loading={loadingState} />
             : <RepositoriesList
               user={user}
-              selectedId={selectedId}
+              selectedName={repositoryName}
               onItemSelect={this.handleItemSelect}
             />}
         </div>
         {path === '/settings' ? <Settings user={user} />
-          : <RepositoryContent router={router} repositoryId={selectedId} />}
+      : <RepositoryContent
+        router={router}
+        repositoryType={params.repositoryType}
+        repositoryName={repositoryName}
+      />}
       </div>
     );
   }

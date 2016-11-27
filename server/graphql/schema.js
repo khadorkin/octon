@@ -47,7 +47,7 @@ type Query {
   # Get user starred repositories
   userRepositories(page: Int, search: String): [Repository]
   # Get single repository
-  repository(id: String!): Repository
+  repository(type: String!, name: String!): Repository
 }
 
 type Mutation {

@@ -16,7 +16,7 @@ class RepositoriesListItem extends Component {
   }
 
   handleClick = () => {
-    this.props.onClick(this.props.repository.id);
+    this.props.onClick(this.props.repository);
   }
 
   render() {
