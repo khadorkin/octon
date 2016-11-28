@@ -28,18 +28,21 @@ I wanted to create an app fully functioning with the latest javascript (es6, lin
 - [Apollo](http://www.apollostack.com) - Graphql
 - [MongoDb](https://www.mongodb.com/)
 
-# Development
+## Contribute
+
+Pull requests are always welcome!
 
 First you will need to have a mongodb server running.
 
-- `cp .env.default .env` Edit the .env file
-- `npm install` Install nodejs dependencies
-- `npm start:dev` Start the server and webpack
+1. `cp .env.default .env` Edit the .env file
+2. `npm install` Install nodejs dependencies
+3. `npm start:dev` Start the server and webpack
 
-## Docker
+Before submitting a pull request, please verify that your branch pass the tests with command `npm run test`.
+
+### Docker
 
 `docker-compose -f docker/dev/docker-compose.yml up`
 The app will run on port 3000.
-
 
 Special thanks to [Quentin Saubadu](https://www.facebook.com/quentinsaubadu) for the logo and design!
