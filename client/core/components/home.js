@@ -49,11 +49,11 @@ class Home extends Component {
             />}
         </div>
         {path === '/settings' ? <Settings user={user} />
-      : <RepositoryContent
-        router={router}
-        repositoryType={params.repositoryType}
-        repositoryName={repositoryName}
-      />}
+        : <RepositoryContent
+          router={router}
+          repositoryType={params.repositoryType}
+          repositoryName={repositoryName}
+        />}
       </div>
     );
   }

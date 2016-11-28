@@ -45,13 +45,13 @@ class RepositoryContent extends Component {
 
   render() {
     const { error: errorState } = this.props;
-    const { loading, error: errorProp, repository, repositoryId } = this.props;
+    const { loading, error: errorProp, repository, repositoryType } = this.props;
     const error = errorProp ? errorProp.message : errorState;
     return (
-      <div className={classnames('col-right', 'repository-content', { open: repositoryId })}>
+      <div className={classnames('col-right', 'repository-content', { open: repositoryType })}>
         {loading ? <div className="center loading"><CircularProgress /></div> : null}
         {error ? <p className="bg-danger">{error}</p> : null}
-        {!loading && !error && !repository ? <NotFound title={'404 repository not found'} /> : null}
+        {!loading && !error && !repository && repositoryType ? <NotFound title={'404 repository not found'} /> : null}
         {repository && !loading ?
           <div>
             <IconButton className="icon-close" onClick={this.handleCloseCLick}>arrow_back</IconButton>
@@ -90,7 +90,7 @@ RepositoryContent.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.string,
   repository: PropTypes.object,
-  repositoryId: PropTypes.string,
+  repositoryType: PropTypes.string,
   router: PropTypes.object,
   trackRepository: PropTypes.func.isRequired,
 };

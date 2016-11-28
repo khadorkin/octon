@@ -22,7 +22,7 @@ const repositoryQuery = gql`
 `;
 
 const RepositoryContentWithData = graphql(repositoryQuery, {
-  // skip: ({ repositoryType }) => !repositoryType,
+  skip: ({ repositoryType }) => !repositoryType,
   options: ({ repositoryType, repositoryName }) => ({
     variables: { type: repositoryType, name: repositoryName },
   }),
