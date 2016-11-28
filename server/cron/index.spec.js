@@ -80,6 +80,24 @@ describe('server.cron.index', () => {
     });
   });
 
+  describe('#startSyncUserStars', () => {
+    const cron = new Cron();
+
+    it('should start syncUserStars job', async () => {
+      cron.syncUserStars = { start: jest.fn() };
+      cron.syncUserStars.start.mockReturnValue(Promise.resolve('sucess'));
+      await cron.startSyncUserStars();
+      expect(cron.syncUserStars.start.mock.calls.length).toEqual(1);
+    });
+
+    it('should catch error', async () => {
+      cron.syncUserStars = { start: jest.fn() };
+      cron.syncUserStars.start.mockReturnValue(Promise.reject('error'));
+      await cron.startSyncUserStars();
+      expect(cron.syncUserStars.start.mock.calls.length).toEqual(1);
+    });
+  });
+
   describe('#stop', () => {
     const cron = new Cron();
 
@@ -87,10 +105,12 @@ describe('server.cron.index', () => {
       cron.checkForNewReleasesJob = { cancel: jest.fn() };
       cron.dailyMailJob = { cancel: jest.fn() };
       cron.weeklyMailJob = { cancel: jest.fn() };
+      cron.syncUserStarsJob = { cancel: jest.fn() };
       cron.stop();
       expect(cron.checkForNewReleasesJob.cancel.mock.calls.length).toEqual(1);
       expect(cron.dailyMailJob.cancel.mock.calls.length).toEqual(1);
       expect(cron.weeklyMailJob.cancel.mock.calls.length).toEqual(1);
+      expect(cron.syncUserStarsJob.cancel.mock.calls.length).toEqual(1);
     });
   });
 });

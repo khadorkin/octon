@@ -1,6 +1,7 @@
 import schedule from 'node-schedule';
 import CheckForNewReleases from './check-for-new-releases';
 import UpdateMail from './update-mail';
+import SyncUserStars from './sync-user-stars';
 import logger from '../logger';
 
 class Cron {
@@ -8,6 +9,7 @@ class Cron {
     this.checkForNewReleases = new CheckForNewReleases();
     this.dailyMail = new UpdateMail('daily');
     this.weeklyMail = new UpdateMail('weekly');
+    this.syncUserStars = new SyncUserStars();
   }
 
   start() {
@@ -17,6 +19,8 @@ class Cron {
     this.dailyMailJob = schedule.scheduleJob('0 13 * * *', () => this.startDailyMail());
     // Run once a week every sunday
     this.weeklyMailJob = schedule.scheduleJob('0 13 * * 6', () => this.startWeeklyMail());
+    // Run each day at 20
+    this.syncUserStarsJob = schedule.scheduleJob('0 20 * * *', () => this.startSyncUserStars());
   }
 
   startCheckForNewReleasesJob() {
@@ -40,10 +44,18 @@ class Cron {
       .catch(err => logger.log('error', err));
   }
 
+  startSyncUserStars() {
+    logger.log('info', 'start syncUserStars');
+    return this.syncUserStars.start()
+      .then(() => logger.log('info', 'finish syncUserStars'))
+      .catch(err => logger.log('error', err));
+  }
+
   stop() {
     this.checkForNewReleasesJob.cancel();
     this.dailyMailJob.cancel();
     this.weeklyMailJob.cancel();
+    this.syncUserStarsJob.cancel();
   }
 }
 
