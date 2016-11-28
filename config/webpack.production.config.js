@@ -30,6 +30,7 @@ const config = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       'process.env.BASE_URL': JSON.stringify(process.env.BASE_URL),
+      'process.env.GOOGLE_GA': JSON.stringify('UA-59303778-3'),
     }),
     // This helps ensure the builds are consistent if source hasn't changed:
     new webpack.optimize.OccurrenceOrderPlugin(),
