@@ -59,6 +59,17 @@ const repositorySchema = new mongoose.Schema({
   },
 });
 
+repositorySchema.methods.setLatestRelease = function setLatestRelease(release) {
+  if (!release ||
+    (this.latestRelease &&
+    release.refId.toString() === this.latestRelease.refId.toString())) {
+    return false;
+  }
+  // If new release
+  this.latestRelease = release;
+  return true;
+};
+
 const Repository = mongoose.model('Repository', repositorySchema);
 
 export default Repository;
