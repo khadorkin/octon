@@ -12,7 +12,6 @@ import IconButton from 'material-ui-build/src/IconButton';
 import Divider from 'material-ui-build/src/Divider';
 import { CircularProgress } from 'material-ui-build/src/Progress';
 import injectSheet from 'react-jss';
-import classNames from 'classnames';
 
 const styles = {
   title: {
