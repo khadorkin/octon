@@ -9,7 +9,14 @@ class Docker {
    */
   getAllUserStars(username) {
     // TODO multiple pages
-    return docker.repositoriesStarred(username);
+    return docker.repositoriesStarred(username, {
+      perPage: 100, page: 0,
+    }).then((repositories) => {
+      if (repositories.results) {
+        return repositories.results;
+      }
+      return repositories;
+    });
   }
 
   /**
