@@ -44,6 +44,7 @@ const RootWithData = graphql(repositoryQuery, {
         }),
     };
   },
+  options: { forceFetch: true },
 })(RepositoriesList);
 
 export default RootWithData;

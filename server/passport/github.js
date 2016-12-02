@@ -1,5 +1,7 @@
 import GitHubStrategy from 'passport-github';
 import User from '../models/users';
+import Users from '../actions/users';
+import logger from '../logger';
 
 export function handleGithubReturn(accessToken, refreshToken, profile, cb) {
   return User.findOne({ 'github.id': profile.id }).exec().then((user) => {
@@ -31,6 +33,12 @@ export function handleGithubReturn(accessToken, refreshToken, profile, cb) {
       },
     });
     return newUser.save().then((data) => {
+      // When a user signup get his stars
+      const users = new Users();
+      users.syncStars(data)
+        .catch((err) => {
+          logger.log(err);
+        });
       cb(null, data);
     });
   })

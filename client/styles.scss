@@ -43,48 +43,6 @@ body {
 }
 
 .settings {
-  .title {
-    line-height: 48px;
-  }
-
-  .notifications-item {
-    padding-top: 7px;
-    padding-bottom: 17px;
-  }
-
-  .form-email {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .input {
-    }
-
-    button {
-      margin-left: 20px;
-    }
-
-    .email-button {
-      margin-top: 17px;
-    }
-  }
-
-  .github-name {
-    margin-bottom: 14px;
-  }
-
-  .github-button {
-    margin-top: -10px;
-  }
-
-  .github-text-sync {
-    margin-bottom: 26px;
-  }
-
-  .docker-input {
-    margin-top: 0;
-  }
-
   .show-more {
     margin-top: 20px;
   }

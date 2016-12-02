@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { CircularProgress } from 'material-ui-build/src/Progress';
-import FirstLogin from './first-login';
+import Overlay from './overlay';
 import RepositoriesList from '../../repositories/containers/repositories-list';
 import RepositoryContent from '../../repositories/containers/repository-content';
 import Settings from '../../settings/containers/settings';
@@ -12,16 +12,6 @@ class Home extends Component {
       loading: false,
       error: null,
     };
-  }
-
-  syncUserStars = () => {
-    const { syncUserGithubStars } = this.props;
-    this.setState({ loading: true, error: '' });
-    syncUserGithubStars().then(() => {
-      this.setState({ loading: false });
-    }).catch((err) => {
-      this.setState({ loading: false, error: err.message });
-    });
   }
 
   handleItemSelect = ({ type, name }) => {
@@ -37,16 +27,19 @@ class Home extends Component {
     const repositoryName = `${params.repositoryUser}/${params.repositoryName}`;
     return (
       <div>
+        {loading ? <Overlay loading /> : null}
+        {!user.github.lastSync || (user.docker && !user.docker.lastSync) ?
+          <Overlay text={'We are importing your stars please wait a minute...'} loading />
+          : null}
         <div className="col-left">
           {loading ? <div className="center"><CircularProgress /></div> : null}
           {error ? <p className="bg-danger">{error}</p> : null}
-          {!user.github.lastSync ?
-            <FirstLogin syncUserStars={this.syncUserStars} loading={loadingState} />
-            : <RepositoriesList
+          {user.github.lastSync ?
+            <RepositoriesList
               user={user}
               selectedName={repositoryName}
               onItemSelect={this.handleItemSelect}
-            />}
+            /> : null}
         </div>
         {path === '/settings' ? <Settings user={user} />
         : <RepositoryContent
@@ -65,7 +58,6 @@ Home.propTypes = {
   user: PropTypes.object,
   router: PropTypes.object,
   params: PropTypes.object,
-  syncUserGithubStars: PropTypes.func.isRequired,
 };
 
 Home.defaultProps = {

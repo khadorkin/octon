@@ -5,6 +5,7 @@ import Github from '../core/github';
 import Docker from '../core/docker';
 import User from '../models/users';
 import Repository from '../models/repositories';
+import logger from '../logger';
 
 class Users {
   constructor() {
@@ -194,7 +195,25 @@ class Users {
             username: res.username,
           };
           return user.save();
+        }).then((data) => {
+          this.syncDockerStars(user)
+            .then(() => logger.log('info', 'finish'))
+            .catch(err => logger.log('error', err));
+          return data;
         });
+    });
+  }
+
+  removeDockerAccount(userContext) {
+    return this.get(userContext.id).then((user) => {
+      if (!user) {
+        throw new Error('No user found');
+      }
+      if (!user.docker) {
+        return user;
+      }
+      user.docker = null;
+      return user.save();
     });
   }
 
