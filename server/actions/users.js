@@ -197,7 +197,6 @@ class Users {
           return user.save();
         }).then((data) => {
           this.syncDockerStars(user)
-            .then(() => logger.log('info', 'finish'))
             .catch(err => logger.log('error', err));
           return data;
         });
