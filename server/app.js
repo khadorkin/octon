@@ -1,7 +1,7 @@
-require('newrelic'); // eslint-disable-line
+import 'newrelic'; // eslint-disable-line
 import 'babel-polyfill'; // eslint-disable-line
-import dotenv from 'dotenv'; // eslint-disable-line import/first
-import Server from './core/server'; // eslint-disable-line import/first
+import dotenv from 'dotenv';
+import Server from './core/server';
 
 // Configure env variables
 dotenv.config({ silent: true });
