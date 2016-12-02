@@ -48,8 +48,7 @@ describe('server.cron.check-for-new-releases', () => {
     });
   });
 
-  // TODO fix that
-  /* describe('#getLatestReleaseAndSave', () => {
+  describe('#getLatestReleaseAndSave', () => {
     const checkForNewReleases = new CheckForNewReleases();
 
     it('should return true for empty array', () => {
@@ -85,7 +84,7 @@ describe('server.cron.check-for-new-releases', () => {
       expect(checkForNewReleases.github.getLatestRelease.mock.calls.length).toEqual(1);
       expect(ret).toBeTruthy();
     });
-  }); */
+  });
 
   afterAll(disconnectDb);
 });

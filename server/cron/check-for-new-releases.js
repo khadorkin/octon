@@ -1,4 +1,6 @@
+import Github from '../core/github';
 import Docker from '../core/docker';
+import User from '../models/users';
 import Repository from '../models/repositories';
 
 /**
@@ -9,11 +11,17 @@ class CheckForNewReleases {
    * @description Start the task
    */
   start() {
-    this.docker = new Docker();
+    return User.findOne().exec().then((user) => {
+      if (!user) {
+        throw new Error('No users');
+      }
+      this.github = new Github({ accessToken: user.github.accessToken });
+      this.docker = new Docker();
 
-    return Repository.find({ type: 'docker' }).sort({ type: 1 }).exec().then(repositories =>
-      this.getLatestReleaseAndSave(repositories),
-    );
+      return Repository.find().sort({ type: 1 }).exec().then(repositories =>
+        this.getLatestReleaseAndSave(repositories),
+      );
+    });
   }
 
   getLatestReleaseAndSave(repositories) {
@@ -21,11 +29,22 @@ class CheckForNewReleases {
       return true;
     }
     const repository = repositories.pop();
-    return this.docker.getLatestRelease(repository).then((release) => {
-      if (repository.setLatestRelease(release)) {
-        return repository.save();
+    let promise;
+    if (repository.type === 'github') {
+      promise = this.github.getLatestRelease(repository);
+    } else {
+      promise = this.docker.getLatestRelease(repository);
+    }
+    return promise.then((release) => {
+      // If there is no release or no new release
+      if (!release ||
+        (repository.latestRelease &&
+        release.refId.toString() === repository.latestRelease.refId.toString())) {
+        return null;
       }
-      return null;
+      // If new release
+      repository.latestRelease = release;
+      return repository.save();
     }).then(() => this.getLatestReleaseAndSave(repositories));
   }
 }

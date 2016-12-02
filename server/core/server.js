@@ -15,7 +15,6 @@ import gitHubStrategy from '../passport/github';
 import schema from '../graphql/schema'; // eslint-disable-line import/no-named-as-default
 import Users from '../actions/users';
 import Cron from '../cron';
-import Stream from './stream';
 
 class Server {
   async start() {
@@ -181,10 +180,6 @@ class Server {
     // Start cron tasks
     this.cron = new Cron();
     this.cron.start();
-
-    // Start stream
-    this.stream = new Stream();
-    this.stream.start();
   }
 
   startMongo() {
@@ -227,8 +222,6 @@ class Server {
   stop() {
     // Stop cron tasks
     this.cron.stop();
-    // Stop stream
-    this.stream.stop();
     // Stop mongodb
     const db = mongoose.connection;
     mongoose.disconnect();
