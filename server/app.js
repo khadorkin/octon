@@ -1,12 +1,12 @@
+require('newrelic'); // eslint-disable-line
 import 'babel-polyfill'; // eslint-disable-line
-import dotenv from 'dotenv';
-import Server from './core/server';
+import dotenv from 'dotenv'; // eslint-disable-line import/first
+import Server from './core/server'; // eslint-disable-line import/first
 
 // Configure env variables
 dotenv.config({ silent: true });
 
-const envVariables = ['GITHUB_CLIENT_ID', 'GITHUB_CLIENT_SECRET',
-  'MONGO_URL'];
+const envVariables = ['GITHUB_CLIENT_ID', 'GITHUB_CLIENT_SECRET', 'MONGO_URL'];
 envVariables.forEach((env) => {
   if (!process.env[env]) {
     throw new Error(`Env variable ${env} not set`);
