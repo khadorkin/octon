@@ -181,7 +181,7 @@ class Settings extends Component {
           <ListItem>
             <ListItemText primary={user.email} />
             <ListItemSecondaryAction>
-              <IconButton onClick={this.handleToggleEditEmail}>edit</IconButton>
+              <IconButton onClick={this.handleToggleEditEmail} title="Edit">edit</IconButton>
             </ListItemSecondaryAction>
           </ListItem>
           : null}
@@ -198,7 +198,7 @@ class Settings extends Component {
               onChange={this.handleChangeEmail}
             />
           </TextField>
-          <IconButton type="submit" className={classes.formButton}>save</IconButton>
+          <IconButton type="submit" className={classes.formButton} title="Save">save</IconButton>
         </form>
         : null}
       <Divider />
@@ -220,7 +220,7 @@ class Settings extends Component {
             primary={<Text>Connected as <b>{user.docker.username}</b></Text>}
           />
           <ListItemSecondaryAction>
-            <IconButton onClick={this.handleDisconnectDocker}>delete</IconButton>
+            <IconButton onClick={this.handleDisconnectDocker} title="Delete">delete</IconButton>
           </ListItemSecondaryAction>
         </ListItem> : null}
       </List>
@@ -236,7 +236,7 @@ class Settings extends Component {
               onChange={this.handleChangeDockerUsername}
             />
           </TextField>
-          <IconButton type="submit" className={classes.formButton}>save</IconButton>
+          <IconButton type="submit" className={classes.formButton} title="Save">save</IconButton>
         </form>
         : null}
       <Divider />
