@@ -1,4 +1,9 @@
 import React, { Component, PropTypes } from 'react';
+import Dialog from 'material-ui-build/src/Dialog/Dialog';
+import DialogActions from 'material-ui-build/src/Dialog/DialogActions';
+import DialogContent from 'material-ui-build/src/Dialog/DialogContent';
+import DialogContentText from 'material-ui-build/src/Dialog/DialogContentText';
+import DialogTitle from 'material-ui-build/src/Dialog/DialogTitle';
 import Text from 'material-ui-build/src/Text';
 import List from 'material-ui-build/src/List/List';
 import ListSubheader from 'material-ui-build/src/List/ListSubheader';
@@ -49,6 +54,9 @@ class Settings extends Component {
       email: props.user.email,
       dockerUsername: props.user.docker ? props.user.docker.username : '',
       showMore: false,
+      dialogOpen: false,
+      dialogTitle: false,
+      dialogContent: false,
     };
   }
 
@@ -91,29 +99,38 @@ class Settings extends Component {
   }
 
   handleDisconnectDocker = () => {
-    const choice = confirm('Do you really want to disconnect your docker account?');
-    if (choice) {
-      this.setState({ dockerUsername: '' });
-      const { removeDockerAccount } = this.props;
-      removeDockerAccount()
-        .then(() => this.setState({ loading: false, success: 'Info updated' }))
-        .catch(err => this.setState({ loading: false, error: err.message }));
+    if (!this.state.dialogOpen) {
+      this.setState({
+        dialogOpen: true,
+        dialogTitle: 'Disconnect docker account',
+        dialogContent: 'Do you really want to disconnect your docker account?',
+      });
+      return;
     }
+    this.setState({ dockerUsername: '' });
+    const { removeDockerAccount } = this.props;
+    removeDockerAccount()
+      .then(() => this.setState({ loading: false, success: 'Info updated', dialogOpen: false }))
+      .catch(err => this.setState({ loading: false, error: err.message, dialogOpen: false }));
   }
 
   handleDeleteAccount = () => {
-    // TODO make a clean material modal
     const { deleteUserAccount } = this.props;
-    const choice = confirm('Do you really want to delete your account? (this action is irreversible)');
-    if (choice) {
-      this.setState({ loading: true, success: '', error: '' });
-      deleteUserAccount()
-        .then(() => {
-          this.setState({ loading: false, success: 'Account deleted' });
-          location.reload();
-        })
-        .catch(err => this.setState({ loading: false, error: err.message }));
+    if (!this.state.dialogOpen) {
+      this.setState({
+        dialogOpen: true,
+        dialogTitle: 'Delete my account',
+        dialogContent: 'Do you really want to delete your account? (this action is irreversible)',
+      });
+      return;
     }
+    this.setState({ loading: true, success: '', error: '' });
+    deleteUserAccount()
+      .then(() => {
+        this.setState({ loading: false, success: 'Account deleted' });
+        location.reload();
+      })
+      .catch(err => this.setState({ loading: false, error: err.message }));
   }
 
   handleChangeEmail = event => this.setState({ email: event.target.value })
@@ -124,9 +141,22 @@ class Settings extends Component {
 
   handleToggleShowMore = () => this.setState({ showMore: !this.state.showMore })
 
+  handleDialogClose = () => this.setState({ dialogOpen: false })
+
+  handleDialogOk = () => {
+    if (this.state.dialogTitle === 'Delete my account') {
+      this.handleDeleteAccount();
+    } else {
+      this.handleDisconnectDocker();
+    }
+  }
+
   render() {
     const { user, sheet: { classes } } = this.props;
-    const { loading, success, error, email, dockerUsername, editEmail, showMore } = this.state;
+    const {
+      loading, success, error, email, dockerUsername, editEmail, showMore,
+      dialogOpen, dialogTitle, dialogContent,
+    } = this.state;
     return (<div className="col-right settings open">
       {loading ? <div className="center"><CircularProgress /></div> : null}
       {success ? <p className="bg-success">{success}</p> : null}
@@ -223,6 +253,21 @@ class Settings extends Component {
           </div>
           : <Button onClick={this.handleToggleShowMore}>More settings</Button>}
       </div>
+      <Dialog
+        open={dialogOpen}
+        onRequestClose={this.handleDialogClose}
+      >
+        <DialogTitle>{dialogTitle}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {dialogContent}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleDialogOk} accent>Ok</Button>
+          <Button onClick={this.handleDialogClose}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
     </div>);
   }
 }
