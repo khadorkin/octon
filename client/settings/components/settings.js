@@ -17,6 +17,7 @@ import IconButton from 'material-ui-build/src/IconButton';
 import Divider from 'material-ui-build/src/Divider';
 import { CircularProgress } from 'material-ui-build/src/Progress';
 import injectSheet from 'react-jss';
+import copy from 'copy-to-clipboard';
 
 const styles = {
   title: {
@@ -133,6 +134,10 @@ class Settings extends Component {
       .catch(err => this.setState({ loading: false, error: err.message }));
   }
 
+  handleCopyRss = () => {
+    copy(`${process.env.BASE_URL}/users/${this.props.user.id}/rss`);
+  }
+
   handleChangeEmail = event => this.setState({ email: event.target.value })
 
   handleChangeDockerUsername = event => this.setState({ dockerUsername: event.target.value })
@@ -243,6 +248,9 @@ class Settings extends Component {
       <List subheader={<ListSubheader>Rss</ListSubheader>}>
         <ListItem>
           <ListItemText primary={`${process.env.BASE_URL}/users/${user.id}/rss`} />
+          <ListItemSecondaryAction>
+            <IconButton onClick={this.handleCopyRss} title="Copy to clipboard">content_copy</IconButton>
+          </ListItemSecondaryAction>
         </ListItem>
       </List>
       <Divider />
