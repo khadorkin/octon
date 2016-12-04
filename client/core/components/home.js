@@ -41,12 +41,13 @@ class Home extends Component {
               onItemSelect={this.handleItemSelect}
             /> : null}
         </div>
-        {path === '/settings' ? <Settings user={user} />
-        : <RepositoryContent
-          router={router}
-          repositoryType={params.repositoryType}
-          repositoryName={repositoryName}
-        />}
+        {path === '/settings' ? <Settings user={user} /> : null}
+        {path !== '/settings' && params.repositoryType ?
+          <RepositoryContent
+            router={router}
+            repositoryType={params.repositoryType}
+            repositoryName={repositoryName}
+          /> : null}
       </div>
     );
   }

@@ -1,8 +1,10 @@
 $white: #ffffff;
+$grey: #eaeaea;
+$black: #1c1d1c;
 $neon: #1fe8af;
 
 body {
-  background-color: $white;
+  background-color: $grey;
 }
 
 // Global styles
@@ -57,7 +59,7 @@ a, a:hover, a:focus {
 
 .navbar {
   &.navbar-default {
-    background-color: #1c1d1c;
+    background-color: $black;
     height: 60px;
     border: none;
   }
@@ -73,11 +75,11 @@ a, a:hover, a:focus {
   }
 
   .navbar-avatar {
-    border: 1px solid #1fe8af;
+    border: 1px solid $neon;
   }
 
   .material-icons {
-    color: #1fe8af;
+    color: $neon;
   }
 }
 
@@ -89,7 +91,7 @@ a, a:hover, a:focus {
   top: 0;
   bottom: 0;
   overflow: auto;
-  background-color: #ffffff;
+  background-color: $white;
   padding-bottom: 16px;
   padding-top: 16px;
 }
@@ -100,7 +102,7 @@ a, a:hover, a:focus {
   top: 0;
   right: 0;
   bottom: 0;
-  background-color: #eaeaea;
+  background-color: $grey;
   overflow: auto;
   padding: 0 39px;
   padding-bottom: 40px;
@@ -117,7 +119,7 @@ a, a:hover, a:focus {
     transition: background-color 0.5s linear;
 
     &.active {
-      background-color: #eaeaea;
+      background-color: $grey;
     }
 
     .version {
