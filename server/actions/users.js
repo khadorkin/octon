@@ -5,18 +5,34 @@ import Github from '../core/github';
 import Docker from '../core/docker';
 import User from '../models/users';
 import Repository from '../models/repositories';
+import logger from '../logger';
 
 class Users {
+  /**
+   * @description Initialize a new DataLoader for getting a user
+   */
   constructor() {
     this.userLoader = new DataLoader(ids =>
       Promise.all(ids.map(id => User.findOne({ _id: id }).exec())),
     );
   }
 
+  /**
+   * @param {string} id - Id of user
+   * @description Return a single user
+   * @return {promise}
+   */
   get(id) {
     return this.userLoader.load(id);
   }
 
+  /**
+   * @param {object} userContext
+   * @param {string} page - Page to get
+   * @param {string} search - String to search
+   * @description Return user repositories sorted by latestRelease date
+   * @return {promise}
+   */
   getRepositories(userContext, page = 1, search) {
     const limit = 50;
     return this.get(userContext.id).then((user) => {
@@ -35,6 +51,11 @@ class Users {
     });
   }
 
+  /**
+   * @param {object} userContext
+   * @description Return a single repository
+   * @return {promise}
+   */
   getRepository(userContext, { type, name }) {
     return Repository.findOne({ type, name });
   }
@@ -65,15 +86,7 @@ class Users {
             const githubRepositoriesToInsert = githubRepositories.filter(repo =>
               repositoriesIds.indexOf(repo.id.toString()) === -1);
             // Insert new ones
-            const promises = githubRepositoriesToInsert.map((repo) => {
-              const newRepo = new Repository(github.makeReposirory(repo));
-              return github.getLatestRelease(newRepo).then((latestRelease) => {
-                if (latestRelease) {
-                  newRepo.latestRelease = latestRelease;
-                }
-                return newRepo.save();
-              });
-            });
+            const promises = githubRepositoriesToInsert.map(repo => github.createRepository(repo));
             return Promise.all(promises).then((data) => {
               repositoriesIds = repositories.concat(data).map(repo => repo.id);
               user.starred = user.setStars(user.starred, repositoriesIds, 'github');
@@ -109,15 +122,7 @@ class Users {
             let repositoriesIds = repositories.map(repo => repo.refId);
             const dockerRepositoriesToInsert = dockerRepositories.filter(repo =>
               repositoriesIds.indexOf(`${repo.user}/${repo.name}`) === -1);
-            const promises = dockerRepositoriesToInsert.map((repo) => {
-              const newRepo = new Repository(docker.makeReposirory(repo));
-              return docker.getLatestRelease(newRepo).then((latestRelease) => {
-                if (latestRelease) {
-                  newRepo.latestRelease = latestRelease;
-                }
-                return newRepo.save();
-              });
-            });
+            const promises = dockerRepositoriesToInsert.map(repo => docker.createRepository(repo));
             return Promise.all(promises).then((data) => {
               repositoriesIds = repositories.concat(data).map(repo => repo.id);
               user.starred = user.setStars(user.starred, repositoriesIds, 'docker');
@@ -176,6 +181,12 @@ class Users {
     });
   }
 
+  /**
+   * @param {object} userContext
+   * @param {string} username - Docker username
+   * @description Add docker account to user
+   * @return {promise}
+   */
   addDockerAccount(userContext, username) {
     return this.get(userContext.id).then((user) => {
       if (!user) {
@@ -194,10 +205,37 @@ class Users {
             username: res.username,
           };
           return user.save();
+        }).then((data) => {
+          this.syncDockerStars(user)
+            .catch(err => logger.log('error', err));
+          return data;
         });
     });
   }
 
+  /**
+   * @param {object} userContext
+   * @description Disconnect docker account for user
+   * @return {promise}
+   */
+  removeDockerAccount(userContext) {
+    return this.get(userContext.id).then((user) => {
+      if (!user) {
+        throw new Error('No user found');
+      }
+      if (!user.docker) {
+        return user;
+      }
+      user.docker = null;
+      return user.save();
+    });
+  }
+
+  /**
+   * @param {object} userContext
+   * @description Delete a user account
+   * @return {promise}
+   */
   deleteAccount(userContext) {
     return this.get(userContext.id).then((user) => {
       if (!user) {

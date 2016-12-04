@@ -1,5 +1,6 @@
 import docker from 'docker-hub-api';
 import semver from 'semver';
+import Repository from '../../models/repositories';
 
 class Docker {
   /**
@@ -9,7 +10,14 @@ class Docker {
    */
   getAllUserStars(username) {
     // TODO multiple pages
-    return docker.repositoriesStarred(username);
+    return docker.repositoriesStarred(username, {
+      perPage: 100, page: 0,
+    }).then((repositories) => {
+      if (repositories.results) {
+        return repositories.results;
+      }
+      return repositories;
+    });
   }
 
   /**
@@ -17,7 +25,7 @@ class Docker {
    * @description Format a docker repository to an object ready to be inserted in database
    * @return {object}
    */
-  makeReposirory(repo) {
+  formatReposirory(repo) {
     // TODO library organization images
     const ret = {
       name: `${repo.user}/${repo.name}`,
@@ -67,6 +75,21 @@ class Docker {
         }
       }
       return null;
+    });
+  }
+
+  /**
+   * @param {object} repo - Docker repository object
+   * @description Create a new docker repository in database
+   * @return {promise}
+   */
+  createRepository(repo) {
+    const newRepo = new Repository(this.formatReposirory(repo));
+    return this.getLatestRelease(newRepo).then((latestRelease) => {
+      if (latestRelease) {
+        newRepo.latestRelease = latestRelease;
+      }
+      return newRepo.save();
     });
   }
 }

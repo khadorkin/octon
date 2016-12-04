@@ -1,14 +1,34 @@
 $white: #ffffff;
+$grey: #eaeaea;
+$black: #1c1d1c;
 $neon: #1fe8af;
 
 body {
-  background-color: $white;
+  background-color: $grey;
 }
 
+// Global styles
+a, a:hover, a:focus {
+  color: $neon !important;
+}
+.bg-success, .bg-danger {
+  padding: 15px;
+}
+.bg-success {
+  color: white;
+  background-color: rgba(31, 232, 175, 0.6);
+}
+.center {
+  text-align: center;
+}
 .ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.content {
+  margin-left: 16px !important;
+  margin-right: 16px !important;
 }
 
 .navbar {
@@ -26,65 +46,11 @@ body {
   }
 }
 
-.bg-success, .bg-danger {
-  padding: 15px;
-}
-.bg-success {
-  color: white;
-  background-color: rgba(31, 232, 175, 0.6);
-}
-
-.center {
-  text-align: center;
-}
-
 .loading {
   margin-top: 20px;
 }
 
 .settings {
-  .title {
-    line-height: 48px;
-  }
-
-  .notifications-item {
-    padding-top: 7px;
-    padding-bottom: 17px;
-  }
-
-  .form-email {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .input {
-    }
-
-    button {
-      margin-left: 20px;
-    }
-
-    .email-button {
-      margin-top: 17px;
-    }
-  }
-
-  .github-name {
-    margin-bottom: 14px;
-  }
-
-  .github-button {
-    margin-top: -10px;
-  }
-
-  .github-text-sync {
-    margin-bottom: 26px;
-  }
-
-  .docker-input {
-    margin-top: 0;
-  }
-
   .show-more {
     margin-top: 20px;
   }
@@ -93,7 +59,7 @@ body {
 
 .navbar {
   &.navbar-default {
-    background-color: #1c1d1c;
+    background-color: $black;
     height: 60px;
     border: none;
   }
@@ -104,12 +70,16 @@ body {
     padding-right: 45px;
   }
 
+  .navbar-right {
+    display: flex;
+  }
+
   .navbar-avatar {
-    border: 1px solid #1fe8af;
+    border: 1px solid $neon;
   }
 
   .material-icons {
-    color: #1fe8af;
+    color: $neon;
   }
 }
 
@@ -121,7 +91,7 @@ body {
   top: 0;
   bottom: 0;
   overflow: auto;
-  background-color: #ffffff;
+  background-color: $white;
   padding-bottom: 16px;
   padding-top: 16px;
 }
@@ -132,7 +102,7 @@ body {
   top: 0;
   right: 0;
   bottom: 0;
-  background-color: #eaeaea;
+  background-color: $grey;
   overflow: auto;
   padding: 0 39px;
   padding-bottom: 40px;
@@ -149,7 +119,7 @@ body {
     transition: background-color 0.5s linear;
 
     &.active {
-      background-color: #eaeaea;
+      background-color: $grey;
     }
 
     .version {
@@ -161,11 +131,6 @@ body {
       font-size: 1.4em;
     }
   }
-}
-
-.content {
-  margin-left: 16px !important;
-  margin-right: 16px !important;
 }
 
 .repository-content {
@@ -186,10 +151,6 @@ body {
   .markdown-body {
     margin-top: 20px;
   }
-}
-
-a, a:hover, a:focus {
-  color: $neon !important;
 }
 
 // Small devices
@@ -250,12 +211,4 @@ a, a:hover, a:focus {
       }
     }
   }
-}
-
-.not-found {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  flex-direction: column;
 }

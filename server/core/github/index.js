@@ -1,6 +1,6 @@
 import { Github } from 'node-social-api';
 import semver from 'semver';
-
+import Repository from '../../models/repositories';
 
 class GithubCore {
   constructor(options) {
@@ -12,7 +12,7 @@ class GithubCore {
    * @description Format a github repository to an object ready to be inserted in database
    * @return {object}
    */
-  makeReposirory(repo) {
+  formatReposirory(repo) {
     return {
       name: repo.full_name,
       description: repo.description,
@@ -91,6 +91,21 @@ class GithubCore {
             return latestRelease;
           });
       });
+  }
+
+  /**
+   * @param {object} repo - Github repository object
+   * @description Create a new github repository in database
+   * @return {promise}
+   */
+  createRepository(repo) {
+    const newRepo = new Repository(this.formatReposirory(repo));
+    return this.getLatestRelease(newRepo).then((latestRelease) => {
+      if (latestRelease) {
+        newRepo.latestRelease = latestRelease;
+      }
+      return newRepo.save();
+    });
   }
 }
 

@@ -26,20 +26,6 @@ const resolvers = {
   },
 
   Mutation: {
-    syncUserGithubStars(_, __, { user, Users }) {
-      if (!user) {
-        throw new Error('Must be logged in.');
-      }
-      return Users.syncStars(user);
-    },
-
-    syncUserDockerStars(_, __, { user, Users }) {
-      if (!user) {
-        throw new Error('Must be logged in.');
-      }
-      return Users.syncDockerStars(user);
-    },
-
     trackRepository(_, { repositoryId, active }, context) {
       if (!context.user) {
         throw new Error('Must be logged in.');
@@ -66,6 +52,13 @@ const resolvers = {
         throw new Error('Must be logged in.');
       }
       return Users.addDockerAccount(user, username);
+    },
+
+    removeDockerAccount(_, __, { user, Users }) {
+      if (!user) {
+        throw new Error('Must be logged in.');
+      }
+      return Users.removeDockerAccount(user);
     },
 
     deleteUserAccount(_, __, { user, Users }) {

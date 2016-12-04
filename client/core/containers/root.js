@@ -23,11 +23,14 @@ const currentUserQuery = gql`
 `;
 
 const RootWithData = graphql(currentUserQuery, {
-  props: ({ data: { loading, currentUser, error } }) => ({
+  props: ({ data: { loading, currentUser, error, startPolling, stopPolling } }) => ({
     loading,
     user: currentUser,
     error,
+    startPolling,
+    stopPolling,
   }),
+  options: { pollInterval: 5000 },
 })(Root);
 
 export default RootWithData;

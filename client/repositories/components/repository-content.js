@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import marked from 'marked';
 import Avatar from 'material-ui-build/src/Avatar';
 import {
@@ -12,7 +12,14 @@ import CircularProgress from 'material-ui-build/src/Progress/CircularProgress';
 import Switch from 'material-ui-build/src/Switch';
 import Text from 'material-ui-build/src/Text';
 import TimeAgo from 'timeago-react';
+import injectSheet from 'react-jss';
 import NotFound from '../../core/components/not-found';
+
+const styles = {
+  infoContent: {
+    marginTop: '25px !important',
+  },
+};
 
 class RepositoryContent extends Component {
   constructor(props) {
@@ -45,10 +52,11 @@ class RepositoryContent extends Component {
 
   render() {
     const { error: errorState } = this.props;
-    const { loading, error: errorProp, repository, repositoryType } = this.props;
+    const { loading, error: errorProp, repository,
+      repositoryType, sheet: { classes } } = this.props;
     const error = errorProp ? errorProp.message : errorState;
     return (
-      <div className={classnames('col-right', 'repository-content', { open: repositoryType })}>
+      <div className={classNames('col-right', 'repository-content', { open: repositoryType })}>
         {loading ? <div className="center loading"><CircularProgress /></div> : null}
         {error ? <p className="bg-danger">{error}</p> : null}
         {!loading && !error && !repository && repositoryType ? <NotFound title={'404 repository not found'} /> : null}
@@ -78,7 +86,8 @@ class RepositoryContent extends Component {
             {repository.latestRelease ? <Text className="content" type="title" component="a" href={repository.latestRelease.htmlUrl} target="_blank">{repository.latestRelease.tagName}</Text> : null}
             <Text className="content description">{repository.description}</Text>
             {repository.latestRelease && repository.latestRelease.description ?
-              <Text className="content markdown-body" dangerouslySetInnerHTML={{ __html: marked(repository.latestRelease.description) }} /> : null}
+              <Text className="content markdown-body" dangerouslySetInnerHTML={{ __html: marked(repository.latestRelease.description) }} />
+              : <Text type="caption" className={classNames('content', classes.infoContent)}>There is no changelog for this release</Text>}
           </div>
           : null}
       </div>
@@ -93,6 +102,7 @@ RepositoryContent.propTypes = {
   repositoryType: PropTypes.string,
   router: PropTypes.object,
   trackRepository: PropTypes.func.isRequired,
+  sheet: PropTypes.object.isRequired,
 };
 
-export default RepositoryContent;
+export default injectSheet(styles)(RepositoryContent);

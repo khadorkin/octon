@@ -5,7 +5,7 @@ describe('server.core.docker', () => {
     expect(typeof DockerCore).toBe('function');
   });
 
-  describe('#makeReposirory', () => {
+  describe('#formatReposirory', () => {
     const docker = new DockerCore();
 
     it('should make repository', () => {
@@ -22,7 +22,7 @@ describe('server.core.docker', () => {
         pull_count: 4494483,
         last_updated: '2016-10-22T02:25:33.733025Z',
       };
-      const repo = docker.makeReposirory(rethinkdb);
+      const repo = docker.formatReposirory(rethinkdb);
       expect(repo).toEqual({
         name: 'library/rethinkdb',
         description: rethinkdb.description,

@@ -70,9 +70,9 @@ SettingsWithMutation = graphql(addDockerAccountMutation, {
   }),
 })(SettingsWithMutation);
 
-const syncUserGithubStarsMutation = gql`
-  mutation syncUserGithubStars {
-    syncUserGithubStars {
+const removeDockerAccountMutation = gql`
+  mutation removeDockerAccount {
+    removeDockerAccount {
       id
       github {
         username
@@ -86,31 +86,9 @@ const syncUserGithubStarsMutation = gql`
   }
 `;
 
-SettingsWithMutation = graphql(syncUserGithubStarsMutation, {
+SettingsWithMutation = graphql(removeDockerAccountMutation, {
   props: ({ mutate }) => ({
-    syncUserGithubStars: () => mutate({}),
-  }),
-})(SettingsWithMutation);
-
-const syncUserDockerStarsMutation = gql`
-  mutation syncUserDockerStars {
-    syncUserDockerStars {
-      id
-      github {
-        username
-        lastSync
-      }
-      docker {
-        username
-        lastSync
-      }
-    }
-  }
-`;
-
-SettingsWithMutation = graphql(syncUserDockerStarsMutation, {
-  props: ({ mutate }) => ({
-    syncUserDockerStars: () => mutate({}),
+    removeDockerAccount: () => mutate({}),
   }),
 })(SettingsWithMutation);
 

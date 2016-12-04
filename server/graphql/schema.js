@@ -51,11 +51,7 @@ type Query {
 }
 
 type Mutation {
-  # Sync user github stars
-  syncUserGithubStars: User!
-  # Sync user docker stars
-  syncUserDockerStars: User!
-  # Sync user stars
+  # Change tracking of repository
   trackRepository(repositoryId: String! active: Boolean!): Repository!
   # Set user notification
   setNotification(type: String! active: Boolean!): User!
@@ -63,6 +59,8 @@ type Mutation {
   editUserEmail(email: String!): User!
   # Add a docker account to user
   addDockerAccount(username: String!): User!
+  # Remove a docker account to user
+  removeDockerAccount: User!
   # Delete account
   deleteUserAccount: Boolean
 }
