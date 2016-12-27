@@ -5,7 +5,7 @@
     "start": "node server-build/app.js",
     "start:dev": "babel-watch server/app.js",
     "build": "npm run build:server && npm run build:client",
-    "build:server": "node_modules/.bin/babel server --out-dir server-build",
+    "build:server": "node_modules/.bin/babel server --out-dir server-build --ignore *.spec.js",
     "build:client": "NODE_ENV=production webpack -p --config config/webpack.production.config.js",
     "test": "npm run lint && npm run test:server",
     "test-travis": "npm run lint && npm run test:server -- --coverage",
