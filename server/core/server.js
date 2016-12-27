@@ -29,7 +29,7 @@ class Server {
 
     this.app = express();
 
-    nunjucks.configure('server/templates', {
+    nunjucks.configure('ressources/templates', {
       autoescape: true,
       express: this.app,
     });
