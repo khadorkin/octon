@@ -12,10 +12,6 @@ COPY . /usr/src/app
 RUN npm run build
 # Set env
 ENV NODE_ENV "production"
-# Remove dev node_modules
-RUN rm -rf node_modules
-# Install production dependencies
-RUN npm install --quiet --production
 # Expose express port
 EXPOSE 3000
 # Run project
