@@ -12,7 +12,7 @@ class Email {
 
   constructEmail(name, params) {
     const templatePath = path.resolve(__dirname, '..', '..',
-      'server', 'emails', 'templates', `${name}.html`);
+      'ressources', 'email-templates', `${name}.html`);
     let email = fs.readFileSync(templatePath, 'utf8');
     email = handlebars.compile(email);
     email = email(params);
